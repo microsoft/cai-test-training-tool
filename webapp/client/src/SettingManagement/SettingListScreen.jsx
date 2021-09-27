@@ -5,6 +5,7 @@ import SettingList from "./SettingList";
 import * as SettingService from "../services/settingService";
 import { SettingManagementPath } from "../services/pathService";
 import { useHistory } from "react-router-dom";
+import { useTranslation } from 'react-i18next';
 
 
 const classes = mergeStyleSets({
@@ -30,6 +31,7 @@ export default function SettingListScreen() {
     const [loadingData, setLoadingData] = useState(true)
     const [hasAccess, setHasAccess] = useState(true)
 
+    const { t } = useTranslation();
 
     useEffect(() => {
         SettingService.getAllActions()
@@ -60,12 +62,12 @@ export default function SettingListScreen() {
             <h1>Tool Settings</h1>
 
             {loadingData &&
-                <h4 float="left">Lade Daten</h4>}
+                <h4 float="left">{t("General_LoadingData")}</h4>}
             {!loadingData && hasAccess &&
                 <SettingList actionList={actionList} nameFilter={nameFilter}></SettingList>
             }
             {!loadingData && !hasAccess &&
-                <h4 float="left">Sie haben keine Rechte für diese Seite.</h4>
+                <h4 float="left">{t("General_NoAccess")}</h4>
             }
         </div>
     );

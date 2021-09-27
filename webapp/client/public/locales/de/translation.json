@@ -1,4 +1,5 @@
 {
+    "General_LoadingData" : "Lade Daten",
     "General_NoAccess" : "Sie haben keine Rechte für diese Seite.",
     "General_Refresh" : "Aktualisieren",
     "Tool_Title" : "Konversations-KI-Test- und Trainingstool",
@@ -7,7 +8,6 @@
     "Home_ToolSettings_Description" : "Verwalten von Einstellungen des Bot Management Tools",
     "KnowledgeBase_Test_Title" : "Testen einer Knowledgebase",
     "KnowledgeBase_Test_NewTest_Button" : "Neuer Test",
-    "KnowledgeBase_Test_LoadingData" : "Lade Daten",
     "KnowledgeBase_TestList_TimestampFieldName" : "Datum",
     "KnowledgeBase_TestList_EnvironmentFieldName" : "Umgebung",
     "KnowledgeBase_TestList_ResultFieldName" : "Ergebnis",
@@ -16,5 +16,12 @@
     "KnowledgeBase_TestList_DeleteButtonLabel" : "Löschen",
     "KnowledgeBase_TestDetail_DownloadTestSet" : "Download Testset",
     "KnowledgeBase_TestDetail_Title" : "Testing Knowledge Bases",
-    "KnowledgeBase_TestDetail_SubTitle" : "Testergebnisse"
+    "KnowledgeBase_TestDetail_SubTitle" : "Testergebnisse",
+    "KnowledgeBase_TestResult_TimestampFieldName" :"Datum",
+    "KnowledgeBase_TestResult_QuestionFieldName" : "Frage",
+    "KnowledgeBase_TestResult_ExpectedAnswerFieldName" : "Erwartete Antwort",
+    "KnowledgeBase_TestResult_ResultFieldName" : "Ergebnis",
+    "KnowledgeBase_TestResult_AnswerFieldName" : "Erhaltene Antwort",
+    "KnowledgeBaseDeployment_Title" : "Neues Deployment in die Produktionsumgebung",
+    "KnowledgeBaseDeployment_NewDeploymentButtonLabel" : "Neues Deployment"
 }

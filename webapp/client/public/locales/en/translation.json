@@ -1,4 +1,5 @@
 {
+    "General_LoadingData" : "Loading data",
     "General_NoAccess" : "You don't have permission to access this page",
     "General_Refresh" : "Refresh",
     "Tool_Title" : "Conversational AI Test and Training Tool",
@@ -7,7 +8,6 @@
     "Home_ToolSettings_Description" : "Change the settings of the Bot Testing Tool",
     "KnowledgeBase_Test_Title" : "Test a Knowledge Base",
     "KnowledgeBase_Test_NewTest_Button" : "New Test",
-    "KnowledgeBase_Test_LoadingData" : "Loading data",
     "KnowledgeBase_TestList_TimestampFieldName" : "Timestamp",
     "KnowledgeBase_TestList_EnvironmentFieldName" : "Environment",
     "KnowledgeBase_TestList_ResultFieldName" : "Result",
@@ -16,5 +16,12 @@
     "KnowledgeBase_TestList_DeleteButtonLabel" : "Delete",
     "KnowledgeBase_TestDetail_DownloadTestSet" : "Download Testset",
     "KnowledgeBase_TestDetail_Title" : "Testing Knowledge Bases",
-    "KnowledgeBase_TestDetail_SubTitle" : "Test Results"
+    "KnowledgeBase_TestDetail_SubTitle" : "Test Results",
+    "KnowledgeBase_TestResult_TimestampFieldName" :"Timestamp",
+    "KnowledgeBase_TestResult_QuestionFieldName" : "Question",
+    "KnowledgeBase_TestResult_ExpectedAnswerFieldName" : "Expected Answer",
+    "KnowledgeBase_TestResult_ResultFieldName" : "Result",
+    "KnowledgeBase_TestResult_AnswerFieldName" : "Answer",
+    "KnowledgeBaseDeployment_Title" : "New deployment in the production environment",
+    "KnowledgeBaseDeployment_NewDeploymentButtonLabel" : "New Deployment"
 }

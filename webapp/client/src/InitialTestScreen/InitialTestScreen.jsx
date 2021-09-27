@@ -44,7 +44,7 @@ export default function InitialTestScreen() {
         />
         <div style={{ height: "640px" }}>
         {loadingData &&
-                <h4 float="left">{t("KnowledgeBase_Test_LoadingData")}</h4>}
+                <h4 float="left">{t("General_LoadingData")}</h4>}
           {!loadingData && hasAccess &&
           <TestTable knowledgeBases={knowdledgeBasesUAT} />
         }

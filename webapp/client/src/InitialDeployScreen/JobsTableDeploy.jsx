@@ -13,12 +13,14 @@ import { mergeStyleSets } from "office-ui-fabric-react/lib/Styling";
 import { getTableStorage, deleteEntity } from "../services/tableStorageService.js";
 import { hasAccessRight } from "../services/accessService.js";
 
+import { useTranslation } from 'react-i18next';
+
 const moment = require("moment");
 const DATE_FORMAT = "DD.MM.YYYY HH:mm:ss";
 
 export default function DeployJobsTable({ knowledgebases }) {
   const history = useHistory();
-
+  const { t } = useTranslation();
   const [rows, setRows] = useState([]);
   const [deploymentJobs, setDeploymentJobs] = useState([]);
   const [hasAccess, setHasAccess] = useState(false)
@@ -223,7 +225,7 @@ export default function DeployJobsTable({ knowledgebases }) {
     <>
      <ActionButton
             iconProps={refreshIconProps}
-            text="Aktualisieren"
+            text={t("General_Refresh")}
             onClick={() => initializeScreen()}
           />
       {rows !== undefined && rows.length > 0 && (
