@@ -1,0 +1,20 @@
+{
+    "General_NoAccess" : "You don't have permission to access this page",
+    "General_Refresh" : "Refresh",
+    "Tool_Title" : "Conversational AI Test and Training Tool",
+    "Home_KnowledgeBase_Description" : "Test a Knowledgebase with test data.",
+    "Home_QnaDeployment_Description" : "Deployment of a test knowledgebase into PROD.",
+    "Home_ToolSettings_Description" : "Change the settings of the Bot Testing Tool",
+    "KnowledgeBase_Test_Title" : "Test a Knowledge Base",
+    "KnowledgeBase_Test_NewTest_Button" : "New Test",
+    "KnowledgeBase_Test_LoadingData" : "Loading data",
+    "KnowledgeBase_TestList_TimestampFieldName" : "Timestamp",
+    "KnowledgeBase_TestList_EnvironmentFieldName" : "Environment",
+    "KnowledgeBase_TestList_ResultFieldName" : "Result",
+    "KnowledgeBase_TestList_UsernameFieldName" : "User",
+    "KnowledgeBase_TestList_DetailsButtonLabel" : "Details",
+    "KnowledgeBase_TestList_DeleteButtonLabel" : "Delete",
+    "KnowledgeBase_TestDetail_DownloadTestSet" : "Download Testset",
+    "KnowledgeBase_TestDetail_Title" : "Testing Knowledge Bases",
+    "KnowledgeBase_TestDetail_SubTitle" : "Test Results"
+}

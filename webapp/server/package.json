@@ -1,0 +1,74 @@
+{
+  "name": "@bm/server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "build/server.js",
+  "engines": {
+    "node": ">=12"
+  },
+  "scripts": {
+    "buildProd": "yarn clean && webpack",
+    "build": "yarn clean && tsc",
+    "clean": "rimraf build",
+    "start:dev": "nodemon",
+    "typecheck": "tsc --noEmit",
+    "typecheck:watch": "tsc --noEmit --noImplicitAny --watch",
+    "lint": "eslint --quiet ./src",
+    "lint:fix": "yarn lint --fix"
+  },
+  "author": "",
+  "nodemonConfig": {
+    "exec": "cross-env TS_NODE_FILES=true node --max-http-header-size=16000 --inspect=9228 -r ts-node/register src/server.ts",
+    "watch": [
+      "src",
+      "../extension/lib"
+    ],
+    "ext": "ts",
+    "delay": 2
+  },
+  "devDependencies": {
+    "eslint": "7.0.0",
+    "rimraf": "^3.0.2",
+    "typescript": "^3.8.3"
+  },
+  "dependencies": {
+    "chalk": "^4.0.0",
+    "compression": "^1.7.4",
+    "debug": "^4.1.1",
+    "dotenv": "^8.1.0",
+    "download-npm-package": "^3.1.12",
+    "ejs": "^2.7.1",
+    "express": "^4.16.4",
+    "express-session": "^1.17.0",
+    "extract-zip": "2.0.1",
+    "form-data": "^2.3.3",
+    "format-message": "^6.2.3",
+    "http-errors": "^1.7.2",
+    "lodash": "^4.17.19",
+    "minimatch": "^3.0.4",
+    "morgan": "^1.9.1",
+    "msal": "^1.4.4",
+    "node-fetch": "2.6.1",
+    "portfinder": "^1.0.28",
+    "rimraf": "^3.0.2",
+    "tar": "^6.0.5",
+    "through": "^2.3.8",
+    "trumpet": "^1.7.2",
+    "ts-md5": "^1.2.7",
+    "unzip-stream": "^0.3.0",
+    "uuid": "^8.3.0",
+    "vscode-languageserver": "^5.3.0-next",
+    "vscode-ws-jsonrpc": "^0.1.1",
+    "yeoman-environment": "^2.10.3",
+    "azure-storage": "^2.10.3",
+    "@azure/storage-blob": "12.5.0",
+    "passport": "^0.4.1",
+    "passport-azure-ad": "^4.3.0",
+    "express-fileupload": "1.2.1",
+    "cookie-parser": "^1.4.5",
+    "applicationinsights" : "^1.8.10"
+  },
+  "resolutions": {
+    "bl": "^4.0.3"
+  }
+}

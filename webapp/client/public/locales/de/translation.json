@@ -1,0 +1,20 @@
+{
+    "General_NoAccess" : "Sie haben keine Rechte für diese Seite.",
+    "General_Refresh" : "Aktualisieren",
+    "Tool_Title" : "Konversations-KI-Test- und Trainingstool",
+    "Home_KnowledgeBase_Description" : "Testen einer Knowledgebase anhand einer Testdatei.",
+    "Home_QnaDeployment_Description" : "Deployment einer getesteten Knowledgebase nach PROD.",
+    "Home_ToolSettings_Description" : "Verwalten von Einstellungen des Bot Management Tools",
+    "KnowledgeBase_Test_Title" : "Testen einer Knowledgebase",
+    "KnowledgeBase_Test_NewTest_Button" : "Neuer Test",
+    "KnowledgeBase_Test_LoadingData" : "Lade Daten",
+    "KnowledgeBase_TestList_TimestampFieldName" : "Datum",
+    "KnowledgeBase_TestList_EnvironmentFieldName" : "Umgebung",
+    "KnowledgeBase_TestList_ResultFieldName" : "Ergebnis",
+    "KnowledgeBase_TestList_UsernameFieldName" : "Benutzer",
+    "KnowledgeBase_TestList_DetailsButtonLabel" : "Detailansicht",
+    "KnowledgeBase_TestList_DeleteButtonLabel" : "Löschen",
+    "KnowledgeBase_TestDetail_DownloadTestSet" : "Download Testset",
+    "KnowledgeBase_TestDetail_Title" : "Testing Knowledge Bases",
+    "KnowledgeBase_TestDetail_SubTitle" : "Testergebnisse"
+}

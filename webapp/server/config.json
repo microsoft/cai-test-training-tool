@@ -1,0 +1,8 @@
+{
+    "tenantId": "023a7871-db5b-45bd-b776-88e3cd7e0b2c",
+    "clientID": "fe23eeda-5e7d-438a-b0bc-6d37efa0e2b0",
+    "clientSecret" : "ob8ACi570tR0_Dc0UmM-5r0lOx.THM.8mh",
+    "redirectUrl": "http://localhost:3000/auth/aad/callback",
+    "vaultName": "kv-goblabla-shared-dev",
+    "clientSecretSecretName": "app-goblabla-composer-dev-clientsecret",
+}
