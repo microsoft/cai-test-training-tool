@@ -23,5 +23,13 @@
     "KnowledgeBase_TestResult_ResultFieldName" : "Result",
     "KnowledgeBase_TestResult_AnswerFieldName" : "Answer",
     "KnowledgeBaseDeployment_Title" : "New deployment in the production environment",
-    "KnowledgeBaseDeployment_NewDeploymentButtonLabel" : "New Deployment"
+    "KnowledgeBaseDeployment_NewDeploymentButtonLabel" : "New Deployment",
+    "KnowledgeBase_DeploymentList_TimestampFieldName" : "Timestamp",
+    "KnowledgeBase_DeploymentList_CommentFieldName" : "Comment",
+    "KnowledgeBase_DeploymentList_ResultFieldName" : "Result",
+    "KnowledgeBase_DeploymentList_UsernameFieldName" : "User",
+    "KnowledgeBase_DeploymentList_DetailsButtonLabel" : "Details",
+    "KnowledgeBase_DeploymentList_DeleteButtonLabel" : "Delete",
+    "KnowledgeBase_DeploymentResult_Title" : "Deployment Results",
+    "KnowledgeBase_DeploymentResult_CommentHeader" : "Comment"
 }

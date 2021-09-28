@@ -29,7 +29,7 @@ export default function DeployJobsTable({ knowledgebases }) {
     { fieldName: "PartitionKey", name: "Job Id", minWidth: 50, maxWidth: 70, isResizable : true },
     {
       fieldName: "Timestamp",
-      name: "Datum",
+      name: t("KnowledgeBase_DeploymentList_TimestampFieldName"),
       minWidth: 120,
       maxWidth: 120,
       isResizable : true,
@@ -67,9 +67,9 @@ export default function DeployJobsTable({ knowledgebases }) {
       },
     },
     { fieldName: "testset", name: "Testset", minWidth: 150, maxWidth: 300, isResizable : true },
-    { fieldName: "result", name: "Ergebnis", minWidth: 70, maxWidth: 70, isResizable : true },
-    { fieldName: "comment", name: "Kommentar", minWidth: 90, maxWidth: 200, isMultiline: true, isResizable : true },
-    { fieldName: "username", name: "Benutzer",minWidth: 90, maxWidth: 300, isResizable : true },
+    { fieldName: "result", name: t("KnowledgeBase_DeploymentList_ResultFieldName"), minWidth: 70, maxWidth: 70, isResizable : true },
+    { fieldName: "comment", name: t("KnowledgeBase_DeploymentList_CommentFieldName"), minWidth: 90, maxWidth: 200, isMultiline: true, isResizable : true },
+    { fieldName: "username", name: t("KnowledgeBase_DeploymentList_UsernameFieldName"),minWidth: 90, maxWidth: 300, isResizable : true },
     {
       name: "",
       minWidth: 100,
@@ -84,7 +84,7 @@ export default function DeployJobsTable({ knowledgebases }) {
               );
             }}
           >
-            <span fontSize="small"> Detailansicht</span>
+            <span fontSize="small">{t("KnowledgeBase_DeploymentList_DetailsButtonLabel")}</span>
           </PrimaryButton>
         );
       },
@@ -104,7 +104,7 @@ export default function DeployJobsTable({ knowledgebases }) {
               initializeScreen();
             }}
           >
-            <span fontSize="small">Löschen</span>
+            <span fontSize="small">{t("KnowledgeBase_DeploymentList_DeleteButtonLabel")}</span>
           </PrimaryButton>
         );
       },

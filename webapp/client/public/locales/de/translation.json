@@ -2,7 +2,7 @@
     "General_LoadingData" : "Lade Daten",
     "General_NoAccess" : "Sie haben keine Rechte für diese Seite.",
     "General_Refresh" : "Aktualisieren",
-    "Tool_Title" : "Konversations-KI-Test- und Trainingstool",
+    "Tool_Title" : "Konversations KITest und Trainingstool",
     "Home_KnowledgeBase_Description" : "Testen einer Knowledgebase anhand einer Testdatei.",
     "Home_QnaDeployment_Description" : "Deployment einer getesteten Knowledgebase nach PROD.",
     "Home_ToolSettings_Description" : "Verwalten von Einstellungen des Bot Management Tools",
@@ -23,5 +23,13 @@
     "KnowledgeBase_TestResult_ResultFieldName" : "Ergebnis",
     "KnowledgeBase_TestResult_AnswerFieldName" : "Erhaltene Antwort",
     "KnowledgeBaseDeployment_Title" : "Neues Deployment in die Produktionsumgebung",
-    "KnowledgeBaseDeployment_NewDeploymentButtonLabel" : "Neues Deployment"
+    "KnowledgeBaseDeployment_NewDeploymentButtonLabel" : "Neues Deployment",
+    "KnowledgeBase_DeploymentList_TimestampFieldName" : "Datum",
+    "KnowledgeBase_DeploymentList_CommentFieldName" : "Kommentar",
+    "KnowledgeBase_DeploymentList_ResultFieldName" : "Ergebnis",
+    "KnowledgeBase_DeploymentList_UsernameFieldName" : "Benutzer",
+    "KnowledgeBase_DeploymentList_DetailsButtonLabel" : "Detailansicht",
+    "KnowledgeBase_DeploymentList_DeleteButtonLabel" : "Löschen",
+    "KnowledgeBase_DeploymentResult_Title" : "Ergebnisse des Deployments",
+    "KnowledgeBase_DeploymentResult_CommentHeader" : "Kommentar"
 }
