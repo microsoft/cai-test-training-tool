@@ -2,6 +2,9 @@
     "General_LoadingData" : "Lade Daten",
     "General_NoAccess" : "Sie haben keine Rechte für diese Seite.",
     "General_Refresh" : "Aktualisieren",
+    "General_Options" : "Optionen",
+    "General_Cancel" : "Abbrechen" ,
+    "General_Save" : "Speichern" ,
     "Tool_Title" : "Konversations KITest und Trainingstool",
     "Home_KnowledgeBase_Description" : "Testen einer Knowledgebase anhand einer Testdatei.",
     "Home_QnaDeployment_Description" : "Deployment einer getesteten Knowledgebase nach PROD.",
@@ -31,5 +34,14 @@
     "KnowledgeBase_DeploymentList_DetailsButtonLabel" : "Detailansicht",
     "KnowledgeBase_DeploymentList_DeleteButtonLabel" : "Löschen",
     "KnowledgeBase_DeploymentResult_Title" : "Ergebnisse des Deployments",
-    "KnowledgeBase_DeploymentResult_CommentHeader" : "Kommentar"
+    "KnowledgeBase_DeploymentResult_CommentHeader" : "Kommentar",
+    "Settings_AddSettings_Title" : "Neue Bot Management Tool Einstellung hinzufügen",
+    "Settings_EditSettings_Title" : "Einstellung bearbeiten",
+    "Settings_EditSettings_Setting" : "Element",
+    "Settings_EditSettings_Dropdown_Setting" : "Einstellung",
+    "Settings_EditSettings_Dropdown_Action" : "Aktion",
+    "Settings_EditSettings_Dropdown_Field" : "Setting Feld",
+    "Settings_EditSettings_NewElement_Title" : "Neues Element hinzufügen",
+    "Settings_EditSettings_Default_Title" : "Standardauswahl"
+
 }

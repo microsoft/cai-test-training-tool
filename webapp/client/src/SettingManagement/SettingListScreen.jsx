@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { mergeStyleSets, PrimaryButton, Stack } from 'office-ui-fabric-react';
-import { Dropdown } from "@fluentui/react";
+import { mergeStyleSets } from 'office-ui-fabric-react';
 import SettingList from "./SettingList";
 import * as SettingService from "../services/settingService";
-import { SettingManagementPath } from "../services/pathService";
-import { useHistory } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 
 
@@ -22,7 +19,6 @@ const classes = mergeStyleSets({
 });
 
 export default function SettingListScreen() {
-    const history = useHistory();
     const [botOptions, setBotOptions] = useState([]);
 
     const [actionList, setActionList] = useState([])
@@ -49,13 +45,6 @@ export default function SettingListScreen() {
             });
     }, []);
 
-    const handleSettingChange = (env, value) => {
-        setNameFilter(value.key);
-    };
-
-    const handleAddNewAction = () => {
-        history.push(SettingManagementPath.NewSetting);
-    }
 
     return (
         <div className={classes.root}>

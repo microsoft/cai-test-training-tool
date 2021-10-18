@@ -19,8 +19,10 @@ import { SettingManagementPath } from "../services/pathService";
 import * as SettingService from "../services/settingService";
 import { DetailsRow } from "@fluentui/react";
 import { hasAccessRight } from "../services/accessService.js";
+import { useTranslation } from 'react-i18next';
 
 export default function SettingForm(props) {
+  const { t } = useTranslation();
   const isEdit = props.isEdit;
   const { partitionKey, rowKey } = useParams();
 
@@ -335,7 +337,7 @@ export default function SettingForm(props) {
   const saveItem = { iconName: "save" };
 
   const columns = [
-    { fieldName: "optionName", name: "Elemente", minWidth: 70 },
+    { fieldName: "optionName", name: t("Settings_EditSettings_Setting"), minWidth: 70 },
     {
       fieldName: "devValue",
       name: "Dev",
@@ -444,19 +446,19 @@ export default function SettingForm(props) {
             <>
               <TextField
                 className={classes.textFields}
-                label="Einstellung"
+                label={t("Settings_EditSettings_Dropdown_Setting")}
                 disabled={isEdit}
                 value={setting}
               ></TextField>
               <TextField
                 className={classes.textFields}
-                label="Aktion"
+                label={t("Settings_EditSettings_Dropdown_Action")}
                 disabled={isEdit}
                 value={actionName}
               ></TextField>
               <TextField
                 className={classes.textFields}
-                label="Dropdown Feld"
+                label={t("Settings_EditSettings_Dropdown_Field")}
                 disabled={isEdit}
                 value={propertyName}
               ></TextField>
@@ -466,21 +468,21 @@ export default function SettingForm(props) {
             <>
               <Dropdown
                 className={classes.textFields}
-                label="Einstellung"
+                label={t("Settings_EditSettings_Dropdown_Setting")}
                 onChange={handleNewBotName}
                 defaultSelectedKey={settingOptionsSetting[0]?.key}
                 options={settingOptionsSetting}
               ></Dropdown>
               <Dropdown
                 className={classes.textFields}
-                label="Aktion"
+                label={t("Settings_EditSettings_Dropdown_Action")}
                 onChange={handleNewActionName}
                 defaultSelectedKey={actionNameOptionsSetting[0]?.key}
                 options={actionNameOptionsSetting}
               ></Dropdown>
               <Dropdown
                 className={classes.textFields}
-                label="Setting Feld"
+                label={t("Settings_EditSettings_Dropdown_Field")}
                 onChange={handleNewPropertyName}
                 defaultSelectedKey={propertyNameOptionsSetting[0]?.key}
                 options={propertyNameOptionsSetting}
@@ -489,7 +491,7 @@ export default function SettingForm(props) {
           )}
         </Stack>
 
-        <h2>Optionen</h2>
+        <h2>{t("General_Options")}</h2>
         <DetailsList
           columns={columns}
           items={settingOptions}
@@ -497,11 +499,11 @@ export default function SettingForm(props) {
           selectionMode={SelectionMode.none}
           onRenderRow={onRenderRow}
         ></DetailsList>
-        <h3>Neues Element hinzufügen</h3>
+        <h3>{t("Settings_EditSettings_NewElement_Title")}</h3>
         <form>
           <Stack horizontal={true} gap={10}>
             <TextField
-              label="Element:"
+              label={`${t("Settings_EditSettings_Setting")}:`}
               underlined={true}
               required={true}
               onChange={handleNewOptionName}
@@ -539,7 +541,7 @@ export default function SettingForm(props) {
           </Stack>
 
           <Dropdown
-            label="Standardauswahl"
+            label={t("Settings_EditSettings_Default_Title")}
             options={defaultOptions}
             onChange={handleDefaultChange}
             defaultSelectedKey={defaultValue}
@@ -548,7 +550,7 @@ export default function SettingForm(props) {
 
           <Stack gap={20} horizontal className={classes.buttons}>
             <Link to={SettingManagementPath.InitialScreen}>
-              <DefaultButton text="Abbrechen"></DefaultButton>
+              <DefaultButton text={t("General_Cancel")}></DefaultButton>
             </Link>
             <PrimaryButton
               disabled={
@@ -557,14 +559,14 @@ export default function SettingForm(props) {
                 action.default == undefined ||
                 !hasAccess
               }
-              text="Speichern"
+              text={t("General_Save")}
               onClick={handleConfirmation}
             ></PrimaryButton>
           </Stack>
         </form>
       </div>
       <span style={{ verticalAlign: '-30px' , color: 'red'}}>
-        {hasAccess ? "" : "Fehlende Rechte, um Einstellungen zu verändern."}
+        {hasAccess ? "" : t("General_NoAccess")}
       </span>
     </div>
   );
