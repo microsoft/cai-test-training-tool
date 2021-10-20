@@ -1,14 +1,55 @@
-# Project
+***DRAFT!!!***
 
-> This repo has been populated by an initial template to help get you started. Please
-> make sure to update the content to build a great experience for community-building.
+![Data Science Toolkit](assets/img/data-science-toolkit-banner.JPG)
 
-As the maintainer of this project, please make a few updates:
+# Conversational AI Test & Training Tool
 
-- Improving this README.MD file to provide a great experience
-- Updating SUPPORT.MD with content about this project's support experience
-- Understanding the security reporting process in SECURITY.MD
-- Remove this section from the README
+This Solution Accelerator provides Web Application which supports testing and training processes for Cognitive Services Models based on a graphical user interface.
+ 
+Part of the application also provides support to run test cases across multiple services supporting end-2-end testing.
+
+In addition the tool provides a deployment functionality for Microsoft QnA Maker knowledge bases to support the deployment across multiple QnA Maker services to support separate environments for training and testing of knowlegde bases vs. productive deployment.
+  
+## High Level Architecture
+
+TBD!
+
+## Deployoment of the solution
+
+TBD!
+
+### Setting up the required Azure services
+
+TBD!
+
+### Deployment of the application
+
+#### Main Application
+TBD!
+
+##### Code Deployment
+
+TBD!
+
+##### Setting Application Settings
+
+TBD!
+
+#### Backend Functions
+
+TBD!
+
+##### Code Deployment
+
+TBD!
+
+##### Setting Application Settings
+
+TBD!
+
+## Usage of Tool
+
+To get guidance on the usage of the Tool read the [User Guide](UserGuide.md).
 
 ## Contributing
 
