@@ -48,5 +48,20 @@
     "BatchProcessing_LastUpdateFieldName" : "Last Update Date",
     "BatchProcessing_LPRAccuracyFieldName" : "LPR Accuracy",
     "BatchProcessing_StatusFieldName" : "Status",
-    "BatchProcessing_PercentageFieldName" : "Completion %"
+    "BatchProcessing_PercentageFieldName" : "Completion %",
+    "BatchProcessingResult_Title" : "Batch Processing Results",
+    "BatchProcessingResult_WerLabel" : "Word Error Rate",
+    "BatchProcessingResult_WrrLabel" : "Word Recognition Rate",
+    "BatchProcessingResult_SerLabel" : "Sentence Error Rate",
+    "BatchProcessingResult_LprLabel" : "LPR Accuracy",
+    "BatchProcessingResult_RecognitionResultsTitle" : "Recognition Results",
+    "BatchProcessingResult_LicensePlateResultsTitle" : "License Plate Results",
+    "BatchProcessingResult_FileNameFieldName" : "File Name",
+    "BatchProcessingResult_ReferenceFieldName" : "Reference",
+    "BatchProcessingResult_RecognizedFieldName" : "Recognized",
+    "BatchProcessingResult_ProcessedFieldName" : "Processed",
+    "BatchProcessingResult_ScoreFieldName" : "Score",
+    "BatchProcessingResult_StatusFieldName" : "Status",
+    "BatchProcessingResult_LUISEntitiesFieldName" : "LUIS Entities"
+    
 }
