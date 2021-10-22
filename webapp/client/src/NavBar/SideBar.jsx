@@ -6,7 +6,7 @@ import formatMessage from 'format-message';
 import { IconButton } from 'office-ui-fabric-react/lib/Button';
 import { FocusZone } from 'office-ui-fabric-react/lib/FocusZone';
 import { TooltipHost, DirectionalHint } from 'office-ui-fabric-react/lib/Tooltip';
-import { Other, TestPath, DeployPath, SettingManagementPath } from '../services/pathService';
+import { Other, TestPath, DeployPath, SettingManagementPath, BatchProcessingPath } from '../services/pathService';
 import { NavItem } from './NavItem';
 
 // -------------------- Styles -------------------- //
@@ -74,6 +74,14 @@ let links = [
     to: DeployPath.InitialScreen,
     iconName: "CloudUpload",
     labelName: formatMessage("QnA Deployment"),
+    exact: false,
+    disabled: false,
+  },
+  {
+    area: "/batchprocessing",
+    to: BatchProcessingPath.InitialScreen,
+    iconName: 'Processing',
+    labelName: formatMessage('Batch Processing'),
     exact: false,
     disabled: false,
   },

@@ -29,6 +29,12 @@ export const BotTestPath = {
   Results: "/bottest/:partitionKey/:bot",
 }
 
+export const BatchProcessingPath = {
+  InitialScreen: "/batchprocessing",
+  Start: "/batchprocessing/start-new",
+  Results: "/batchprocessing/:rowKey",
+}
+
 export const BotTestTranscriptPath = {
   InitialScreen: "/bottesttranscript",
 }

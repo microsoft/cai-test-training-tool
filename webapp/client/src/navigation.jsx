@@ -2,7 +2,7 @@
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import NewTest from "./Test/newTest";
 import InitialTestScreen from "./InitialTestScreen/InitialTestScreen";
-import { DeployPath, SettingManagementPath, Other, TestPath, ComingSoonPath, BotTestPath } from "./services/pathService";
+import { DeployPath, SettingManagementPath, Other, TestPath, ComingSoonPath, BotTestPath, BatchProcessingPath } from "./services/pathService";
 import Result from "./TestResult/TestResultScreen";
 import Home from "./Home/home";
 import StartDeploy from "./InitialDeployScreen/InitialDeployScreen";
@@ -14,6 +14,8 @@ import AddNewSettingScreen from "./SettingManagement/AddNewSettingScreen";
 import EditSettingScreen from "./SettingManagement/EditSettingScreen";
 import { mergeStyleSets } from "office-ui-fabric-react";
 import ComingSoon from "./Home/comingSoon";
+import BatchProcessing from "./InitialBatchProcessingScreen/InitialBatchProcessingScreen";
+import BatchProcessingResult from "./BatchProcessingResult/BatchProcessingResultScreen";
 
 const classes = mergeStyleSets({
   root: {
@@ -54,6 +56,8 @@ export default function Nav() {
           <Route path={SettingManagementPath.NewSetting} exact component={AddNewSettingScreen} />
           <Route path={`${SettingManagementPath.EditSetting}/:partitionKey/:rowKey`} exact component={EditSettingScreen} />
           <Route path={`${ComingSoonPath.InitialScreen}`} exact component={ComingSoon} />
+          <Route path={`${BatchProcessingPath.InitialScreen}`} exact component={BatchProcessing} />
+          <Route path={`${BatchProcessingPath.Results}`} exact component={BatchProcessingResult} />
         </Switch>
       </Router>
     </div>

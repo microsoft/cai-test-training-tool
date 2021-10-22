@@ -42,5 +42,11 @@
     "Settings_EditSettings_Dropdown_Action" : "Action",
     "Settings_EditSettings_Dropdown_Field" : "Setting Field",
     "Settings_EditSettings_NewElement_Title" : "New Setting",
-    "Settings_EditSettings_Default_Title" : "Default Value"
+    "Settings_EditSettings_Default_Title" : "Default Value",
+    "BatchProcessing_Title" : "Batch Processing Test",
+    "BatchProcessing_NewLabel" : "Add new batch",
+    "BatchProcessing_LastUpdateFieldName" : "Last Update Date",
+    "BatchProcessing_LPRAccuracyFieldName" : "LPR Accuracy",
+    "BatchProcessing_StatusFieldName" : "Status",
+    "BatchProcessing_PercentageFieldName" : "Completion %"
 }

@@ -1,7 +1,6 @@
 import React from "react";
 import { CompoundButton, mergeStyleSets, Stack } from "office-ui-fabric-react";
-import { DeployPath, SettingManagementPath } from "../services/pathService";
-import { TestPath } from "../services/pathService";
+import { DeployPath, SettingManagementPath, ComingSoonPath, BatchProcessingPath, TestPath } from "../services/pathService";
 import { useTranslation } from 'react-i18next';
 import {homeButtonStyle} from "../styles"
 
@@ -38,6 +37,20 @@ export default function Home() {
             style={homeButtonStyle}
           >
             QnA Maker Deployment
+          </CompoundButton>
+        </Stack>
+        <Stack horizontal gap={horizontalGap}>
+          <CompoundButton
+            href={BatchProcessingPath.InitialScreen}
+            style={homeButtonStyle}
+          >
+            Batch Processing
+          </CompoundButton>
+          <CompoundButton
+            href={ComingSoonPath.InitialScreen}
+            style={homeButtonStyle}
+          >
+            Audio Generation
           </CompoundButton>
         </Stack>
         <Stack horizontal gap={horizontalGap}>
