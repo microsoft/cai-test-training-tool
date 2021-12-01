@@ -1,0 +1,4 @@
+{
+  "StorageConnectionString": "",
+  "BatchJobDetailsTableName": "BatchJobDetails"
+}
