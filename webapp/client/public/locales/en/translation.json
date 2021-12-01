@@ -5,6 +5,7 @@
     "General_Options" : "Options",
     "General_Cancel" : "Cancel" ,
     "General_Save" : "Confirm" ,
+    "General_Download" : "Download",
     "Tool_Title" : "Conversational AI Test and Training Tool",
     "Home_KnowledgeBase_Description" : "Test a Knowledgebase with test data.",
     "Home_QnaDeployment_Description" : "Deployment of a test knowledgebase into PROD.",
@@ -62,6 +63,15 @@
     "BatchProcessingResult_ProcessedFieldName" : "Processed",
     "BatchProcessingResult_ScoreFieldName" : "Score",
     "BatchProcessingResult_StatusFieldName" : "Status",
-    "BatchProcessingResult_LUISEntitiesFieldName" : "LUIS Entities"
+    "BatchProcessingResult_LUISEntitiesFieldName" : "LUIS Entities",
+    "AudioGeneration_Title" : "Audio Generation",
+    "AudioGeneration_NewLabel" : "Add new job",
+    "AudioGeneration_Text" : "Text",
+    "AudioGeneration_Error" : "Error",
+    "AudioGeneration_SpeechServiceType" : "Speech Service Type",
+    "AudioGeneration_Language" : "Language",
+    "AudioGenerationResult_Title" : "Audio Generation Results"
+
+
     
 }

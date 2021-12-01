@@ -35,6 +35,12 @@ export const BatchProcessingPath = {
   Results: "/batchprocessing/:rowKey",
 }
 
+export const AudioGenerationPath = {
+  InitialScreen: "/audiogeneration",
+  Start: "/audiogeneration/start-new",
+  Results: "/audiogeneration/:rowKey",
+}
+
 export const BotTestTranscriptPath = {
   InitialScreen: "/bottesttranscript",
 }
