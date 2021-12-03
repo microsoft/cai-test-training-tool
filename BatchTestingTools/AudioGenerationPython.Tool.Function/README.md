@@ -107,14 +107,25 @@ First, you have to install/set up following components:
 ### Deployment to Azure
 1. Open your PowerShell
 1. Activate your environment, if you haven't before: <br>
-`source .venv/bin/activate` (Linux) or `.venv/Scripts/activate` (Windows)
+`source .venv/bin/activate` (Linux) or `.venv/Scripts/Activate.ps1` (Windows)
 1. Login to your Azure Account: `az login` (a browser window will open, where you may have to log on Azure)
 1. Execute the command below:<br> 
 `func azure functionapp publish [insert your function name] --remote build`
 1. Wait until the deployment is finished
 1. (optional, only has to be done for initial deployment OR when settings are updated) Execute following command:<br>
-`az webapp config appsettings set -g [insert name of resource group] -n [insert your function name] --settings @appsettings.json`
-1. Use [Postman](https://www.postman.com/downloads/) for testing the endpoints with the [collections](assets/postman-collection/looky.postman_collection.json)
+`az webapp config appsettings set -g [insert name of resource group] -n [insert your function name] --settings "@appsettings.json"`
+1. Use [Postman](https://www.postman.com/downloads/) for testing the endpoints with the [collections](assets/postman-collection/xxxx.json)
+
+#### Google
+The Google authentication-json cannot be inserted into the KeyVault directly, which is why a small detour is necessary.
+
+For this, follow these steps:
+- Open a PowerShell and login with az login
+- Change directory to the respective location of the auth.json
+- az keyvault secret set --vault-name "<keyvaultname" --name "CockpitGoogleAuth" --description "Google TTS Authentication" --file .\auth.json
+
+For Google, you will have to set one key in the App Settings of the Function:
+- GOOGLE_APPLICATION_CREDENTIALS_STORE
 
 ## Contributing
 This project welcomes contributions and suggestions.  Most contributions require you to agree to a
