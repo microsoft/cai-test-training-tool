@@ -1,0 +1,8 @@
+.env
+.venv
+.git*
+.vscode
+local.settings.json
+config.ini
+.python_packages
+README.md
