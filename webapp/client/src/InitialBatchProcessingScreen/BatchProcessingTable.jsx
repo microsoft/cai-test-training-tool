@@ -8,7 +8,7 @@ import {
   Link
 } from "@fluentui/react";
 import { mergeStyleSets } from "office-ui-fabric-react/lib/Styling";
-import { getTableStorage } from "../services/tableStorageService.js";
+import { deleteEntity, getTableStorage } from "../services/tableStorageService.js";
 
 import { useTranslation } from 'react-i18next';
 import { BatchProcessingPath, getPath } from "../services/pathService.js";
@@ -32,7 +32,13 @@ export default function BatchProcessingTable() {
       isResizable: false,
       onRender: (item) => {
         return (
-            <ActionButton iconProps={deleteIcon} allowDisabledFocus  >
+            <ActionButton iconProps={deleteIcon}
+             allowDisabledFocus
+              onClick={()=>{
+                deleteEntity("BatchJobs",item.PartitionKey,item.RowKey)
+                initializeScreen()
+              }}
+             >
             </ActionButton>
         )
       },
@@ -46,7 +52,8 @@ export default function BatchProcessingTable() {
       onRender: (item) => {
         if(item.Status.includes("Error")) {
           return (
-            <ActionButton iconProps={refreshIconProps} allowDisabledFocus >
+            <ActionButton iconProps={refreshIconProps}
+             allowDisabledFocus>
             </ActionButton>
           )
     }

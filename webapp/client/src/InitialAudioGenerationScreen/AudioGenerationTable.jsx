@@ -8,7 +8,7 @@ import {
   Link
 } from "@fluentui/react";
 import { mergeStyleSets } from "office-ui-fabric-react/lib/Styling";
-import { getTableStorage } from "../services/tableStorageService.js";
+import { deleteEntity, getTableStorage } from "../services/tableStorageService.js";
 
 import { useTranslation } from 'react-i18next';
 import { AudioGenerationPath, getPath } from "../services/pathService.js";
@@ -32,8 +32,14 @@ export default function AudioGenerationTable() {
       isResizable: false,
       onRender: (item) => {
         return (
-          <ActionButton iconProps={deleteIcon} allowDisabledFocus  >
-          </ActionButton>
+          <ActionButton iconProps={deleteIcon}
+             allowDisabledFocus
+              onClick={()=>{
+                deleteEntity("AudioGenerationJobs",item.PartitionKey,item.RowKey)
+                initializeScreen()
+              }}
+             >
+            </ActionButton>
         )
       },
     },
