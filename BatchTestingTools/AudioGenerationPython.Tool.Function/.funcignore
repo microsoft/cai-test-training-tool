@@ -6,4 +6,4 @@ local.settings.json
 config.ini
 .python_packages
 README.md
-appsettings.json
+*.appsettings.json
