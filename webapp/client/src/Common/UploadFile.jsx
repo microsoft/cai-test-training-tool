@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { mergeStyleSets, PrimaryButton, Stack } from "@fluentui/react";
-import { classes } from "../styles"
+import { useTranslation } from 'react-i18next';
 
 const inputStyle = mergeStyleSets({
   input: {
@@ -15,40 +15,17 @@ export default function UploadButtons({
   file,
   onChangeFile,
   isFileValid,
+  accept
 }) {
   const [progressing, setProgressing] = useState(false);
   const [isValidSub, setIsValidSub] = useState(true);
   const [errorInfo, setErrorInfo] = useState("");
+  const { t } = useTranslation();
 
   let fileReader;
 
   const handleFileRead = (e) => {
     onChangeValid(true);
-    var atLeastOneTestCase = false;
-    const content = fileReader.result;
-    const rows = content.split("\n");
-    //ignore first row
-    for (let i = 1; i < rows.length; i++) {
-      if (!rows[i].replace(/\s/g, '').length) {
-        console.log(atLeastOneTestCase);
-        console.log("found empty line!");
-        continue;
-      }
-      if (rows[i].split(";").length !== 7) {
-        onChangeValid(false);
-        console.log("incorrect line found")
-        setErrorInfo("Fehler in Testcase " + String(i) + ". Anzahl der Spalten muss 7 ergeben (6 Semikolons)!");
-        break;
-      }
-      else {
-        atLeastOneTestCase = true;
-      }
-    }
-    console.log(atLeastOneTestCase);
-    if(atLeastOneTestCase == false){
-      setErrorInfo("Keinen validen Testcase gefunden! Anzahl der Spalten muss 7 ergeben (6 Semikolons)!");
-      onChangeValid(false);
-    }
   };
 
   const handleFileChosen = (file) => {
@@ -71,13 +48,6 @@ export default function UploadButtons({
   useEffect(() => {
     setIsValidSub(isFileValid);
   }, [isFileValid]);
-  // const handleFileUpload = async () => {
-  //   setProgressing(true);
-  //   const uploadedBlobs = await uploadFileToBlob(file).then(() => {onChange(file.name); console.log(file.name)});
-  //   setUploadedBlobs(uploadedBlobs)
-  //   setFile(null);
-  //   setProgressing(false)
-  // }
 
   return (
     <div>
@@ -89,18 +59,18 @@ export default function UploadButtons({
             id="contained-button-file"
             type="file"
             onChange={handleFileInputChange}
-            accept=".csv, .txt"
+            accept={accept}
             style={{cursor:"pointer"}}
           ></input>
           <label htmlFor="contained-button-file">
-            <PrimaryButton text="Datei hochladen" />
+            <PrimaryButton text={t('UploadFile_ButtonLabel')} />
           </label>
         </div>
         <span color={file ? "green" : "red"}>
-          {file ? file.name : "Keine Datei hochgeladen."}
+          {file ? file.name : t('UploadFile_NoFileLabel')}
         </span>
         {!isFileValid && (
-          <span color="error">Format fehlerhaft. {errorInfo}</span>
+          <span color="error">{t('UploadFile_IncorrectFormatLabel')} {errorInfo}</span>
           )}
         {/* </>)} */}
       </Stack>

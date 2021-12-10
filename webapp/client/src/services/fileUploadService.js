@@ -1,16 +1,21 @@
 import { handleResponse } from "./utils";
 
-export const uploadFileToBlob = async (file) => {
-  if (!file) return [];
+export const uploadFilesToBlob = async (files, containerName, path="") => {
+  if (!files) return [];
 
   const formData = new FormData();
-  formData.append("files", file);
+
+  for (let i = 0; i < files.length; i++) {
+    const file = files[i];
+    formData.append(`file${i+1}`, file);
+  }
+
   const requestOptions = {
     method: "POST",
     body: formData,
   };
 
-  return fetch("/api/file", requestOptions).then(
+  return fetch(`/api/file?container=${containerName}${path != "" ? `&path=${path}` : ""}`, requestOptions).then(
     (response) => {
       return handleResponse(response);
     }

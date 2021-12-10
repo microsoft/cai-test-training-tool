@@ -5,6 +5,7 @@
     "General_Options" : "Optionen",
     "General_Cancel" : "Abbrechen" ,
     "General_Save" : "Speichern" ,
+    "General_Download" : "Download",
     "Tool_Title" : "Konversations KITest und Trainingstool",
     "Home_KnowledgeBase_Description" : "Testen einer Knowledgebase anhand einer Testdatei.",
     "Home_QnaDeployment_Description" : "Deployment einer getesteten Knowledgebase nach PROD.",
@@ -42,6 +43,9 @@
     "Settings_EditSettings_Dropdown_Action" : "Aktion",
     "Settings_EditSettings_Dropdown_Field" : "Setting Feld",
     "Settings_EditSettings_NewElement_Title" : "Neues Element hinzufügen",
-    "Settings_EditSettings_Default_Title" : "Standardauswahl"
+    "Settings_EditSettings_Default_Title" : "Standardauswahl",
+    "UploadFile_ButtonLabel" : "Datei hochladen",
+    "UploadFile_NoFileLabel" : "Keine Datei hochgeladen.",
+    "UploadFile_IncorrectFormatLabel" : "Format fehlerhaft."
 
 }

@@ -18,6 +18,8 @@ import BatchProcessing from "./InitialBatchProcessingScreen/InitialBatchProcessi
 import BatchProcessingResult from "./BatchProcessingResult/BatchProcessingResultScreen";
 import AudioGeneration from "./InitialAudioGenerationScreen/InitialAudioGenerationScreen";
 import AudioGenerationResult from "./AudioGenerationResult/AudioGenerationResultScreen";
+import NewAudioGenerationScreen from "./AudioGenerationResult/NewAudioGenerationScreen";
+import NewBatchProcessingScreen from "./BatchProcessingResult/NewBatchProcessingScreen";
 
 const classes = mergeStyleSets({
   root: {
@@ -58,8 +60,10 @@ export default function Nav() {
           <Route path={SettingManagementPath.NewSetting} exact component={AddNewSettingScreen} />
           <Route path={`${SettingManagementPath.EditSetting}/:partitionKey/:rowKey`} exact component={EditSettingScreen} />
           <Route path={`${ComingSoonPath.InitialScreen}`} exact component={ComingSoon} />
+          <Route path={`${BatchProcessingPath.Start}`} exact component={NewBatchProcessingScreen} />
           <Route path={`${BatchProcessingPath.InitialScreen}`} exact component={BatchProcessing} />
           <Route path={`${BatchProcessingPath.Results}`} exact component={BatchProcessingResult} />
+          <Route path={`${AudioGenerationPath.Start}`} exact component={NewAudioGenerationScreen} />
           <Route path={`${AudioGenerationPath.InitialScreen}`} exact component={AudioGeneration} />
           <Route path={`${AudioGenerationPath.Results}`} exact component={AudioGenerationResult} />
         </Switch>

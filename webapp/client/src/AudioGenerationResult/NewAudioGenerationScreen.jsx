@@ -1,20 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import UploadButtons from "../Common/UploadFile.jsx";
-import getKnowledgeBases from "../services/knowledgeBaseService.js";
 import { useHistory } from "react-router-dom";
-import { DeployPath } from "../services/pathService.js";
+import { AudioGenerationPath } from "../services/pathService.js";
 import { generateRunId } from "../services/utils";
-import { createJob } from "../services/tableStorageService.js";
-import { startReleasePipeline } from "../services/startReleasePipelineService";
-import { hasAccessRight } from "../services/accessService";
 import { Dropdown, PrimaryButton, TextField } from "@fluentui/react";
-import { uploadFileToBlob } from "../services/fileUploadService.js";
-import { mergeStyles, mergeStyleSets, Stack } from "office-ui-fabric-react";
+import { mergeStyles, Stack } from "office-ui-fabric-react";
 import { classes } from "../styles.jsx";
+import { uploadFilesToBlob } from "../services/fileUploadService.js";
 
 const dropdownStyles = mergeStyles({ width: "300px" });
 
-export default function NewDeploy() {
+export default function NewAudioGenerationScreen() {
   const history = useHistory();
   const [knowledgeBase, setKnowledgeBase] = useState(0);
   const [knowdledgeBases, setKnowledgeBases] = useState([]);
@@ -26,44 +22,13 @@ export default function NewDeploy() {
   const [, setProgressing] = useState(false);
   const [hasAccess, setHasAccess] = useState(false);
 
-  useEffect(() => {
-    getKnowledgeBases("UAT")
-      .then((result) => {
-        setKnowledgeBases(
-          result.message.knowledgebases.map(
-            (kb) => new Object({ key: kb.id, text: kb.name })
-          )
-        );
-      })
-      .catch((error) => console.log(error));
-
-    hasAccessRight("BMT_QNA_Deploy")
-      .then((result) => {
-        if (result == true) {
-          setHasAccess(true);
-        }
-      })
-      .catch((error) => console.log(error));
-  }, []);
-
-  const handleKnowledgeBaseChange = (env, value) => {
-    setKnowledgeBase(value.key);
-  };
-
-  const handleChangeValid = (value) => {
-    setIsFileValid(value);
-  };
-
-  const handleChangeFile = (value) => {
-    setFile(value);
-    setTestsetName(value.name);
-  };
-
   const handleFileUpload = async () => {
     setProgressing(true);
+
     let files = []
     files.push(file)
-    const uploadedBlobs = await uploadFilesToBlob(files,"qnatestcasefiles").then(() => {
+
+    const uploadedBlobs = await uploadFilesToBlob(files).then(() => {
       setTestsetName(file.name);
     });
     setUploadedBlobs(uploadedBlobs);
@@ -75,23 +40,7 @@ export default function NewDeploy() {
   const handleRun = () => {
     handleFileUpload();
     const runId = generateRunId();
-    const jobToBeProcessed = {
-      PartitionKey: runId + "",
-      RowKey: "deploy",
-      testset: testsetName,
-      username: "username",
-      //initial status when written to db
-      status: "Warten auf Genehmigung",
-      kbId: knowledgeBase + "",
-      comment: comment,
-      result: "-",
-    };
-
-    var releaseComment = `${runId}\n${comment}`;
-
-    createJob("QnADeploymentJobs", jobToBeProcessed);
-    startReleasePipeline(runId, knowledgeBase, testsetName, releaseComment);
-    history.push(DeployPath.InitialScreen);
+    history.push(AudioGenerationPath.InitialScreen);
   };
 
   return (
@@ -116,7 +65,6 @@ export default function NewDeploy() {
                 file={file}
                 onChangeFile={handleChangeFile}
                 isFileValid={isFileValid}
-                accept=".csv .txt"
               />
             </Stack>
           </Stack>
