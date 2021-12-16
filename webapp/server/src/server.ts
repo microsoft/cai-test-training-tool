@@ -8,7 +8,6 @@ import compression from 'compression';
 import morgan from 'morgan'
 import chalk from 'chalk';
 import { healthCheckRouter } from './healthCheck/router';
-import { dropdownRouter } from './dropdowns/router';
 import { settingRouter } from './settings/router';
 import { accessRouter } from './access/router';
 import { promisify } from 'util';
@@ -18,6 +17,7 @@ import { knowledgeBaseRouter } from './knowledgeBase/router';
 import { pipelineRouter } from './pipeline/router';
 import { fileRouter as fileRouter } from './file/router';
 import { tableStorageRouter } from './tableStorage/router';
+import { queueStorageRouter } from './queueStorage/router';
 
 if (process.env.NODE_ENV == "development") {
   var dotenv = require("dotenv")
@@ -294,11 +294,11 @@ app.use(`${BASEURL}/api/knowledgebase`, ensureAuthenticated, knowledgeBaseRouter
 
 app.use(`${BASEURL}/api/tablestorage`, ensureAuthenticated, tableStorageRouter);
 
+app.use(`${BASEURL}/api/queue`, ensureAuthenticated, queueStorageRouter);
+
 app.use(`${BASEURL}/api/pipeline`, ensureAuthenticated, pipelineRouter);
 
 app.use(`${BASEURL}/api/file`, ensureAuthenticated, fileRouter);
-
-app.use(`${BASEURL}/api/dropdowns`, ensureAuthenticated, dropdownRouter)
 
 app.use(`${BASEURL}/api/settings`, ensureAuthenticated, settingRouter)
 

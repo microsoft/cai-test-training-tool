@@ -70,6 +70,8 @@
     "NewBatchProcessing_LicensePlatesFiles_Label" : "License Plate Reference",
     "NewBatchProcessing_JobName_Label" : "Job Name",
     "NewBatchProcessing_StartJob_Label" : "Start Job",
+    "NewBatchProcessing_ModelType_Label" : "Model Type",
+    "NewBatchProcessing_Model_Label" : "Model",
     "AudioGeneration_Title" : "Audio Generation",
     "AudioGeneration_NewLabel" : "Add new job",
     "AudioGeneration_Text" : "Text",

@@ -2,11 +2,15 @@ import React, { useState } from "react";
 import UploadButtons from "../Common/UploadFile.jsx";
 import { useHistory } from "react-router-dom";
 import { BatchProcessingPath } from "../services/pathService.js";
-import { PrimaryButton, TextField } from "@fluentui/react";
+import { Dropdown, PrimaryButton, TextField } from "@fluentui/react";
 import { uploadFilesToBlob, uploadFileToBlob } from "../services/fileUploadService.js";
-import { Stack, StackItem } from "office-ui-fabric-react";
+import { mergeStyles, Stack, StackItem } from "office-ui-fabric-react";
 import { classes } from "../styles.jsx";
 import { useTranslation } from 'react-i18next';
+import { v4 as uuidv4 } from 'uuid';
+import { createJob } from "../services/tableStorageService.js";
+import { sendMessage } from "../services/queueService.js";
+
 
 
 export default function NewBatchProcessingScreen() {
@@ -21,21 +25,56 @@ export default function NewBatchProcessingScreen() {
   const [isLicensePlateFileValid, setIsLicensePlateFileValid] = useState(true);
   const [, setProgressing] = useState(false);
 
+  const [modelTypes, setModelTypes] = useState([{ key: "None", text: "None" }, { key: "Custom", text: "Custom" }, { key: "Base", text: "Base" }])
+  const [modelType, setModelType] = useState("None")
+  const [model, setModel] = useState(null)
+
+  const dropdownStyles = mergeStyles({ width: "300px" });
+
   const handleFileUpload = async () => {
     setProgressing(true);
 
     let files = []
+    let jobId = uuidv4()
 
-    if(batchFile != null) {
+    if (batchFile != null) {
       files.push(batchFile)
     }
-    if(transcriptFile != null) {
+    if (transcriptFile != null) {
       files.push(transcriptFile)
     }
-    if(licensePlateFile != null) {
+    if (licensePlateFile != null) {
       files.push(licensePlateFile)
     }
-    await uploadFilesToBlob(files, "batchprocessing",jobName)
+
+    let rowKey = `${jobName}-${jobId}`
+
+    await uploadFilesToBlob(files, "voices", rowKey)
+
+    const jobToBeProcessed = {
+      PartitionKey: "BatchJob",
+      RowKey: rowKey,
+      CompletionPercentage: "0%",
+      JobName: jobName,
+      LPReferenceFilename: licensePlateFile?.name,
+      SpeechLanguageModelName: model,
+      TranscriptFileName: transcriptFile.name,
+      Status: "New"
+    };
+
+    await createJob("BatchJobs", jobToBeProcessed);
+
+    const messageToBeSent = {
+      JobName: jobName,
+      FileName: batchFile.name,
+      TranscriptFileName: transcriptFile.name,
+      SpeechLanguageModelId: "",
+      SpeechAcousticModelId: null,
+      LPReferenceFilename: licensePlateFile?.name,
+      BatchJobId: rowKey
+     }
+    await sendMessage("voicesfilestasks",messageToBeSent)
+
     setBatchFile(null);
     setTranscriptFile(null);
     setLicensePlateFile(null);
@@ -43,8 +82,8 @@ export default function NewBatchProcessingScreen() {
   };
 
   //TODO: implement run new test event
-  const handleRun = () => {
-    handleFileUpload();
+  const handleRun = async () => {
+    await handleFileUpload();
     history.push(BatchProcessingPath.InitialScreen);
   };
 
@@ -72,6 +111,16 @@ export default function NewBatchProcessingScreen() {
     setLicensePlateFile(value);
   };
 
+  const handleModelTypeChange = (env, value) => {
+    setModelType(value.key);
+    if (value.id === "None") {
+      setModel(null);
+    }
+  };
+
+  const handleModelChange = (env, value) => {
+    setModel(value.key);
+  };
 
   return (
     <div>
@@ -116,6 +165,24 @@ export default function NewBatchProcessingScreen() {
                 onChange={(event) => setJobName(event.target.value)}
               />
             </StackItem>
+            <StackItem>
+              <Dropdown
+                label={t("NewBatchProcessing_ModelType_Label")}
+                onChange={handleModelTypeChange}
+                defaultSelectedKey="None"
+                options={modelTypes}
+                className={dropdownStyles}
+              />
+            </StackItem>
+            <StackItem>
+              <Dropdown
+                label={t("NewBatchProcessing_Model_Label")}
+                onChange={handleModelTypeChange}
+                options={modelTypes}
+                className={dropdownStyles}
+                disabled={modelType === "None"}
+              />
+            </StackItem>
           </Stack>
           <PrimaryButton
             className={classes.button}
@@ -123,8 +190,8 @@ export default function NewBatchProcessingScreen() {
             margin="50px"
             onClick={handleRun}
             disabled={
-              batchFile === null || !isBatchFileValid 
-              || transcriptFile === null || !isTranscriptFileValid  
+              batchFile === null || !isBatchFileValid
+              || transcriptFile === null || !isTranscriptFileValid
               || (licensePlateFile !== null && !isLicensePlateFileValid)
               || jobName === ""
             }

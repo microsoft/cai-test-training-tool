@@ -36,6 +36,7 @@ export default function BatchProcessingTable() {
              allowDisabledFocus
               onClick={()=>{
                 deleteEntity("BatchJobs",item.PartitionKey,item.RowKey)
+                //TODO remove files
                 initializeScreen()
               }}
              >

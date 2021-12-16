@@ -19,6 +19,8 @@ var uploadFilesToBlob = async (files, containerName, path) => {
     containerName
   );
 
+  await containerClient.createIfNotExists();
+
   // upload file
   await createBlobInContainer(containerClient, files, path == undefined ? '': path);
 

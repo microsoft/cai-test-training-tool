@@ -8,7 +8,6 @@ import { createJob } from "../services/tableStorageService.js";
 import { startReleasePipeline } from "../services/startReleasePipelineService";
 import { hasAccessRight } from "../services/accessService";
 import { Dropdown, PrimaryButton, TextField } from "@fluentui/react";
-import { uploadFileToBlob } from "../services/fileUploadService.js";
 import { mergeStyles, mergeStyleSets, Stack } from "office-ui-fabric-react";
 import { classes } from "../styles.jsx";
 
