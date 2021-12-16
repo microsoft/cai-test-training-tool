@@ -29,13 +29,13 @@ jobs:
         run: |
           cd webapp
           yarn install
-          yarn build --if-present
+          yarn build
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
         with:
           name: node-app
-          path: .
+          path: webapp
 
   deploy:
     runs-on: ubuntu-latest
