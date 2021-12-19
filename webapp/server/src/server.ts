@@ -110,7 +110,7 @@ app.use(function (req, res, next) {
   // Force all requests on production to be served over https
   if (
     req.headers["x-forwarded-proto"] !== "https" &&
-    process.env.NODE_ENV === "production"
+    process.env.NODE_ENV !== "development"
   ) {
     var secureUrl = "https://" + req.hostname + req.originalUrl;
     res.redirect(302, secureUrl);
