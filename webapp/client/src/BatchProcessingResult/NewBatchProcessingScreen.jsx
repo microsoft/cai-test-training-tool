@@ -10,6 +10,8 @@ import { useTranslation } from 'react-i18next';
 import { v4 as uuidv4 } from 'uuid';
 import { createJob } from "../services/tableStorageService.js";
 import { sendMessage } from "../services/queueService.js";
+import { getModels } from "../services/speechServiceService.js";
+import { useEffect } from "react";
 
 
 
@@ -25,9 +27,12 @@ export default function NewBatchProcessingScreen() {
   const [isLicensePlateFileValid, setIsLicensePlateFileValid] = useState(true);
   const [, setProgressing] = useState(false);
 
-  const [modelTypes, setModelTypes] = useState([{ key: "None", text: "None" }, { key: "Custom", text: "Custom" }, { key: "Base", text: "Base" }])
-  const [modelType, setModelType] = useState("None")
-  const [model, setModel] = useState(null)
+
+  const [models, setModels] = useState([])
+  const [modelTypes, setModelTypes] = useState()
+  const [selectedModelType, setSelectedModelType] = useState("None")
+  const [availableModels, setAvailableModels] = useState([])
+  const [selectedModel, setSelectedModel] = useState(null)
 
   const dropdownStyles = mergeStyles({ width: "300px" });
 
@@ -57,7 +62,8 @@ export default function NewBatchProcessingScreen() {
       CompletionPercentage: "0%",
       JobName: jobName,
       LPReferenceFilename: licensePlateFile?.name,
-      SpeechLanguageModelName: model,
+      SpeechLanguageModelName: selectedModel.displayName,
+      SpeechLanguageModelId: selectedModel !== "None" ? selectedModel.url : null,
       TranscriptFileName: transcriptFile.name,
       Status: "New"
     };
@@ -68,7 +74,7 @@ export default function NewBatchProcessingScreen() {
       JobName: jobName,
       FileName: batchFile.name,
       TranscriptFileName: transcriptFile.name,
-      SpeechLanguageModelId: "",
+      SpeechLanguageModelId: selectedModel !== "None" ? selectedModel.url : null,
       SpeechAcousticModelId: null,
       LPReferenceFilename: licensePlateFile?.name,
       BatchJobId: rowKey
@@ -80,6 +86,16 @@ export default function NewBatchProcessingScreen() {
     setLicensePlateFile(null);
     setProgressing(false);
   };
+
+
+  useEffect(async () => {
+    var allModels = await getModels();
+
+    setModels(allModels);
+    setModelTypes(Object.keys(allModels).map(x=> new Object({key:x, text:x})));
+    setAvailableModels(allModels[0]?.map(x=> new Object({key:x.displayName, text:x.displayName})))
+
+  },[]);
 
   //TODO: implement run new test event
   const handleRun = async () => {
@@ -112,14 +128,22 @@ export default function NewBatchProcessingScreen() {
   };
 
   const handleModelTypeChange = (env, value) => {
-    setModelType(value.key);
+    setSelectedModelType(value.key);
     if (value.id === "None") {
-      setModel(null);
+      setSelectedModel(null);
+    } else {
+      setSelectedModel(models[value.key][0])
     }
   };
 
+  useEffect(()=>{
+    if(selectedModelType !== "None") {
+      setAvailableModels(models[selectedModelType].map(x=>new Object({key:x.displayName,text:x.displayName})))
+    }
+  },[selectedModelType])
+
   const handleModelChange = (env, value) => {
-    setModel(value.key);
+    setSelectedModel(models[selectedModelType].filter(x=>x.displayName==value.key)[0]);
   };
 
   return (
@@ -177,10 +201,11 @@ export default function NewBatchProcessingScreen() {
             <StackItem>
               <Dropdown
                 label={t("NewBatchProcessing_Model_Label")}
-                onChange={handleModelTypeChange}
-                options={modelTypes}
+                onChange={handleModelChange}
+                options={availableModels}
+                defaultSelectedKey={availableModels &&  availableModels.length > 0 ? availableModels[0].key : undefined}
                 className={dropdownStyles}
-                disabled={modelType === "None"}
+                disabled={selectedModelType === "None"}
               />
             </StackItem>
           </Stack>

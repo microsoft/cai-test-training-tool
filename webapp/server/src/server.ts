@@ -18,6 +18,7 @@ import { pipelineRouter } from './pipeline/router';
 import { fileRouter as fileRouter } from './file/router';
 import { tableStorageRouter } from './tableStorage/router';
 import { queueStorageRouter } from './queueStorage/router';
+import { speechServiceRouter } from './speechService/router';
 
 if (process.env.NODE_ENV == "development") {
   var dotenv = require("dotenv")
@@ -299,6 +300,8 @@ app.use(`${BASEURL}/api/queue`, ensureAuthenticated, queueStorageRouter);
 app.use(`${BASEURL}/api/pipeline`, ensureAuthenticated, pipelineRouter);
 
 app.use(`${BASEURL}/api/file`, ensureAuthenticated, fileRouter);
+
+app.use(`${BASEURL}/api/speech`, ensureAuthenticated, speechServiceRouter)
 
 app.use(`${BASEURL}/api/settings`, ensureAuthenticated, settingRouter)
 
