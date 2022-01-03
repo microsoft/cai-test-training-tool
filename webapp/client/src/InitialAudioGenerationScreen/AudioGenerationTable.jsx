@@ -12,6 +12,7 @@ import { deleteEntity, getTableStorage } from "../services/tableStorageService.j
 
 import { useTranslation } from 'react-i18next';
 import { AudioGenerationPath, getPath } from "../services/pathService.js";
+import { deleteIcon, handleColumnClick, onRenderRow, progressClass, refreshIcon, TableDateFormat, TableFieldSizes } from "../Common/TableCommon.jsx";
 
 const moment = require("moment");
 const DATE_FORMAT = "DD.MM.YYYY HH:mm:ss";
@@ -21,14 +22,14 @@ export default function AudioGenerationTable() {
   const [rows, setRows] = useState([]);
   const [audioGenerationJobs, setAudioGenerationJobs] = useState([]);
 
-  const progressClass = { width: "100px" }
+  
 
   const [columns, setColumns] = useState([
     {
       key: "Delete",
       name: "",
-      minWidth: 50,
-      maxWidth: 50,
+      minWidth: TableFieldSizes.DeleteFieldSize,
+      minWidth: TableFieldSizes.DeleteFieldSize,
       isResizable: false,
       onRender: (item) => {
         return (
@@ -44,7 +45,7 @@ export default function AudioGenerationTable() {
       },
     },
     {
-      name: "Job Name", minWidth: 50, maxWidth: 70, isResizable: true,
+      name: "Job Name", minWidth: TableFieldSizes.JobIdFieldSize, maxWidth: TableFieldSizes.JobIdFieldSize, isResizable: true,
       onRender: (item) => {
         return <Link href={getPath(AudioGenerationPath.Results, { rowKey: item.RowKey })}>{item.JobName}</Link>
       }
@@ -52,11 +53,11 @@ export default function AudioGenerationTable() {
     {
       fieldName: "Timestamp",
       name: t("BatchProcessing_LastUpdateFieldName"),
-      minWidth: 120,
-      maxWidth: 120,
+      minWidth: TableFieldSizes.TimestampFieldSize,
+      maxWidth: TableFieldSizes.TimestampFieldSize,
       isResizable: true,
       onRender: (item) => {
-        return moment(item.Timestamp).format(DATE_FORMAT);
+        return moment(item.Timestamp).format(TableDateFormat);
       },
     },
     {
@@ -91,26 +92,7 @@ export default function AudioGenerationTable() {
     }
   ]);
 
-  const handleColumnClick = (ev: React.MouseEvent<HTMLElement>, column: IColumn) => {
-    const newColumns: IColumn[] = columns.slice();
-    const currColumn: IColumn = newColumns.filter(currCol => column.fieldName == currCol.fieldName)[0];
-    newColumns.forEach((newCol: IColumn) => {
-      if (newCol === currColumn) {
-        currColumn.isSortedDescending = !currColumn.isSortedDescending;
-        currColumn.isSorted = true;
-        console.log(currColumn.fieldName);
-      } else {
-        newCol.isSorted = false;
-        newCol.isSortedDescending = true;
-      }
-    });
-    const newRows = _copyAndSort(rows, currColumn.fieldName, currColumn.isSortedDescending);
-    setColumns(newColumns);
-    setRows(newRows)
-  };
-  const _copyAndSort = (rs: Array, key, isSortedDescending) => {
-    return rs.slice(0).sort((a, b) => ((isSortedDescending ? a[key].toString().toLowerCase() < b[key].toString().toLowerCase() : a[key].toString().toLowerCase() > b[key].toString().toLowerCase()) ? 1 : -1));
-  };
+  
 
   const iconClassNames = mergeStyleSets({
     success: [{ color: "green" }],
@@ -146,17 +128,6 @@ export default function AudioGenerationTable() {
     initializeScreen()
   }, []);
 
-  const onRenderRow = props => {
-    const customStyles = {};
-    if (props) {
-      customStyles.cell = { display: 'flex', alignItems: 'center' };
-
-
-      return <DetailsRow {...props} styles={customStyles} />;
-    }
-    return null;
-  };
-
   function initializeScreen() {
     getTableStorage("AudioGenerationJobs")
       .then((result) => {
@@ -165,14 +136,10 @@ export default function AudioGenerationTable() {
       .catch((error) => console.log(error));
   }
 
-  const refreshIconProps = { iconName: 'Refresh' };
-  const deleteIcon = { iconName: 'Delete' };
-
-
   return (
     <>
       <ActionButton
-        iconProps={refreshIconProps}
+        iconProps={refreshIcon}
         text={t("General_Refresh")}
         onClick={() => initializeScreen()}
       />
@@ -182,7 +149,7 @@ export default function AudioGenerationTable() {
           items={rows}
           selectionMode={SelectionMode.none}
           onColumnHeaderClick={handleColumnClick}
-          onRenderRow={onRenderRow}
+          onRenderRow={onRenderRowRow}
         ></DetailsList>
       )}
     </>

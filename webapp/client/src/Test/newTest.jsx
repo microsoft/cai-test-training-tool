@@ -107,7 +107,7 @@ export default function NewTest() {
       testset: testsetName,
       username: "username",
       environment: environment + "",
-      status: "Angefordert",
+      status: "INPROGRESS",
       kbId: knowledgebase + "",
       comment: comment,
     };

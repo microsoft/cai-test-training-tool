@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { DeployPath, getPath } from "../services/pathService";
-import { useHistory } from "react-router-dom";
 import {
   DetailsList,
   Icon,
-  PrimaryButton,
+  Link,
   SelectionMode,
   DetailsRow,
   ActionButton
@@ -14,37 +13,61 @@ import { getTableStorage, deleteEntity } from "../services/tableStorageService.j
 import { hasAccessRight } from "../services/accessService.js";
 
 import { useTranslation } from 'react-i18next';
+import { deleteIcon, handleColumnClick, onRenderRow, refreshIcon, TableDateFormat, TableFieldSizes } from "../Common/TableCommon";
 
 const moment = require("moment");
-const DATE_FORMAT = "DD.MM.YYYY HH:mm:ss";
+
 
 export default function DeployJobsTable({ knowledgebases }) {
-  const history = useHistory();
   const { t } = useTranslation();
   const [rows, setRows] = useState([]);
   const [deploymentJobs, setDeploymentJobs] = useState([]);
   const [hasAccess, setHasAccess] = useState(false)
 
+
   const [columns, setColumns] = useState([
-    { fieldName: "PartitionKey", name: "Job Id", minWidth: 50, maxWidth: 70, isResizable : true },
+    {
+      key: "Delete",
+      name: "",
+      minWidth: TableFieldSizes.DeleteFieldSize,
+      maxWidth: TableFieldSizes.DeleteFieldSize,
+      isResizable: false,
+      onRender: (item) => {
+        return (
+          <ActionButton iconProps={deleteIcon}
+            allowDisabledFocus
+            onClick={() => {
+              deleteEntity("QnADeploymentJobs", item.PartitionKey, item.RowKey);
+              initializeScreen();
+            }}>
+          </ActionButton >
+        )
+      }
+    },
+    {
+      fieldName: "PartitionKey", name: "Job Id", minWidth: TableFieldSizes.JobIdFieldSize, maxWidth: TableFieldSizes.JobIdFieldSize, isResizable: true,
+      onRender: (item) => {
+        return <Link href={getPath(DeployPath.Results, { partitionKey: item.PartitionKey })}>{item.PartitionKey}</Link>
+      }
+    },
     {
       fieldName: "Timestamp",
       name: t("KnowledgeBase_DeploymentList_TimestampFieldName"),
-      minWidth: 120,
-      maxWidth: 120,
-      isResizable : true,
+      minWidth: TableFieldSizes.TimestampFieldSize,
+      maxWidth: TableFieldSizes.TimestampFieldSize,
+      isResizable: true,
       onRender: (item) => {
-        return moment(item.Timestamp).format(DATE_FORMAT);
+        return moment(item.Timestamp).format(TableDateFormat);
       },
     },
-    { fieldName: "kbId", name: "Knowledgebase", minWidth: 160, maxWidth: 170, isResizable : true },
+    { fieldName: "kbId", name: "Knowledgebase", minWidth: 160, maxWidth: 170, isResizable: true },
     {
       fieldName: "status",
       name: "Status",
       minWidth: 150,
       maxWidth: 150,
       isMultiline: true,
-      isResizable : true,
+      isResizable: true,
       onRender: (item) => {
         var iconName = "WarningSolid";
         var className = iconClassNames.failure;
@@ -66,72 +89,11 @@ export default function DeployJobsTable({ knowledgebases }) {
         }
       },
     },
-    { fieldName: "testset", name: "Testset", minWidth: 150, maxWidth: 300, isResizable : true },
-    { fieldName: "result", name: t("KnowledgeBase_DeploymentList_ResultFieldName"), minWidth: 70, maxWidth: 70, isResizable : true },
-    { fieldName: "comment", name: t("KnowledgeBase_DeploymentList_CommentFieldName"), minWidth: 90, maxWidth: 200, isMultiline: true, isResizable : true },
-    { fieldName: "username", name: t("KnowledgeBase_DeploymentList_UsernameFieldName"),minWidth: 90, maxWidth: 300, isResizable : true },
-    {
-      name: "",
-      minWidth: 100,
-      maxWidth: 130,
-      isMultiline: false,
-      onRender: (item) => {
-        return (
-          <PrimaryButton
-            onClick={() => {
-              history.push(
-                getPath(DeployPath.Results, { partitionKey: item.PartitionKey })
-              );
-            }}
-          >
-            <span fontSize="small">{t("KnowledgeBase_DeploymentList_DetailsButtonLabel")}</span>
-          </PrimaryButton>
-        );
-      },
-      isResizable : true
-    },
-    {
-      minWidth: 180,
-      maxWidth: 180,
-      disableClickEventBubbling: false,
-      isMultiline: false,
-      onRender: (item) => {
-        return (
-          <PrimaryButton
-            disabled = {!item.hasRights}
-            onClick={() => {
-              deleteEntity("QnADeploymentJobs",item.PartitionKey,item.RowKey);
-              initializeScreen();
-            }}
-          >
-            <span fontSize="small">{t("KnowledgeBase_DeploymentList_DeleteButtonLabel")}</span>
-          </PrimaryButton>
-        );
-      },
-      isResizable : true
-    },
+    { fieldName: "testset", name: "Testset", minWidth: 150, maxWidth: 300, isResizable: true },
+    { fieldName: "result", name: t("KnowledgeBase_DeploymentList_ResultFieldName"), minWidth: 70, maxWidth: 70, isResizable: true },
+    { fieldName: "comment", name: t("KnowledgeBase_DeploymentList_CommentFieldName"), minWidth: 90, maxWidth: 200, isMultiline: true, isResizable: true },
+    { fieldName: "username", name: t("KnowledgeBase_DeploymentList_UsernameFieldName"), minWidth: 90, maxWidth: 300, isResizable: true },
   ]);
-
-  const handleColumnClick = (ev: React.MouseEvent<HTMLElement>, column: IColumn) => {
-    const newColumns: IColumn[] = columns.slice();
-    const currColumn: IColumn = newColumns.filter(currCol => column.fieldName == currCol.fieldName)[0];
-    newColumns.forEach((newCol: IColumn) => {
-      if (newCol === currColumn) {
-        currColumn.isSortedDescending = !currColumn.isSortedDescending;
-        currColumn.isSorted = true;
-        console.log(currColumn.fieldName);
-      } else {
-        newCol.isSorted = false;
-        newCol.isSortedDescending = true;
-      }
-    });
-    const newRows = _copyAndSort(rows, currColumn.fieldName, currColumn.isSortedDescending);
-    setColumns(newColumns);
-    setRows(newRows)
-  };
-  const _copyAndSort = (rs: Array, key, isSortedDescending) => {
-    return rs.slice(0).sort((a, b) => ((isSortedDescending ? a[key].toString().toLowerCase() < b[key].toString().toLowerCase() : a[key].toString().toLowerCase() > b[key].toString().toLowerCase()) ? 1 : -1));
-  };
 
   const iconClassNames = mergeStyleSets({
     success: [{ color: "green" }],
@@ -199,16 +161,7 @@ export default function DeployJobsTable({ knowledgebases }) {
     console.log(hasAccess);
   };
 
-  const onRenderRow = props => {
-    const customStyles = {};
-    if (props) {
-      customStyles.cell = { display: 'flex', alignItems: 'center' };
-
-
-      return <DetailsRow {...props} styles={customStyles} />;
-    }
-    return null;
-  };
+  
 
   function initializeScreen() {
     getTableStorage("QnADeploymentJobs")
@@ -218,16 +171,13 @@ export default function DeployJobsTable({ knowledgebases }) {
       .catch((error) => console.log(error));
   }
 
-  const refreshIconProps = { iconName: 'Refresh' };
-
-
   return (
     <>
-     <ActionButton
-            iconProps={refreshIconProps}
-            text={t("General_Refresh")}
-            onClick={() => initializeScreen()}
-          />
+      <ActionButton
+        iconProps={refreshIcon}
+        text={t("General_Refresh")}
+        onClick={() => initializeScreen()}
+      />
       {rows !== undefined && rows.length > 0 && (
         <DetailsList
           columns={columns}
