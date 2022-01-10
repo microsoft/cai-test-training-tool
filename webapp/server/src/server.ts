@@ -245,7 +245,7 @@ var authenticationStrategy = new OIDCStrategy(
     } catch (err) {
       console.error(err)
     }
-  });
+  }); 
 
 app.use(session({ secret: "anything" }))
 app.use(passport.initialize());
@@ -279,10 +279,10 @@ app.post(
     res.redirect('/');
   });
 
-
+ 
 
   function ensureAuthenticated(req, res, next) {
-    if (req.isAuthenticated()) { return next(); }
+    if (req.isAuthenticated()) { return next(); } //true
     res.redirect('/login');
   }; 
   
