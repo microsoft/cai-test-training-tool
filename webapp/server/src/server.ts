@@ -186,7 +186,7 @@ app.post(
     res.redirect('/');
   });
 
-
+ 
 
 function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) { return next(); }

@@ -10,8 +10,8 @@ const router: Router = express.Router({});
 
 var HOST = "https://westus.api.cognitive.microsoft.com";
 var SERVICE = "/qnamaker/v4.0";
-var TEST_URL_UAT = "https://cog-goblabla-qna-uat.azurewebsites.net";
-var TEST_URL_PRD = "https://cog-goblabla-qna-prd.azurewebsites.net";
+var TEST_URL_UAT = "https://qna-cai-batch-testing.azurewebsites.net";
+var TEST_URL_PRD = "https://qna-cai-batch-testing.azurewebsites.net";
 
 async function triggerTestExecution(
   environment,
@@ -233,7 +233,7 @@ async function triggerTestExecution(
     PartitionKey: { "_": runId },
     RowKey: { "_": "test" },
     result: { "_": (testsetLength - failures) + "/" + testsetLength },
-    status: { "_": failures == 0 ? "Erfolgreich" : "Fehlgeschlagen" },
+    status: { "_": failures == 0 ? "SUCCESSFUL" : "FAILED" },
   };
   tableService.mergeEntity(
     "QnABatchTestJobs",
@@ -245,6 +245,15 @@ async function triggerTestExecution(
     }
   );
   return testSuccessful;
+}
+
+async function triggerDeploymentExecution(
+  environment,
+  testset,
+  knowledgeBaseId,
+  runId
+) {
+    triggerTestExecution(environment, testset, knowledgeBaseId, runId)
 }
 
 async function getEndpointKey(environment) {

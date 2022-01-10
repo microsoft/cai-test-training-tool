@@ -1,6 +1,6 @@
 import { handleResponse } from "./utils";
 
-export async function startReleasePipeline(partitionKey, kbId, testsetName, comment) {
+export async function deployQnAtoProd(partitionKey, kbId, testsetName, comment) {
   const requestOptions = {
     method: "POST",
   };

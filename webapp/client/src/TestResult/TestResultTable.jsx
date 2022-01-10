@@ -73,10 +73,12 @@ export default function ResultTable(props) {
       onRender: (item) => {
         var iconName = "WarningSolid";
         var className = iconClassNames.failure;
+        var message = t("KnowledgeBase_TestResult_ResultIncorrect");
         if (item.resultUAT != undefined) {
-          if (item.resultUAT === "OK") {
+          if (item.resultUAT === "CORRECT") {
             iconName = "SkypeCircleCheck";
             className = iconClassNames.success;
+            message = t("KnowledgeBase_TestResult_ResultCorrect");
           }
           else if(item.resultUAT === "INPROGRESS")
           {
@@ -288,7 +290,7 @@ export default function ResultTable(props) {
             scoreUAT: row.scoreUAT,
             resultUAT:
               (String(row.expectedContext).trim().toLowerCase() == String(row.contextUAT).toLowerCase()) && (row.expectedMetadata == row.metadataUAT) && (row.expectedId == row.idUAT)
-              && (row.expectedPrompts.toLowerCase() == row.promptsUAT.toLowerCase()) && (parseInt(row.expectedScore) <= parseInt(row.scoreUAT)) ? "OK" : "FAILED",
+              && (row.expectedPrompts.toLowerCase() == row.promptsUAT.toLowerCase()) && (parseInt(row.expectedScore) <= parseInt(row.scoreUAT)) ? "CORRECT" : "INCORRECT",
             expectedContext: row.expectedContext,
             contextUAT: row.contextUAT,
             expectedId: row.expectedId,

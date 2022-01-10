@@ -65,19 +65,23 @@ export default function TestTable({ knowledgeBases }) {
       onRender: (item) => {
         var iconName = "WarningSolid";
         var className = iconClassNames.failure;
+        var text = t("KnowledgeBase_TestList_StatusFailed");
         if (item.status != undefined) {
           if (item.status.toString() === "INPROGRESS") {
             iconName = "WarningSolid";
             className = iconClassNames.created;
+            text = t("KnowledgeBase_TestList_StatusInprogress");
           } else if (
-            item.status.toString().toLowerCase().includes("OK")
+            item.status.toString().includes("SUCCESSFUL") ||
+            item.status.toString().includes("OK")
           ) {
             iconName = "SkypeCircleCheck";
             className = iconClassNames.success;
+            text = t("KnowledgeBase_TestList_StatusSuccessful");
           }
           return (
             <span>
-              <Icon iconName={iconName} className={className} /> {t(`KnowledgeBase_TestList_StatusFieldName_${item.status}`)}
+              <Icon iconName={iconName} className={className} /> {text}
             </span>
           );
         }

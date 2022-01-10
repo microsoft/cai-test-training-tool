@@ -7,10 +7,12 @@ import {
 import { t } from "i18next";
 import { handleColumnClick } from "../Common/TableCommon";
 import { iconClassNames } from "../styles";
+import { useTranslation } from 'react-i18next';
 
 const moment = require("moment");
 
 export default function ResultTable(props) {
+  const { t } = useTranslation();
   const [filteredResults, setFilteredResults] = useState([]);
   const [rows, setRows] = useState();
 
@@ -18,7 +20,7 @@ export default function ResultTable(props) {
     { fieldName: "PartitionKey", name: t("KnowledgeBase_DeploymentResult_JobIdFieldName"), minWidth: 70, maxWidth: 90 },
     {
       fieldName: "Timestamp",
-      name: t("KnowledgeBase_DeploymentResult_TimestampFieldName"),
+      name: t("KnowledgeBase_TestResult_TimestampFieldName"),
       minWidth: 120,
       maxWidth: 120,
       onRender: (item) => {
@@ -27,7 +29,7 @@ export default function ResultTable(props) {
     },
     {
       fieldName: "question",
-      name: t("KnowledgeBase_DeploymentResult_QuestionFieldName"),
+      name: t("KnowledgeBase_TestResult_QuestionFieldName"),
       minWidth: 150,
       maxWidth: 150,
       isMultiline: true,
@@ -37,7 +39,7 @@ export default function ResultTable(props) {
     },
     {
       fieldName: "expectation",
-      name: t("KnowledgeBase_DeploymentResult_ExpectedAnswerFieldName"),
+      name: t("KnowledgeBase_TestResult_ExpectedAnswerFieldName"),
       minWidth: 120,
       maxWidth: 120,
       onRender: (item) => {
@@ -46,20 +48,18 @@ export default function ResultTable(props) {
     },
     {
       fieldName: "resultPRD",
-      name: t("KnowledgeBase_DeploymentResult_ResultPRDFieldName"),
+      name: t("KnowledgeBase_TestResult_ExpectedAnswerFieldName") + " PRD",
       minWidth: 100,
       maxWidth: 100,
       onRender: (item) => {
         var iconName = "WarningSolid";
         var className = iconClassNames.failure;
-        if (item.resultUAT != undefined) {
-          if (item.resultUAT === "OK") {
+        var message = t("KnowledgeBase_TestResult_ResultIncorrect");
+        if (item.resultPRD != undefined) {
+          if (item.resultPRD === "CORRECT") {
             iconName = "SkypeCircleCheck";
             className = iconClassNames.success;
-          }
-          else if(item.resultUAT === "INPROGRESS")
-          {
-            className = iconClassNames.success;
+            message = t("KnowledgeBase_TestResult_ResultCorrect");
           }
           return (
             <span>
@@ -71,20 +71,18 @@ export default function ResultTable(props) {
     },
     {
       fieldName: "resultUAT",
-      name: t("KnowledgeBase_DeploymentResult_ResultUATFieldName"),
+      name: t("KnowledgeBase_TestResult_ExpectedAnswerFieldName") + " TEST",
       minWidth: 100,
       maxWidth: 100,
       onRender: (item) => {
         var iconName = "WarningSolid";
         var className = iconClassNames.failure;
+        var message = t("KnowledgeBase_TestResult_ResultIncorrect");
         if (item.resultUAT != undefined) {
-          if (item.resultUAT === "OK") {
+          if (item.resultUAT === "CORRECT") {
             iconName = "SkypeCircleCheck";
             className = iconClassNames.success;
-          }
-          else if(item.resultUAT === "INPROGRESS")
-          {
-            className = iconClassNames.success;
+            message = t("KnowledgeBase_TestResult_ResultCorrect");
           }
           return (
             <span>
@@ -95,8 +93,8 @@ export default function ResultTable(props) {
       },
     },
     {
-      fieldName: "answerUAT",
-      name: t("KnowledgeBase_DeploymentResult_ActualAnswerUATFieldName"),
+      fieldName: "answerPRD",
+      name: t("KnowledgeBase_TestResult_AnswerFieldName") + " PRD",
       minWidth: 120,
       maxWidth: 120,
       onRender: (item) => {
@@ -114,8 +112,8 @@ export default function ResultTable(props) {
       },
     },
     {
-      fieldName: "answerPRD",
-      name: t("KnowledgeBase_DeploymentResult_ActualAnswerPRDFieldName"),
+      fieldName: "answerUAT",
+      name: t("KnowledgeBase_TestResult_AnswerFieldName") + " TEST",
       minWidth: 120,
       maxWidth: 120,
       onRender: (item) => {
@@ -134,7 +132,7 @@ export default function ResultTable(props) {
     },
     {
       fieldName: "expectedId",
-      name: t("KnowledgeBase_DeploymentResult_ExpectedIdFieldName"),
+      name: t("KnowledgeBase_DeploymentList_ExpectedID"),
       minWidth: 40,
       maxWidth: 90,
       onRender: (item) => {
@@ -153,7 +151,7 @@ export default function ResultTable(props) {
     },
     {
       fieldName: "idUAT",
-      name: t("KnowledgeBase_DeploymentResult_ActualIdUATFieldName"),
+      name: "ID TEST",
       minWidth: 40,
       maxWidth: 90,
       onRender: (item) => {
@@ -172,7 +170,7 @@ export default function ResultTable(props) {
     },
     {
       fieldName: "idPRD",
-      name: t("KnowledgeBase_DeploymentResult_ActualIdPRDFieldName"),
+      name: "ID PRD",
       minWidth: 40,
       maxWidth: 90,
       onRender: (item) => {
@@ -191,7 +189,7 @@ export default function ResultTable(props) {
     },
     {
       fieldName: "expectedMetadata",
-      name: t("KnowledgeBase_DeploymentResult_ExpectedMetadataFieldName"),
+      name: t("KnowledgeBase_DeploymentList_ExpectedMetadata"),
       minWidth: 80,
       maxWidth: 90,
       onRender: (item) => {
@@ -210,7 +208,7 @@ export default function ResultTable(props) {
     },
     {
       fieldName: "metadataUAT",
-      name: t("KnowledgeBase_DeploymentResult_ActualMetadataUATFieldName"),
+      name: t("KnowledgeBase_DeploymentList_Metadata") + " TEST",
       minWidth: 80,
       maxWidth: 90,
       onRender: (item) => {
@@ -229,7 +227,7 @@ export default function ResultTable(props) {
     },
     {
       fieldName: "metadataPRD",
-      name: t("KnowledgeBase_DeploymentResult_ActualMetadataPRDFieldName"),
+      name: t("KnowledgeBase_DeploymentList_Metadata") + " PRD",
       minWidth: 80,
       maxWidth: 90,
       onRender: (item) => {
@@ -248,7 +246,7 @@ export default function ResultTable(props) {
     },
     {
       fieldName: "expectedContext",
-      name: t("KnowledgeBase_DeploymentResult_ExpectedContextFieldName"),
+      name: t("KnowledgeBase_DeploymentList_ExpectedContext"),
       minWidth: 80,
       maxWidth: 90,
       onRender: (item) => {
@@ -267,7 +265,7 @@ export default function ResultTable(props) {
     },
     {
       fieldName: "contextUAT",
-      name: t("KnowledgeBase_DeploymentResult_ActualContextUATFieldName"),
+      name: t("KnowledgeBase_DeploymentList_Context") + " TEST",
       minWidth: 80,
       maxWidth: 90,
       onRender: (item) => {
@@ -286,7 +284,7 @@ export default function ResultTable(props) {
     },
     {
       fieldName: "contextPRD",
-      name: t("KnowledgeBase_DeploymentResult_ActualContextPRDFieldName"),
+      name:  t("KnowledgeBase_DeploymentList_Context") + " PRD",
       minWidth: 80,
       maxWidth: 90,
       onRender: (item) => {
@@ -305,7 +303,7 @@ export default function ResultTable(props) {
     },
     {
       fieldName: "expectedPrompts",
-      name: t("KnowledgeBase_DeploymentResult_ExpectedPromptsFieldName"),
+      name: t("KnowledgeBase_DeploymentList_ExpectedPrompts"),
       minWidth: 80,
       maxWidth: 90,
       onRender: (item) => {
@@ -324,7 +322,7 @@ export default function ResultTable(props) {
     },
     {
       fieldName: "promptsUAT",
-      name: t("KnowledgeBase_DeploymentResult_ActualPromptsUATFieldName"),
+      name: "Prompts TEST",
       minWidth: 80,
       maxWidth: 90,
       onRender: (item) => {
@@ -381,8 +379,8 @@ export default function ResultTable(props) {
       },
     },
     {
-      fieldName: "scorePRD",
-      name: t("KnowledgeBase_DeploymentResult_ActualScorePRDFieldName"),
+      fieldName: "scoreUAT",
+      name: "Score TEST",
       minWidth: 80,
       maxWidth: 90,
       onRender: (item) => {
@@ -426,10 +424,10 @@ export default function ResultTable(props) {
             expectedScore: row.expectedScore,
             resultPRD:
               (String(row.expectedContext).trim().toLowerCase() == String(row.contextPRD).trim().toLowerCase()) && (row.expectedMetadata == row.metadataPRD) && (row.expectedId == row.idPRD)
-               && (row.expectedPrompts.toLowerCase() == row.promptsPRD.toLowerCase()) && (parseInt(row.expectedScore) <= parseInt(row.scorePRD)) ? "OK" : "FAILED",
+               && (row.expectedPrompts.toLowerCase() == row.promptsPRD.toLowerCase()) && (parseInt(row.expectedScore) <= parseInt(row.scorePRD)) ? "CORRECT" : "INCORRECT",
             resultUAT:
               (String(row.expectedContext).trim().toLowerCase() == String(row.contextUAT).trim().toLowerCase()) && (row.expectedMetadata == row.metadataUAT) && (row.expectedId == row.idUAT)
-               && (row.expectedPrompts.toLowerCase() == row.promptsUAT.toLowerCase()) && (parseInt(row.expectedScore) <= parseInt(row.scoreUAT)) ? "OK" : "FAILED",
+               && (row.expectedPrompts.toLowerCase() == row.promptsUAT.toLowerCase()) && (parseInt(row.expectedScore) <= parseInt(row.scoreUAT)) ? "CORRECT" : "INCORRECT",
             expectedContext: row.expectedContext,
             contextUAT: row.contextUAT,
             contextPRD: row.contextPRD,

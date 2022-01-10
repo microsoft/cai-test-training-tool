@@ -135,17 +135,12 @@ router.post("/", async function (req, res) {
       console.log("error uploading file: ", err);
       res.status(400).json({ message: err });
     }
-  }
 });
 
 router.delete("/transcript/:bot/:transcript", async function (req, res) {
-  if (!req.user.permissions.includes("BMT_BOT_Tester")) {
-    res.status(403).json({ message: "Not authorized!", status: 403 });
-  } else {
     var result = await deleteTranscript(req.params.bot, req.params.transcript);
     console.log(result);
     res.status(result ? 200 : 400).send();
-  }
 });
 
 router.get("/getphonenumber/:bot/:transcript", async function (req, res) {
