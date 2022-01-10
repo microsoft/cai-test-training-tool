@@ -25,7 +25,6 @@ export default function SettingListScreen() {
     const [nameFilter, setNameFilter] = useState('*')
 
     const [loadingData, setLoadingData] = useState(true)
-    const [hasAccess, setHasAccess] = useState(true)
 
     const { t } = useTranslation();
 
@@ -40,7 +39,6 @@ export default function SettingListScreen() {
                 console.log(error)
                 if (error.response.status == 403) {
                     setLoadingData(false);
-                    setHasAccess(false);
                 }
             });
     }, []);
@@ -52,12 +50,10 @@ export default function SettingListScreen() {
 
             {loadingData &&
                 <h4 float="left">{t("General_LoadingData")}</h4>}
-            {!loadingData && hasAccess &&
+            {!loadingData &&
                 <SettingList actionList={actionList} nameFilter={nameFilter}></SettingList>
             }
-            {!loadingData && !hasAccess &&
-                <h4 float="left">{t("General_NoAccess")}</h4>
-            }
+
         </div>
     );
 }

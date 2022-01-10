@@ -3,19 +3,17 @@ import {
   DetailsList,
   ProgressIndicator,
   SelectionMode,
-  DetailsRow,
   ActionButton,
   Link
 } from "@fluentui/react";
-import { mergeStyleSets } from "office-ui-fabric-react/lib/Styling";
 import { deleteEntity, getTableStorage } from "../services/tableStorageService.js";
 
 import { useTranslation } from 'react-i18next';
 import { AudioGenerationPath, getPath } from "../services/pathService.js";
-import { deleteIcon, handleColumnClick, onRenderRow, progressClass, refreshIcon, TableDateFormat, TableFieldSizes } from "../Common/TableCommon.jsx";
+import { handleColumnClick, onRenderRow, progressClass, TableDateFormat, TableFieldSizes } from "../Common/TableCommon.jsx";
+import { deleteIcon, refreshIcon } from "../styles.jsx";
 
 const moment = require("moment");
-const DATE_FORMAT = "DD.MM.YYYY HH:mm:ss";
 
 export default function AudioGenerationTable() {
   const { t } = useTranslation();
@@ -24,12 +22,12 @@ export default function AudioGenerationTable() {
 
   
 
-  const [columns, setColumns] = useState([
+  const [columns] = useState([
     {
       key: "Delete",
       name: "",
       minWidth: TableFieldSizes.DeleteFieldSize,
-      minWidth: TableFieldSizes.DeleteFieldSize,
+      maxWidth: TableFieldSizes.DeleteFieldSize,
       isResizable: false,
       onRender: (item) => {
         return (
@@ -92,14 +90,6 @@ export default function AudioGenerationTable() {
     }
   ]);
 
-  
-
-  const iconClassNames = mergeStyleSets({
-    success: [{ color: "green" }],
-    created: [{ color: "yellow" }],
-    failure: [{ color: "red" }],
-  });
-
   useEffect(() => {
     if (
       audioGenerationJobs &&
@@ -124,9 +114,6 @@ export default function AudioGenerationTable() {
     initializeScreen()
   }, []);
 
-  useEffect(() => {
-    initializeScreen()
-  }, []);
 
   function initializeScreen() {
     getTableStorage("AudioGenerationJobs")
@@ -149,7 +136,7 @@ export default function AudioGenerationTable() {
           items={rows}
           selectionMode={SelectionMode.none}
           onColumnHeaderClick={handleColumnClick}
-          onRenderRow={onRenderRowRow}
+          onRenderRow={onRenderRow}
         ></DetailsList>
       )}
     </>

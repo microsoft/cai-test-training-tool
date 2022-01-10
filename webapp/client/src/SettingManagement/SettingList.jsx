@@ -5,7 +5,6 @@ import {
   PrimaryButton,
   DefaultButton,
   ActionButton,
-  DetailsRow,
   Stack,
   Modal,
   IconButton,
@@ -16,7 +15,8 @@ import { modalStyles, modelIconButtonStyles, cancelIcon, editIcon, deleteIcon, s
 import { SettingManagementPath } from "../services/pathService";
 import { Link } from "react-router-dom";
 import * as SettingService from "../services/settingService";
-import { hasAccessRight } from "../services/accessService.js";
+import { onRenderRow } from "../Common/TableCommon";
+import { t } from "i18next";
 
 
 function getKey(item, index) {
@@ -28,29 +28,12 @@ export default function SettingList(props) {
 
   const [filteredActions, setFilteredActions] = useState([]);
   const [actionList, setList] = useState([])
-  const [hasAccess, setHasAccess] = useState(false)
-
 
   useEffect(() => {
     setList(props.actionList);
   }, [props.actionList])
 
-  useEffect(() => {
-    setUserAccess()
-  }, []);
-
-function setUserAccess() {
-    hasAccessRight("BMT_BOT_CAM")
-      .then((result) => {
-        console.log(result.hasPermissions);
-        setHasAccess(result.hasPermissions);
-      })
-      .catch((error) => console.log(error));
-    console.log(hasAccess);
-  };
-
   //Modal related
-  let [modalTitle, setModalTitle] = useState('Löschen');
   let [modalText, setModalText] = useState('');
   const [modalItem, setModalItem] = useState(); 
   const [isModalOpen, { setTrue: showModal, setFalse: hideModal }] = useBoolean(false);
@@ -76,15 +59,15 @@ function setUserAccess() {
   }, [props.nameFilter])
 
   const handleDeleteAction = async (item) => {
-    setModalText(`${item.setting} wirklich löschen?`);
+    setModalText(`${item.setting} ${t("Settings_SettingsList_DeleteModalPrompt")}`);
     setModalItem(item);
     showModal();
   }
 
   const columns = [
-    { fieldName: "setting", name: "Einstellung", minWidth: 50 },
-    { fieldName: "actionName", name: "Aktion", minWidth: 150 },
-    { fieldName: "propertyName", name: "Elemente", minWidth: 150 },
+    { fieldName: "setting", name: t("Settings_SettingsList_SettingFieldName"), minWidth: 50 },
+    { fieldName: "actionName", name: t("Settings_SettingsList_ActionFieldName"), minWidth: 150 },
+    { fieldName: "propertyName", name: t("Settings_SettingsList_PropertyFieldName"), minWidth: 150 },
     {
       fieldName: "edit", minWidth: 20, maxWidth: 20, onRender: (item) => {
         return (<Link to={`${SettingManagementPath.EditSetting}/${item.setting}/${item.key}`}><ActionButton iconProps={editIcon}></ActionButton></Link>)
@@ -92,21 +75,10 @@ function setUserAccess() {
     },
     {
       fieldName: "delete", minWidth: 20, maxWidth: 20, onRender: (item) => {
-        return (<ActionButton iconProps={deleteIcon} disabled={!hasAccess} onClick={() => handleDeleteAction(item)}></ActionButton>)
+        return (<ActionButton iconProps={deleteIcon} onClick={() => handleDeleteAction(item)}></ActionButton>)
       }
     },
   ];
-
-  const onRenderRow = props => {
-    const customStyles = {};
-    if (props) {
-      customStyles.cell = { display: 'flex', alignItems: 'center' };
-
-
-      return <DetailsRow {...props} styles={customStyles} />;
-    }
-    return null;
-  };
 
   return (
     <>
@@ -130,11 +102,10 @@ function setUserAccess() {
         isBlocking={true}
       >
         <div className={modalStyles.header}>
-          <span>{modalTitle}</span>
+          <span>{t("Settings_SettingsList_DeleteModalTitle")}</span>
           <IconButton
             styles={modelIconButtonStyles}
             iconProps={cancelIcon}
-            ariaLabel="Close popup modal"
             onClick={hideModal}
           />
         </div>
@@ -143,8 +114,8 @@ function setUserAccess() {
           </p>
           <div>
             <Stack horizontal tokens={stackTokens} className={modalStyles.buttons}>
-              <DefaultButton text="Nein" onClick={hideModal}></DefaultButton>
-              <PrimaryButton text="Ja" onClick={handleModalYesButton}></PrimaryButton>
+              <DefaultButton text={t("Settings_SettingsList_DeleteModalNo")} onClick={hideModal}></DefaultButton>
+              <PrimaryButton text={t("Settings_SettingsList_DeleteModalYes")} onClick={handleModalYesButton}></PrimaryButton>
             </Stack>
           </div>
         </div>

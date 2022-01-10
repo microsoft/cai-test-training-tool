@@ -97,7 +97,6 @@ export default function NewBatchProcessingScreen() {
 
   },[]);
 
-  //TODO: implement run new test event
   const handleRun = async () => {
     await handleFileUpload();
     history.push(BatchProcessingPath.InitialScreen);

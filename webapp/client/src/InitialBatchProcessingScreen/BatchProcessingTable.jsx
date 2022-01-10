@@ -3,31 +3,30 @@ import {
   DetailsList,
   ProgressIndicator,
   SelectionMode,
-  DetailsRow,
   ActionButton,
   Link
 } from "@fluentui/react";
-import { mergeStyleSets } from "office-ui-fabric-react/lib/Styling";
 import { deleteEntity, getTableStorage } from "../services/tableStorageService.js";
 
 import { useTranslation } from 'react-i18next';
 import { BatchProcessingPath, getPath } from "../services/pathService.js";
-import { deleteIcon, handleColumnClick, onRenderRow, progressClass, refreshIcon, TableDateFormat, TableFieldSizes } from "../Common/TableCommon.jsx";
+import { handleColumnClick, onRenderRow, progressClass, TableDateFormat, TableFieldSizes } from "../Common/TableCommon.jsx";
+import { BatchProcessingStatus } from "../Common/StatusEnum.jsx";
+import {deleteIcon, refreshIcon} from "../styles"
 
 const moment = require("moment");
-const DATE_FORMAT = "DD.MM.YYYY HH:mm:ss";
 
 export default function BatchProcessingTable() {
   const { t } = useTranslation();
   const [rows, setRows] = useState([]);
   const [batchJobs, setBatchJobs] = useState([]);
 
-  const [columns, setColumns] = useState([
+  const [columns] = useState([
     {
       key: "Delete",
       name: "",
       minWidth: TableFieldSizes.DeleteFieldSize,
-      minWidth: TableFieldSizes.DeleteFieldSize,
+      maxWidth: TableFieldSizes.DeleteFieldSize,
       isResizable: false,
       onRender: (item) => {
         return (
@@ -47,12 +46,12 @@ export default function BatchProcessingTable() {
       key: "Refresh",
       name: "",
       minWidth: TableFieldSizes.DeleteFieldSize,
-      minWidth: TableFieldSizes.DeleteFieldSize,
+      maxWidth: TableFieldSizes.DeleteFieldSize,
       isResizable: false,
       onRender: (item) => {
-        if(item.Status.includes("Error")) {
+        if(item.Status === BatchProcessingStatus.FAILED) {
           return (
-            <ActionButton iconProps={refreshIconProps}
+            <ActionButton iconProps={refreshIcon}
              allowDisabledFocus>
             </ActionButton>
           )
@@ -92,12 +91,6 @@ export default function BatchProcessingTable() {
     }   
   ]);
 
-  const iconClassNames = mergeStyleSets({
-    success: [{ color: "green" }],
-    created: [{ color: "yellow" }],
-    failure: [{ color: "red" }],
-  });
-
   useEffect(() => {
     if (
       batchJobs &&
@@ -117,10 +110,6 @@ export default function BatchProcessingTable() {
     }
   }, [batchJobs, setRows]);
 
-
-  useEffect(() => {
-    initializeScreen()
-  }, []);
 
   useEffect(() => {
     initializeScreen()
@@ -148,7 +137,7 @@ export default function BatchProcessingTable() {
           items={rows}
           selectionMode={SelectionMode.none}
           onColumnHeaderClick={handleColumnClick}
-          onRenderRow={onRenderRowderRow}
+          onRenderRow={onRenderRow}
         ></DetailsList>
       )}
     </>

@@ -58,6 +58,8 @@
     "KnowledgeBase_DeploymentList_CommentFieldName" : "Kommentar",
     "KnowledgeBase_DeploymentList_ResultFieldName" : "Ergebnis",
     "KnowledgeBase_DeploymentList_UsernameFieldName" : "Benutzer",
+
+    "KnowledgeBase_DeploymentList_StatusFieldName_PENDING_APPROVAL" : "Warten auf Genehmigung",
     "KnowledgeBase_DeploymentList_StatusFieldName_INPROGRESS" : "Angefordert",
     "KnowledgeBase_DeploymentList_StatusFieldName_FAILED" : "Fehlgeschlagen",
     "KnowledgeBase_DeploymentList_StatusFieldName_OK" : "OK",
@@ -90,6 +92,14 @@
     "KnowledgeBase_DeploymentResult_ResultFieldName_INPROGRESS" : "",
     "KnowledgeBase_DeploymentResult_ResultFieldName_FAILED" : "Inkorrekt",
     "KnowledgeBase_DeploymentResult_ResultFieldName_OK" : "Korrekt",
+
+    "Settings_SettingsList_SettingFieldName" : "Einstellung",
+    "Settings_SettingsList_ActionFieldName" : "Aktion",
+    "Settings_SettingsList_PropertyFieldName" : "Elemente",
+    "Settings_SettingsList_DeleteModalTitle" : "Löschen",
+    "Settings_SettingsList_DeleteModalYes" : "Ja",
+    "Settings_SettingsList_DeleteModalNo" : "Nein",
+    "Settings_SettingsList_DeleteModalPrompt" : "wirklich löschen?",
 
     "Settings_AddSettings_Title" : "Neue Bot Management Tool Einstellung hinzufügen",
 

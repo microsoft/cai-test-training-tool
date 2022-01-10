@@ -2,7 +2,6 @@ import {
   ActionButton,
   DefaultButton,
   DetailsList,
-  Icon,
   PrimaryButton,
   SelectionMode,
   Stack,
@@ -17,9 +16,8 @@ import { useEffect, useState, useCallback } from "react";
 import { Link, useParams } from "react-router-dom";
 import { SettingManagementPath } from "../services/pathService";
 import * as SettingService from "../services/settingService";
-import { DetailsRow } from "@fluentui/react";
-import { hasAccessRight } from "../services/accessService.js";
 import { useTranslation } from 'react-i18next';
+import { deleteIcon, saveIcon } from "../styles";
 
 export default function SettingForm(props) {
   const { t } = useTranslation();
@@ -65,7 +63,6 @@ export default function SettingForm(props) {
   const [duplicateActionName, setDuplicateAdtionName] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [loadedAction, setLoadedAction] = useState(undefined);
-  const [hasAccess, setHasAccess] = useState(false);
 
   const handleNewOptionName = useCallback((ev) => {
     setNewOptionName(ev.target.value);
@@ -144,20 +141,6 @@ export default function SettingForm(props) {
       setLoadedAction(await SettingService.getActionById(partitionKey, rowKey));
     }
   }, []);
-
-  useEffect(() => {
-    setUserAccess();
-  }, []);
-
-  function setUserAccess() {
-    hasAccessRight("BMT_BOT_CAM")
-      .then((result) => {
-        console.log(result.hasPermissions);
-        setHasAccess(result.hasPermissions);
-      })
-      .catch((error) => console.log(error));
-    console.log(hasAccess);
-  }
 
   useEffect(() => {
     if (!isEdit) {
@@ -323,7 +306,7 @@ export default function SettingForm(props) {
 
     if (result.status == 409) {
       setErrorMessage(
-        "Someone else changed the options. The screen was reloaded to show the latest options"
+        t("Settings_EditSettings_ReloadLabel")
       );
       setLoadedAction(
         await SettingService.getActionById(action.setting, action.key)
@@ -333,8 +316,6 @@ export default function SettingForm(props) {
     }
   };
 
-  const deleteIcon = { iconName: "Delete" };
-  const saveItem = { iconName: "save" };
 
   const columns = [
     { fieldName: "optionName", name: t("Settings_EditSettings_Setting"), minWidth: 70 },
@@ -394,7 +375,6 @@ export default function SettingForm(props) {
         return (
           <ActionButton
             iconProps={deleteIcon}
-            disabled={!hasAccess ? "true" : ""}
             onClick={() => handleDeleteOption(item)}
           ></ActionButton>
         );
@@ -415,17 +395,7 @@ export default function SettingForm(props) {
     },
   });
 
-  const onRenderRow = (props) => {
-    const customStyles = {};
-    if (props) {
-      customStyles.cell = { display: "flex", alignItems: "center" };
-
-      return <DetailsRow {...props} styles={customStyles} />;
-    }
-    return null;
-  };
-
-  const resetStatusMessages = () => {
+    const resetStatusMessages = () => {
     setErrorMessage("");
   };
 
@@ -534,8 +504,8 @@ export default function SettingForm(props) {
               value={newOptionProd}
             ></TextField>
             <ActionButton
-              iconProps={saveItem}
-              disabled={!canAddAction || !hasAccess}
+              iconProps={saveIcon}
+              disabled={!canAddAction}
               onClick={handleSubmit}
             ></ActionButton>
           </Stack>
@@ -556,8 +526,7 @@ export default function SettingForm(props) {
               disabled={
                 action == undefined ||
                 action.options.length < 1 ||
-                action.default == undefined ||
-                !hasAccess
+                action.default == undefined 
               }
               text={t("General_Save")}
               onClick={handleConfirmation}
@@ -565,9 +534,6 @@ export default function SettingForm(props) {
           </Stack>
         </form>
       </div>
-      <span style={{ verticalAlign: '-30px' , color: 'red'}}>
-        {hasAccess ? "" : t("General_NoAccess")}
-      </span>
     </div>
   );
 

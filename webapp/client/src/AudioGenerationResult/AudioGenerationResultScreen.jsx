@@ -14,9 +14,9 @@ export default function AudioGenerationResult() {
 
   const AudioGenerationColumns = [
     { fieldName: "Transcript", name: t("AudioGeneration_Text"), minWidth: 150, maxWidth: 300 },
-    { fieldName: "FileName", name: t("BatchProcessingResult_FileNameFieldName"), minWidth: 150 },    
+    { fieldName: "FileName", name: t("BatchProcessingResult_FileNameFieldName"), minWidth: 150 },
     { fieldName: "Status", name: t("BatchProcessingResult_StatusFieldName"), minWidth: 150, maxWidth: 150 },
-    { fieldName: "Error", name: t("AudioGeneration_Error"), minWidth: 150, maxWidth: 300 }    
+    { fieldName: "Error", name: t("AudioGeneration_Error"), minWidth: 150, maxWidth: 300 }
   ];
 
 
@@ -52,7 +52,7 @@ export default function AudioGenerationResult() {
               <Text><b>{t("AudioGeneration_Language")}:</b> {metadata.AudioLanguage}</Text>
             </Stack>
             <div style={{ height: "600px" }}>
-            <AudioGenerationResultsTable results={results} columns={AudioGenerationColumns}></AudioGenerationResultsTable>
+              <AudioGenerationResultsTable results={results} columns={AudioGenerationColumns}></AudioGenerationResultsTable>
             </div>
           </Stack>
         </div>}

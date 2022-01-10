@@ -6,6 +6,8 @@ import {
   Icon,
 } from "@fluentui/react";
 import { useTranslation } from 'react-i18next';
+import { handleColumnClick, TableDateFormat, TableFieldSizes } from "../Common/TableCommon";
+import { iconClassNames } from "../styles";
 
 const moment = require("moment");
 
@@ -13,22 +15,16 @@ export default function ResultTable(props) {
   const { t } = useTranslation();
   const [filteredResults, setFilteredResults] = useState([]);
   const [rows, setRows] = useState();
-  const dateFormat = "DD.MM.YYYY HH:mm:ss";
-  const iconClassNames = mergeStyleSets({
-    processing : [{color: "yellow"}],
-    success: [{ color: "green" }],
-    failure: [{ color: "red" }],
-  });
 
   const [columns, setColumns] = useState([
-    { fieldName: "PartitionKey", name: "Job Id", minWidth: 50, maxWidth: 90 },
+    { fieldName: "PartitionKey", name: "Job Id", minWidth: TableFieldSizes.JobIdFieldSize, maxWidth: TableFieldSizes.JobIdFieldSize },
     {
       fieldName: "Timestamp",
       name: t("KnowledgeBase_TestResult_TimestampFieldName"),
-      minWidth: 120,
-      maxWidth: 120,
+      minWidth: TableFieldSizes.TimestampFieldSize,
+      maxWidth: TableFieldSizes.TimestampFieldSize,
       onRender: (item) => {
-        return moment(item.Timestamp).format(dateFormat);
+        return moment(item.Timestamp).format(TableDateFormat);
       },
     },
     {
@@ -268,26 +264,6 @@ export default function ResultTable(props) {
     },
   ]);
 
-  const handleColumnClick = (ev: React.MouseEvent<HTMLElement>, column: IColumn) => {
-    const newColumns: IColumn[] = columns.slice();
-    const currColumn: IColumn = newColumns.filter(currCol => column.fieldName == currCol.fieldName)[0];
-    newColumns.forEach((newCol: IColumn) => {
-      if (newCol === currColumn) {
-        currColumn.isSortedDescending = !currColumn.isSortedDescending;
-        currColumn.isSorted = true;
-        console.log(currColumn.fieldName);
-      } else {
-        newCol.isSorted = false;
-        newCol.isSortedDescending = true;
-      }
-    });
-    const newRows = _copyAndSort(rows, currColumn.fieldName, currColumn.isSortedDescending);
-    setColumns(newColumns);
-    setRows(newRows)
-  };
-  const _copyAndSort = (rs: Array, key, isSortedDescending) => {
-    return rs.slice(0).sort((a, b) => ((isSortedDescending ? a[key].toString().toLowerCase() < b[key].toString().toLowerCase() : a[key].toString().toLowerCase() > b[key].toString().toLowerCase()) ? 1 : -1));
-  };
   useEffect(() => {
     setFilteredResults(props.results);
   }, [props.results]);

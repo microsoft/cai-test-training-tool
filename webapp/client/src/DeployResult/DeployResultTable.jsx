@@ -1,25 +1,20 @@
 import React, { useEffect, useState } from "react";
 import {
   DetailsList,
-  mergeStyleSets,
   SelectionMode,
   Icon,
 } from "@fluentui/react";
 import { t } from "i18next";
+import { handleColumnClick } from "../Common/TableCommon";
+import { iconClassNames } from "../styles";
 
 const moment = require("moment");
-const DATE_FORMAT = "DD.MM.YYYY HH:mm:ss";
 
 export default function ResultTable(props) {
   const [filteredResults, setFilteredResults] = useState([]);
   const [rows, setRows] = useState();
 
-  const iconClassNames = mergeStyleSets({
-    success: [{ color: "green" }],
-    failure: [{ color: "red" }],
-  });
-
-  const [columns, setColumns] = useState([
+  const [columns] = useState([
     { fieldName: "PartitionKey", name: t("KnowledgeBase_DeploymentResult_JobIdFieldName"), minWidth: 70, maxWidth: 90 },
     {
       fieldName: "Timestamp",
@@ -406,26 +401,6 @@ export default function ResultTable(props) {
     },
   ]);
 
-  const handleColumnClick = (ev: React.MouseEvent<HTMLElement>, column: IColumn) => {
-    const newColumns: IColumn[] = columns.slice();
-    const currColumn: IColumn = newColumns.filter(currCol => column.fieldName == currCol.fieldName)[0];
-    newColumns.forEach((newCol: IColumn) => {
-      if (newCol === currColumn) {
-        currColumn.isSortedDescending = !currColumn.isSortedDescending;
-        currColumn.isSorted = true;
-        console.log(currColumn.fieldName);
-      } else {
-        newCol.isSorted = false;
-        newCol.isSortedDescending = true;
-      }
-    });
-    const newRows = _copyAndSort(rows, currColumn.fieldName, currColumn.isSortedDescending);
-    setColumns(newColumns);
-    setRows(newRows)
-  };
-  const _copyAndSort = (rs: Array, key, isSortedDescending) => {
-    return rs.slice(0).sort((a, b) => ((isSortedDescending ? a[key].toString().toLowerCase() < b[key].toString().toLowerCase() : a[key].toString().toLowerCase() > b[key].toString().toLowerCase()) ? 1 : -1));
-  };
   useEffect(() => {
     setFilteredResults(props.results);
   }, [props.results]);

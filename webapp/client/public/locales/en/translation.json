@@ -52,7 +52,8 @@
     "KnowledgeBase_DeploymentList_ResultFieldName" : "Result",
     "KnowledgeBase_DeploymentList_CommentFieldName" : "Comment",
     "KnowledgeBase_DeploymentList_UsernameFieldName" : "User",
-    "KnowledgeBase_DeploymentList_StatusFieldName_INPROGRESS" : "In Progress",
+    "KnowledgeBase_DeploymentList_StatusFieldName_PENDING_APPROVAL" : "Pending Approval",
+    "KnowledgeBase_DeploymentList_StatusFieldName_IN_PROGRESS" : "In Progress",
     "KnowledgeBase_DeploymentList_StatusFieldName_FAILED" : "Failed",
     "KnowledgeBase_DeploymentList_StatusFieldName_OK" : "OK",
     
@@ -86,6 +87,14 @@
     "KnowledgeBase_DeploymentResult_ResultFieldName_OK" : "Correct",
 
     
+    "Settings_SettingsList_SettingFieldName" : "Setting",
+    "Settings_SettingsList_ActionFieldName" : "Action",
+    "Settings_SettingsList_PropertyFieldName" : "Element",
+    "Settings_SettingsList_DeleteModalTitle" : "Delete",
+    "Settings_SettingsList_DeleteModalYes" : "Yes",
+    "Settings_SettingsList_DeleteModalNo" : "No",
+    "Settings_SettingsList_DeleteModalPrompt" : "really delete?",
+    
     "Settings_AddSettings_Title" : "New Bot Management Tool Setting",
     
     "Settings_EditSettings_Title" : "Edit Bot Management Tool Setting",
@@ -95,6 +104,7 @@
     "Settings_EditSettings_Dropdown_Field" : "Setting Field",
     "Settings_EditSettings_NewElement_Title" : "New Setting",
     "Settings_EditSettings_Default_Title" : "Default Value",
+    "Settings_EditSettings_ReloadLabel" : "Someone else changed the options. The screen was reloaded to show the latest options",
     
     "BatchProcessing_Title" : "Batch Processing Test",
     "BatchProcessing_NewLabel" : "Add new batch",

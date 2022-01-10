@@ -1,6 +1,6 @@
 import React from "react";
 import { CompoundButton, mergeStyleSets, Stack } from "office-ui-fabric-react";
-import { DeployPath, SettingManagementPath, ComingSoonPath, BatchProcessingPath, AudioGenerationPath, TestPath } from "../services/pathService";
+import { DeployPath, SettingManagementPath, BatchProcessingPath, AudioGenerationPath, TestPath } from "../services/pathService";
 import { useTranslation } from 'react-i18next';
 import {homeButtonStyle} from "../styles"
 

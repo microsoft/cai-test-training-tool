@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import BatchProcessingTable from "./BatchProcessingTable.jsx";
 
 import { Stack, PrimaryButton } from "office-ui-fabric-react";
@@ -9,7 +9,6 @@ import { useTranslation } from 'react-i18next';
 
 
 export default function BatchProcessing() {
-  const [hasAccess, setHasAccess] = useState(true)
 
   const { t } = useTranslation();
 
@@ -28,12 +27,7 @@ export default function BatchProcessing() {
           className={classes.button}
         />
         <div style={{ height: "640px" }}>
-          {hasAccess &&
             <BatchProcessingTable/>
-          }
-          {!hasAccess &&
-            <h4 float="left">{t("General_NoAccess")}</h4>
-          }
         </div>
       </Stack>
     </div>

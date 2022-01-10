@@ -1,3 +1,5 @@
+import { DetailsRow, IColumn, mergeStyleSets } from "@fluentui/react";
+
 export const TableFieldSizes = {
     TimestampFieldSize : 120,
     JobIdFieldSize : 70,
@@ -7,7 +9,7 @@ export const TableFieldSizes = {
 export const TableDateFormat = "DD.MM.YYYY HH:mm:ss";
 
 
-export function handleColumnClick = (ev: React.MouseEvent<HTMLElement>, column: IColumn) => {
+export function handleColumnClick (ev: React.MouseEvent<HTMLElement>, column: IColumn){
     const newColumns: IColumn[] = columns.slice();
     const currColumn: IColumn = newColumns.filter(currCol => column.fieldName == currCol.fieldName)[0];
     newColumns.forEach((newCol: IColumn) => {
@@ -40,7 +42,6 @@ export function handleColumnClick = (ev: React.MouseEvent<HTMLElement>, column: 
   };
 
 
-  export const refreshIcon = { iconName: 'Refresh' };
-  export const deleteIcon = { iconName: 'Delete' };
-
+ 
+  
   export const progressClass = { width: "100px" }

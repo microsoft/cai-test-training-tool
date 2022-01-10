@@ -3,32 +3,13 @@ import {
   DetailsList,
   SelectionMode,
 } from "@fluentui/react";
+import { handleColumnClick } from "../Common/TableCommon";
 
 export default function ResultsTable(props) {
   const [filteredResults, setFilteredResults] = useState([]);
   const [rows, setRows] = useState();
   const [columns, setColumns] = useState(props.columns);
 
-  const handleColumnClick = (ev: React.MouseEvent<HTMLElement>, column: IColumn) => {
-    const newColumns: IColumn[] = columns.slice();
-    const currColumn: IColumn = newColumns.filter(currCol => column.fieldName == currCol.fieldName)[0];
-    newColumns.forEach((newCol: IColumn) => {
-      if (newCol === currColumn) {
-        currColumn.isSortedDescending = !currColumn.isSortedDescending;
-        currColumn.isSorted = true;
-        console.log(currColumn.fieldName);
-      } else {
-        newCol.isSorted = false;
-        newCol.isSortedDescending = true;
-      }
-    });
-    const newRows = _copyAndSort(rows, currColumn.fieldName, currColumn.isSortedDescending);
-    setColumns(newColumns);
-    setRows(newRows)
-  };
-  const _copyAndSort = (rs: Array, key, isSortedDescending) => {
-    return rs.slice(0).sort((a, b) => ((isSortedDescending ? a[key].toString().toLowerCase() < b[key].toString().toLowerCase() : a[key].toString().toLowerCase() > b[key].toString().toLowerCase()) ? 1 : -1));
-  };
   useEffect(() => {
     setFilteredResults(props.results);
   }, [props.results]);

@@ -5,15 +5,14 @@ import {
   Icon,
   Link,
   SelectionMode,
-  DetailsRow,
   ActionButton
 } from "@fluentui/react";
-import { mergeStyleSets } from "office-ui-fabric-react/lib/Styling";
 import { getTableStorage, deleteEntity } from "../services/tableStorageService.js";
-import { hasAccessRight } from "../services/accessService.js";
 
 import { useTranslation } from 'react-i18next';
-import { deleteIcon, handleColumnClick, onRenderRow, refreshIcon, TableDateFormat, TableFieldSizes } from "../Common/TableCommon";
+import { handleColumnClick, onRenderRow, TableDateFormat, TableFieldSizes } from "../Common/TableCommon";
+import { DeploymentStatus } from "../Common/StatusEnum";
+import { deleteIcon, iconClassNames, refreshIcon } from "../styles";
 
 const moment = require("moment");
 
@@ -22,10 +21,9 @@ export default function DeployJobsTable({ knowledgebases }) {
   const { t } = useTranslation();
   const [rows, setRows] = useState([]);
   const [deploymentJobs, setDeploymentJobs] = useState([]);
-  const [hasAccess, setHasAccess] = useState(false)
 
 
-  const [columns, setColumns] = useState([
+  const [columns] = useState([
     {
       key: "Delete",
       name: "",
@@ -45,7 +43,7 @@ export default function DeployJobsTable({ knowledgebases }) {
       }
     },
     {
-      fieldName: "PartitionKey", name: "Job Id", minWidth: TableFieldSizes.JobIdFieldSize, maxWidth: TableFieldSizes.JobIdFieldSize, isResizable: true,
+      fieldName: "PartitionKey", name: t("KnowledgeBase_DeploymentList_JobIdFieldName"), minWidth: TableFieldSizes.JobIdFieldSize, maxWidth: TableFieldSizes.JobIdFieldSize, isResizable: true,
       onRender: (item) => {
         return <Link href={getPath(DeployPath.Results, { partitionKey: item.PartitionKey })}>{item.PartitionKey}</Link>
       }
@@ -60,10 +58,10 @@ export default function DeployJobsTable({ knowledgebases }) {
         return moment(item.Timestamp).format(TableDateFormat);
       },
     },
-    { fieldName: "kbId", name: "Knowledgebase", minWidth: 160, maxWidth: 170, isResizable: true },
+    { fieldName: "kbId", name: t("KnowledgeBase_DeploymentList_KnowledgeBaseFieldName"), minWidth: 160, maxWidth: 170, isResizable: true },
     {
       fieldName: "status",
-      name: "Status",
+      name: t("KnowledgeBase_DeploymentList_StatusFieldName"),
       minWidth: 150,
       maxWidth: 150,
       isMultiline: true,
@@ -72,34 +70,28 @@ export default function DeployJobsTable({ knowledgebases }) {
         var iconName = "WarningSolid";
         var className = iconClassNames.failure;
         if (item.status != undefined) {
-          if (item.status.toString().toLowerCase().includes("warten auf genehmigung")) {
+          if (item.status.toString() === DeploymentStatus.PENDING_APPROVAL) {
             iconName = "WarningSolid";
             className = iconClassNames.created;
-          } else if (
-            item.status.toString().toLowerCase().includes("erfolgreich")
-          ) {
+          } else if (item.status.toString() === DeploymentStatus.OK) {
             iconName = "SkypeCircleCheck";
             className = iconClassNames.success;
           }
           return (
             <span>
-              <Icon iconName={iconName} className={className} /> {item.status}
+              <Icon iconName={iconName} className={className} /> {t(`KnowledgeBase_DeploymentList_StatusFieldName_${item.status}`)}
             </span>
           );
         }
       },
     },
-    { fieldName: "testset", name: "Testset", minWidth: 150, maxWidth: 300, isResizable: true },
+    { fieldName: "testset", name: t("KnowledgeBase_DeploymentList_TestsetFieldName"), minWidth: 150, maxWidth: 300, isResizable: true },
     { fieldName: "result", name: t("KnowledgeBase_DeploymentList_ResultFieldName"), minWidth: 70, maxWidth: 70, isResizable: true },
     { fieldName: "comment", name: t("KnowledgeBase_DeploymentList_CommentFieldName"), minWidth: 90, maxWidth: 200, isMultiline: true, isResizable: true },
     { fieldName: "username", name: t("KnowledgeBase_DeploymentList_UsernameFieldName"), minWidth: 90, maxWidth: 300, isResizable: true },
   ]);
 
-  const iconClassNames = mergeStyleSets({
-    success: [{ color: "green" }],
-    created: [{ color: "yellow" }],
-    failure: [{ color: "red" }],
-  });
+
 
   useEffect(() => {
     if (
@@ -126,8 +118,7 @@ export default function DeployJobsTable({ knowledgebases }) {
             status: row.status,
             result: row.result,
             username: row.username,
-            comment: row.comment,
-            hasRights: hasAccess,
+            comment: row.comment
           };
         })
         .sort(function (a, b) {
@@ -137,31 +128,13 @@ export default function DeployJobsTable({ knowledgebases }) {
         });
       setRows(processedRows);
     }
-  }, [deploymentJobs, hasAccess, knowledgebases, setRows]);
+  }, [deploymentJobs, knowledgebases, setRows]);
 
-  useEffect(() => {
-    setUserAccess()
-  }, []);
 
   useEffect(() => {
     initializeScreen()
   }, []);
 
-  useEffect(() => {
-    initializeScreen()
-  }, [hasAccess]);
-
-  function setUserAccess() {
-    hasAccessRight("BMT_QNA_Deploy")
-      .then((result) => {
-        console.log(result.hasPermissions);
-        setHasAccess(result.hasPermissions);
-      })
-      .catch((error) => console.log(error));
-    console.log(hasAccess);
-  };
-
-  
 
   function initializeScreen() {
     getTableStorage("QnADeploymentJobs")

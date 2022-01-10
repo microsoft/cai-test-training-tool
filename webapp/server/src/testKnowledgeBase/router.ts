@@ -295,9 +295,6 @@ router.use(function (req, res, next) {
 });
 
 router.post("/start", function (req, res) {
-  if (!req.user.permissions.includes("BMT_QNA_Tester")) {
-    res.status(403).json({ message: "Not authorized!", status: 403 });
-  } else {
     triggerTestExecution(
       req.query.environment,
       req.query.testset,
@@ -311,7 +308,6 @@ router.post("/start", function (req, res) {
         console.log("error in test knowledge base route:", err);
         res.status(400).json({ message: err });
       });
-  }
 });
 
 export const testKnowledgeBaseRouter = router;

@@ -6,13 +6,11 @@ import {
   Link,
   Icon,
   SelectionMode,
-  DetailsRow,
   ActionButton
 } from "@fluentui/react";
-import { mergeStyleSets } from "office-ui-fabric-react/lib/Styling";
-import { hasAccessRight } from "../services/accessService.js";
 import { useTranslation } from 'react-i18next';
-import { deleteIcon, handleColumnClick, onRenderRow, TableDateFormat, TableFieldSizes } from "../Common/TableCommon.jsx";
+import { handleColumnClick, onRenderRow,  TableDateFormat, TableFieldSizes } from "../Common/TableCommon.jsx";
+import { deleteIcon, iconClassNames, refreshIcon } from "../styles.jsx";
 
 const moment = require("moment");
 
@@ -20,14 +18,8 @@ export default function TestTable({ knowledgeBases }) {
   const { t } = useTranslation();
   const [rows, setRows] = useState();
   const [jobs, setJobs] = useState([])
-  const iconClassNames = mergeStyleSets({
-    success: [{ color: "green" }],
-    created: [{ color: "yellow" }],
-    failure: [{ color: "red" }],
-  });
-  const [hasAccess, setHasAccess] = useState(false)
 
-  const [columns, setColumns] = useState([
+  const [columns] = useState([
     {
       key: "Delete",
       name: "",
@@ -98,26 +90,9 @@ export default function TestTable({ knowledgeBases }) {
   ]);
 
   useEffect(() => {
-    setUserAccess()
-  }, []);
-
-  useEffect(() => {
     initializeScreen()
   }, []);
 
-  useEffect(() => {
-    initializeScreen()
-  }, [hasAccess]);
-
-  function setUserAccess() {
-    hasAccessRight("BMT_QNA_Tester")
-      .then((result) => {
-        console.log(result.hasPermissions);
-        setHasAccess(result.hasPermissions);
-      })
-      .catch((error) => console.log(error));
-    console.log(hasAccess);
-  };
 
   function initializeScreen() {
     getTableStorage("QnABatchTestJobs")
@@ -126,8 +101,6 @@ export default function TestTable({ knowledgeBases }) {
       })
       .catch((error) => console.log("error in table storage request", error));
   }
-
-  const refreshIconProps = { iconName: 'Refresh' };
 
   useEffect(() => {
     console.log(jobs)
@@ -153,8 +126,7 @@ export default function TestTable({ knowledgeBases }) {
             status: row.status,
             result: row.result,
             username: row.username,
-            environment: row.environment,
-            hasRights: hasAccess,
+            environment: row.environment
           };
         })
         .sort(function (a, b) {
@@ -169,7 +141,7 @@ export default function TestTable({ knowledgeBases }) {
   return (
     <>
       <ActionButton
-        iconProps={refreshIconProps}
+        iconProps={refreshIcon}
         text={t("General_Refresh")}
         onClick={() => initializeScreen()}
       />
@@ -179,7 +151,7 @@ export default function TestTable({ knowledgeBases }) {
           items={rows}
           selectionMode={SelectionMode.none}
           onColumnHeaderClick={handleColumnClick}
-          onRenderRow={onRenderRowrRow}
+          onRenderRow={onRenderRow}
         ></DetailsList>
       )}
     </>

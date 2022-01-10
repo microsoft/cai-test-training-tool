@@ -5,18 +5,11 @@ const router: Router = express.Router({});
 const azure = require('azure-storage');
 
 router.get('/actions', async (req, res) => {
-    if(!req.user.permissions.includes("BMT_Settings_Reader")){
-        res.status(403).json({message: "Not authorized!", status: 403});
-      } else {
         var query = new azure.TableQuery();
         res.status(200).json(await ExecuteQuery(query));
-      }
 });
 
 router.get('/actions/baseProperties', async (req, res) => {
-    if(!req.user.permissions.includes("BMT_Settings_Reader")){
-        res.status(403).json({message: "Not authorized!", status: 403});
-      } else {
         var query = new azure.TableQuery();
         let names;
         names = await ExecuteQuery(query);
@@ -37,26 +30,18 @@ router.get('/actions/baseProperties', async (req, res) => {
         botName: settings,
         actionName: actionList,
     });
-}
 });
 
 router.get('/actions/:setting/:actionId', async (req, res) => {
-    if(!req.user.permissions.includes("BMT_Settings_Reader")){
-        res.status(403).json({message: "Not authorized!", status: 403});
-      } else {
         var setting = req.params.setting;
         var actionId = req.params.actionId;
 
         var query = new azure.TableQuery().where('PartitionKey == ? and RowKey == ?', setting, actionId);
         var result = await ExecuteQuery(query)
         res.status(200).json(result[0]);
-      }
 })
 
 router.delete('/actions/:setting/:actionId', async (req, res) => {
-    if(!req.user.permissions.includes("BMT_Settings")){
-        res.status(403).json({message: "Not authorized!", status: 403});
-      } else {
         var setting = req.params.setting;
         var actionId = req.params.actionId;
 
@@ -76,23 +61,14 @@ router.delete('/actions/:setting/:actionId', async (req, res) => {
         } else {
             res.status(400).send()
         }
-      }
 })
 
 router.post('/actions', async (req, res) => {
-    if(!req.user.permissions.includes("BMT_Settings")){
-        res.status(403).json({message: "Not authorized!", status: 403});
-      } else {
         return await UpsertAction(req, res);
-      }
 })
 
 router.put('/actions/:setting/:actionId', async (req, res) => {
-    if(!req.user.permissions.includes("BMT_Settings")){
-        res.status(403).json({message: "Not authorized!", status: 403});
-      } else {
         return await UpsertAction(req, res);
-      }
 })
 
 async function UpsertAction(req, res) {

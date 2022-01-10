@@ -3,13 +3,12 @@
 
 import path from 'path';
 
-import express, { Express, Request, Response, NextFunction, json } from 'express';
+import express, { Express, Request, Response, NextFunction } from 'express';
 import compression from 'compression';
 import morgan from 'morgan'
 import chalk from 'chalk';
 import { healthCheckRouter } from './healthCheck/router';
 import { settingRouter } from './settings/router';
-import { accessRouter } from './access/router';
 import { promisify } from 'util';
 import fs from 'fs'
 import { testKnowledgeBaseRouter } from './testKnowledgeBase/router';
@@ -33,22 +32,19 @@ if (process.env.NODE_ENV == "development") {
 let appInsights = require('applicationinsights');
 
 appInsights.setup(process.env.APPINSIGHTS_INSTRUMENTATIONKEY)
-    .setAutoDependencyCorrelation(true)
-    .setAutoCollectRequests(true)
-    .setAutoCollectPerformance(true, true)
-    .setAutoCollectExceptions(true)
-    .setAutoCollectDependencies(true)
-    .setAutoCollectConsole(true)
-    .setUseDiskRetryCaching(true)
-    .setSendLiveMetrics(false)
-    .setDistributedTracingMode(appInsights.DistributedTracingModes.AI)
-    .start();
+  .setAutoDependencyCorrelation(true)
+  .setAutoCollectRequests(true)
+  .setAutoCollectPerformance(true, true)
+  .setAutoCollectExceptions(true)
+  .setAutoCollectDependencies(true)
+  .setAutoCollectConsole(true)
+  .setUseDiskRetryCaching(true)
+  .setSendLiveMetrics(false)
+  .setDistributedTracingMode(appInsights.DistributedTracingModes.AI)
+  .start();
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const session = require('express-session');
-const qs = require('qs');
-const httpClient = require('axios').create();
-const azure = require('azure-storage');
 
 const clientDirectory = path.resolve('../../client/build');
 
@@ -63,7 +59,7 @@ var cookieParser = require('cookie-parser');
 app.engine('html', require('ejs').renderFile);
 app.use(compression());
 app.use(parser.json({ limit: '50mb' }));
-app.use(parser.urlencoded({extended: true}));
+app.use(parser.urlencoded({ extended: true }));
 app.use(morgan("dev"))
 app.use(cookieParser());
 
@@ -119,19 +115,6 @@ app.use(function (req, res, next) {
   next();
 });
 
-// only register the login route if the auth provider defines one
-//   if (login) {
-//     app.get(`${BASEURL}/api/login`, login);
-//   } else {
-//     // register the route so that client that requires_auth knows not try repeatedly
-//     app.get(`${BASEURL}/api/login`, (req, res) => {
-//       res.redirect(`${BASEURL}#error=${encodeURIComponent('NoSupport')}`);
-//     });
-//   }
-
-// always authorize all api routes, it will be a no-op if no auth provider set
-//   app.use(`${BASEURL}/api`, authorize, apiRouter);
-
 // next needs to be an arg in order for express to recognize this as the error handler
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 app.use((err: Error, req: Request, res: Response, _next: NextFunction) => {
@@ -154,98 +137,21 @@ var authenticationStrategy = new OIDCStrategy(
     responseType: "code",
     responseMode: "form_post",
     validateIssuer: true,
-    useCookieInsteadOfSession : false
+    useCookieInsteadOfSession: false
   },
   async function (iss, sub, profile, access_token, refresh_token, done) {
     if (profile == null) {
       return done(new Error("No oid found"), null);
     }
 
-    try {
-     
-
-      // var applicationToken = await httpClient.post(`https://login.microsoftonline.com/${process.env.TENANTID}/oauth2/v2.0/token`,
-      //   qs.stringify(new Object({
-      //     grant_type: "client_credentials",
-      //     client_id: process.env.CLIENTID,
-      //     client_secret: process.env.CLIENT_SECRET,
-      //     scope: "https://graph.microsoft.com/.default"
-      //   }))
-      //   , { headers: { "Content-Type": "application/x-www-form-urlencoded;chartset=UTF-8" } });
-
-
-      // var tableSvc = azure.createTableService(process.env.SA_CONNECTION_STRING);
-      // var secGroups : any = await new Promise((resolve) => tableSvc.createTableIfNotExists("SecurityOptions", function (error, result, response) {
-      //   if (!error) {
-      //     // Table exists or created
-      //     let query = new azure.TableQuery()
-      //     let queryResults = new Array();
-
-      //     var nextContinuationToken = null;
-      //     return tableSvc.queryEntities("SecurityOptions",
-      //       query,
-      //       nextContinuationToken,
-      //       function (error, results) {
-      //         if (error) throw error;
-
-      //         results.entries.forEach(entity => {
-      //           queryResults.push(new Object({ groupId: entity.PartitionKey._, permissions: JSON.parse(entity.RowKey._), isBotManager: entity.isBotManager._ }))
-      //         });
-
-      //         if (results.continuationToken) {
-      //           nextContinuationToken = results.continuationToken;
-      //         }
-
-      //         return resolve(queryResults);
-      //       })
-      //   }
-      // }));
-
-      // var groupIds = secGroups.map(x => x.groupId);
-
-      // var groupsToCheck = groupIds.splice(0, 20);
-      var permissions = new Array();
-      // while (groupsToCheck != undefined && groupsToCheck.length > 0) {
-      //   var response = await httpClient.post(`https://graph.microsoft.com/v1.0/users/${profile.oid}/checkMemberGroups`, { groupIds: groupsToCheck }, { headers: { "Authorization": `Bearer ${applicationToken.data.access_token}` } });
-
-      //   if (response.status == 200 && response.data != null && response.data.value != null) {
-
-
-      //     response.data.value.forEach(groupId => {
-      //       var secGroup = secGroups.find(x => x.groupId == groupId);
-      //       if (secGroup != undefined) {
-      //         secGroup.permissions.forEach(permission => {
-      //           if (!permissions.includes(permission)) {
-      //             permissions.push(permission);
-      //           }
-
-      //           if (secGroup.isBotManager) {
-      //             if (!permissions.includes("botManager")) {
-      //               permissions.push("botManager");
-      //             }
-      //           }
-      //         });
-      //       }
-      //     });
-      //   }
-      //   groupsToCheck = groupIds.splice(0, 20);
-      // }
-
-      if (process.env.NODE_ENV == 'development') {
-        permissions.push("BMT_BOT_CAM_Reader",  "BMT_Settings_Reader")
-      }
-        return done(null, {
-          id: profile.id,
-          profile: profile,
-          access_token: access_token,
-          refresh_token: refresh_token,
-          iss: iss,
-          sub: sub,
-          permissions: permissions
-        });
-    } catch (err) {
-      console.error(err)
-    }
+    return done(null, {
+      id: profile.id,
+      profile: profile,
+      access_token: access_token,
+      refresh_token: refresh_token,
+      iss: iss,
+      sub: sub,
+    });
   });
 
 app.use(session({ secret: "anything" }))
@@ -282,11 +188,11 @@ app.post(
 
 
 
-  function ensureAuthenticated(req, res, next) {
-    if (req.isAuthenticated()) { return next(); }
-    res.redirect('/login');
-  }; 
-  
+function ensureAuthenticated(req, res, next) {
+  if (req.isAuthenticated()) { return next(); }
+  res.redirect('/login');
+};
+
 app.use(`${BASEURL}/hc`, healthCheckRouter)
 
 app.use(`${BASEURL}/api/testknowledgebase`, ensureAuthenticated, testKnowledgeBaseRouter);
@@ -304,8 +210,6 @@ app.use(`${BASEURL}/api/file`, ensureAuthenticated, fileRouter);
 app.use(`${BASEURL}/api/speech`, ensureAuthenticated, speechServiceRouter)
 
 app.use(`${BASEURL}/api/settings`, ensureAuthenticated, settingRouter)
-
-app.use(`${BASEURL}/api/access`, ensureAuthenticated, accessRouter)
 
 app.get('/manifest.json', async (req, res) => {
   var content = await readFile(path.resolve(clientDirectory, 'manifest.json'), "utf-8")

@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import UploadButtons from "../Common/UploadFile.jsx";
 import { useHistory } from "react-router-dom";
 import { AudioGenerationPath } from "../services/pathService.js";
-import { generateRunId } from "../services/utils";
 import { Dropdown, PrimaryButton, TextField } from "@fluentui/react";
 import { mergeStyles, Stack } from "office-ui-fabric-react";
 import { classes } from "../styles.jsx";
@@ -12,15 +11,13 @@ const dropdownStyles = mergeStyles({ width: "300px" });
 
 export default function NewAudioGenerationScreen() {
   const history = useHistory();
-  const [knowledgeBase, setKnowledgeBase] = useState(0);
-  const [knowdledgeBases, setKnowledgeBases] = useState([]);
+  const [knowdledgeBases] = useState([]);
   const [testsetName, setTestsetName] = useState("");
   const [comment, setComment] = useState("");
   const [file, setFile] = useState(null);
   const [isFileValid, setIsFileValid] = useState(true);
   const [, setUploadedBlobs] = useState([]);
   const [, setProgressing] = useState(false);
-  const [hasAccess, setHasAccess] = useState(false);
 
   const handleFileUpload = async () => {
     setProgressing(true);
@@ -36,10 +33,8 @@ export default function NewAudioGenerationScreen() {
     setProgressing(false);
   };
 
-  //TODO: implement run new test event
   const handleRun = () => {
     handleFileUpload();
-    const runId = generateRunId();
     history.push(AudioGenerationPath.InitialScreen);
   };
 
@@ -83,14 +78,11 @@ export default function NewAudioGenerationScreen() {
             margin="50px"
             onClick={handleRun}
             disabled={
-              file === null || !isFileValid || testsetName === "" || !hasAccess
+              file === null || !isFileValid || testsetName === ""
             }
           />
         </Stack>
       </div>
-      <span style={{color: 'red'}}>
-        {hasAccess ? "" : "Fehlende Rechte, um Deployment zu starten."}
-      </span>
     </div>
   );
 }

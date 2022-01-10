@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import AudioGenerationTable from "./AudioGenerationTable.jsx";
 
 import { Stack, PrimaryButton } from "office-ui-fabric-react";
@@ -9,8 +9,6 @@ import { useTranslation } from 'react-i18next';
 
 
 export default function AudioGeneration() {
-  const [hasAccess, setHasAccess] = useState(true)
-
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -28,12 +26,7 @@ export default function AudioGeneration() {
           className={classes.button}
         />
         <div style={{ height: "640px" }}>
-          {hasAccess &&
             <AudioGenerationTable/>
-          }
-          {!hasAccess &&
-            <h4 float="left">{t("General_NoAccess")}</h4>
-          }
         </div>
       </Stack>
     </div>
