@@ -1,0 +1,115 @@
+﻿@model Daimler.Speech.Web.Models.BatchJobResults
+
+@{
+    ViewData["Title"] = "BatchTestResults";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script type="text/javascript" src="https://oss.sheetjs.com/sheetjs/xlsx.full.min.js"></script>
+
+<h1>@Model.Job.JobName</h1>
+<label>Model</label>: <label>@(string.IsNullOrEmpty(Model.Job.SpeechLanguageModelName) ? string.IsNullOrEmpty(Model.Job.SpeechLanguageModelId) ? "None" : Model.Job.SpeechLanguageModelId : Model.Job.SpeechLanguageModelName) </label>
+<style>
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    table {
+        font-size: 1em;
+    }
+
+    .ui-draggable, .ui-droppable {
+        background-position: top;
+    }
+</style>
+
+<div>
+    <hr />
+
+    <dl class="row"></dl>
+    <div class="form-group">
+        <label>Word Error Rate (WER)</label>: <label>@Model.Job.WER</label>
+    </div>
+    <div class="form-group">
+        <label>Word Recognition Rate (WRR)</label>: <label>@Model.Job.WRR</label>
+    </div>
+    <div class="form-group">
+        <label>Sentence Error Rate (SER)</label>: <label>@Model.Job.SER</label>
+    </div>
+    <div class="form-group">
+        <label>LPR Accuracy</label>: <label>@Model.Job.LPR</label>
+    </div>
+    <div style="align-items:center" align="right">
+        <button id="btnDownload" type="button"
+                class="btn btn-sm btn-default pull-left col-lg-2 button button4">
+            Download
+        </button>
+    </div>
+    <div id="tabs">
+        <ul>
+            <li><a href="#tabs-1">Recognition Results</a></li>
+            <li><a href="#tabs-2">License Plate Results</a></li>
+        </ul>
+        <div id="tabs-1">
+            <div id="jobDetails-table"></div>
+        </div>
+        <div id="tabs-2">
+            <div id="LPDetails-table"></div>
+        </div>
+    </div>
+
+
+</div>
+<div>
+    <a asp-action="BatchTest">Back to List</a>
+</div>
+
+@section scripts{
+    <script>
+
+        var tableData = JSON.parse('@Html.Raw(Json.Serialize(Model.JobDetails))');
+        //create Tabulator on DOM element with id "example-table"
+        var table = new Tabulator("#jobDetails-table", {
+            height: 400, // set height of table (in CSS or here), this enables the Virtual DOM and improves render speed dramatically (can be any valid css height value)
+            layout: "fitColumns", //fit columns to width of table (optional)
+            initialSort: [{ column: "rowKey._", dir: "desc" }],
+            data: tableData,
+            columns: [ //Define Table Columns
+                { title: "File Name", field: "rowKey", width: 150 },
+                { title: "Reference", field: "transcript", width: 250, formatter: "textarea" },
+                { title: "Recognized", field: "recognized", width: 250, formatter:"textarea"},
+                { title: "Processed", field: "validationRecognized", width: 250, formatter:"textarea" },
+                { title: "Score", field: "score", width: 80 },
+                { title: "Status", field: "status", width: 100, }
+            ]
+        });
+
+        var lpTableData = JSON.parse('@Html.Raw(Json.Serialize(Model.LPDetails))');
+        //create Tabulator on DOM element with id "example-table"
+        var lpTable = new Tabulator("#LPDetails-table", {
+            height: 400, // set height of table (in CSS or here), this enables the Virtual DOM and improves render speed dramatically (can be any valid css height value)
+            layout: "fitColumns", //fit columns to width of table (optional)
+            initialSort: [{ column: "rowKey._", dir: "desc" }],
+            data: lpTableData,
+            columns: [ //Define Table Columns
+                { title: "File Name", field: "rowKey", width: 150 },
+                { title: "Reference", field: "lpTranscript", width: 180 },
+                { title: "Recognized", field: "recognized", width: 240 },
+                { title: "Processed", field: "validationLPRRecognized", width: 180  },
+                { title: "LUIS Entities", field: "luisEntities", width: 180  },
+                { title: "Score", field: "lprScore", width: 80 }
+            ]
+        });
+
+
+        $(document).ready(function () {
+            $("#tabs").tabs();
+        });
+
+        //trigger download of data.xlsx file
+        $("#btnDownload").click(function () {
+            table.download("xlsx", "@Model.Job.JobName\.xlsx", { sheetName: "Recognition Results" });
+            lpTable.download("xlsx", "@Model.Job.JobName\_LP.xlsx", { sheetName: "License Plate Results" })
+        });
+
+    </script>
+}

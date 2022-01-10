@@ -87,23 +87,15 @@ router.get("/:tableName/:partitionKey/:rowKey", async function (req, res) {
 });
 
 router.post("/job", async function (req, res) {
-  if(!req.user.permissions.includes("BMT_QNA_Tester")){
-    res.status(403).json({message: "Not authorized!", status: 403});
-  } else {
   var userName = req.user.profile.displayName;
   await createJob(req.query.tableName, req.body, userName)
   res.status(200).json({ message: "job created successfully" });
-  }
 });
 
 
 router.delete("/:tableName/:partitionKey/:rowKey", async function (req, res) {
-  if(!req.user.permissions.includes("BMT_QNA_Tester")){
-    res.status(403).json({message: "Not authorized!", status: 403});
-  } else {
   var result = await deleteEntity(req.params.tableName, req.params.partitionKey, req.params.rowKey);
   res.status(result ? 200 : 400);
-  }
 });
 
 

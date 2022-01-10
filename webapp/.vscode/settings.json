@@ -1,5 +1,11 @@
 {
     "git.ignoreLimitWarning": true,
     "appService.defaultWebAppToDeploy": "/subscriptions/7bbe39e6-ad25-4542-8670-bc098fca6675/resourceGroups/rg-goblabla-botmanagement-dev/providers/Microsoft.Web/sites/app-goblabla-botmanagement-1-dev",
-    "appService.deploySubpath": "."
+    "appService.deploySubpath": ".",
+    "appService.zipIgnorePattern": [
+        "node_modules{,/**}",
+        "client/node_modules{,/**}",
+        "server/node_modules{,/**}",
+        ".vscode{,/**}"
+    ]
 }

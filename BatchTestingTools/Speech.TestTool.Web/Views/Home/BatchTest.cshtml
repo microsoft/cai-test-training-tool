@@ -1,0 +1,497 @@
+﻿@model Daimler.Speech.Web.Models.BatchJobPageData
+@{
+    ViewData["Title"] = "BatchTest";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link rel="stylesheet" href="~/lib/tabulator/dist/css/tabulator.css" />
+<script type="text/javascript" src="~/lib/tabulator/dist/js/tabulator.js"></script>
+<script type="text/javascript" src="~/js/azure-storage.blob.js"></script>
+<script type="text/javascript" src="~/js/azure-storage.queue.js"></script>
+<script type="text/javascript" src="~/js/azure-storage.table.js"></script>
+<script type="text/javascript" src="~/js/moments.js"></script>
+<script type="text/javascript" src="~/lib/adal/adal.min.js"></script>
+
+<h1>BatchTest</h1>
+
+<div style="align-items:center">
+    <button id="btnShowModal" type="button"
+            class="btn btn-sm btn-default pull-left col-lg-2 button button4">
+        + Add new batch
+    </button>
+</div>
+
+<div id="jobs-table"></div>
+
+<div class="modal fade" tabindex="-1" id="loginModal"
+     data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    ×
+                </button>
+                <h4 class="modal-title">New Batch Job</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <div>Audio Files <label style="color:red">*</label> :</div>
+                        <div style="width:500px">
+                            <input name="voicesfile" id="voicesfile" onclick="displayProcess(0)" type="file" style="width:500px">
+                        </div>
+                        <small id="subscriptionHelp" class="form-text text-muted">Zip file includes audio files in the root level (Up to 1000 files)</small>
+                    </div>
+                    <div class="form-group">
+                        <div>Transcript <label style="color:red">*</label> :</div>
+                        <div>
+                            <input name="transcriptfile" id="transcriptfile" type="file" style="width:500px">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div>License Plate Reference:</div>
+                        <div>
+                            <input name="lpfile" id="lpfile" type="file" style="width:500px">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div>
+                            Job name <label style="color:red">*</label> :
+                        </div>
+                        <div>
+                            <input name="jobName" id="jobName" type="text" style="width:500px">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div>
+                            Model Type:
+                        </div>
+                        <div>
+                            <select name="modelType" id="modelType" onchange="handleModelTypeChange()" style="width:500px">
+                                <option>None</option>
+                                <option>Custom</option>
+                                <option>Base</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div>
+                            Model:
+                        </div>
+                        <div>
+                            <select name="ddlModelId" disabled="true" id="ddlModelId" style="width:500px"></select>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="progress">
+                    <div class="progress-bar" id="progress" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">0.0%</div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-xs btn-primary" id="upload-button" onclick="uploadBlobByStream(false)">Save Batch Job</button>
+                <button type="button" id="btnHideModal" class="btn btn-primary button button4">
+                    Hide
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+
+        //define some sample data
+        var tabledata = [
+        ];
+
+        var FileNameGuid;
+
+        //create Tabulator on DOM element with id "example-table"
+        var table = new Tabulator("#jobs-table", {
+            height:"600",
+            layout: "fitColumns", //fit columns to width of table (optional)
+            initialSort: [{ column: "Timestamp._", dir: "desc" }],
+            columns: [ //Define Table Columns
+                { headerSort: false, field: "delete",tooltip:"Delete", formatter: "buttonCross", width: 30, cellClick: function (e, cell) { if (confirm("Are you sure you want to delete this test")) { HideBatchJob(cell.getRow().getData().RowKey._) } } },
+                {
+                    headerSort: false, tooltip:"Restart" ,width: 30, formatter: function (cell, formatterParams, onRendered) {
+                        //cell - the cell component
+                        //formatterParams - parameters set for the column
+                        //onRendered - function to call when the formatter has been rendered
+                        if (cell.getRow().getData().Status._.includes("Error") && !cell.getRow().getData().Status._.includes("Done")) {
+                            return "<img src='/images/refresh2.png' alt='Restart Test Job' onclick=RestartJob('" + encodeURI(cell.getRow().getData().RowKey._)+"') />"
+                        }
+                        else {
+                            return ""
+                        }
+
+                    },
+                },
+                {
+                    title: "Name", field: "name", formatter: function (cell, formatterParams, onRendered) {
+                        //cell - the cell component
+                        //formatterParams - parameters set for the column
+                        //onRendered - function to call when the formatter has been rendered
+                        if (cell.getRow().getData().Status._.includes("Done")) {
+                            return "<a href=@Url.Action("BatchTestResults", "Home")?id=" + encodeURI(cell.getRow().getData().RowKey._) + ">" + cell.getRow().getData().JobName._ +"</a>";
+                        }
+                        else {
+                            return cell.getRow().getData().JobName._
+                        }
+
+                    },
+                },
+                { title: "Last Update Date", field: "Timestamp._", sorter: "date", width: 200 },
+                { title: "WER", field: "WER._" },
+                { title: "WRR", field: "WRR._" },
+                { title: "SER", field: "SER._" },
+                { title: "LPR Accuracy", field: "LPR._" },
+                { title: "Status", field: "Status._",  formatter: "textarea"},
+                {
+                    title: "Completion %", field: "CompletionPercentage._", align: "left", formatter: "progress", formatterParams: {
+                        legend: true,
+                        legendColor: "#000000",
+                        legendAlign: "center",
+                    } }
+            ]
+        });
+
+        var blobUri = 'https://' + '@Model.StorageInfo.StorageAccountName' + '.blob.core.windows.net';
+        var blobService = AzureStorage.Blob.createBlobServiceWithSas(blobUri, '@Html.Raw(@Model.StorageInfo.StorageSAS)');
+        var container = 'voices';
+
+        $(document).ready(function () {
+
+        });
+
+        function displayProcess(process) {
+            document.getElementById('progress').style.width = process + '%';
+            document.getElementById('progress').innerHTML = process + '%';
+        }
+
+        function GetJobsData() {
+
+            var tableUri = 'https://' + '@Model.StorageInfo.StorageAccountName' + '.table.core.windows.net';
+            var tableService = AzureStorage.Table.createTableServiceWithSas(tableUri, '@Html.Raw(@Model.StorageInfo.StorageSAS)');
+
+            var tableQuery = new AzureStorage.Table.TableQuery().where('not hide', true);
+            tableService.queryEntities('BatchJobs', tableQuery, null, function (error, result) {
+                if (error) {
+                    // Query entities error
+                } else {
+                    tabledata = result.entries;
+                    table.replaceData(tabledata);
+                }
+            });
+
+
+        }
+
+        function FillModelsDDL() {
+
+            var baseModels = JSON.parse('@Html.Raw(Json.Serialize(Model.BaseModels))');
+
+            var ddlbaseModels = $("#baseModelId");
+
+            var noneOption = $("<option />");
+            noneOption.html("None");
+            noneOption.val("None");
+            ddlbaseModels.append(noneOption);
+
+            $(baseModels).each(function () {
+                var option = $("<option />");
+                option.html(this.displayName);
+                option.val(this.self);
+                //Add the Option element to DropDownList.
+                ddlbaseModels.append(option);
+            });
+
+
+
+        }
+
+        function uploadBlobByStream(checkMD5) {
+
+            FileNameGuid= generateUUID();
+            var files = document.getElementById('voicesfile').files;
+            var transcriptFile = document.getElementById('transcriptfile').files;
+            var lpFile = document.getElementById('lpfile').files;
+            var JobName = $('#jobName').val();
+
+            if (!files.length) {
+                alert('Please select a file!');
+                return;
+            }
+
+            if (!transcriptFile.length) {
+                alert('Please select a transcript file!');
+                return;
+            }
+            if (!JobName) {
+                alert('Please enter Job Name!');
+                return;
+            }
+            var file = files[0];
+
+            var transcriptFile = transcriptFile[0];
+
+            var lpFile = lpFile[0];
+
+            if (!blobService)
+                return;
+
+            var btn = document.getElementById('upload-button');
+            btn.disabled = true;
+            btn.innerHTML = 'Uploading';
+
+
+
+            // Make a smaller block size when uploading small blobs
+            var blockSize = file.size > 1024 * 1024 * 32 ? 1024 * 1024 * 4 : 1024 * 512;
+            var transcriptBlockSize = transcriptFile.size > 1024 * 1024 * 32 ? 1024 * 1024 * 4 : 1024 * 512;
+
+            var lpBlockSize = lpFile.size > 1024 * 1024 * 32 ? 1024 * 1024 * 4 : 1024 * 512;
+            var options = {
+                storeBlobContentMD5: checkMD5,
+                blockSize: blockSize
+            };
+
+            var transcriptOptions = {
+                storeBlobContentMD5: checkMD5,
+                blockSize: transcriptBlockSize
+            };
+
+            var lpOptions = {
+                storeBlobContentMD5: checkMD5,
+                blockSize: lpBlockSize
+            };
+            var uploadAudio = false;
+
+            blobService.singleBlobPutThresholdInBytes = blockSize;
+            var LanguageModelId = $('#ddlModelId').val();
+            var LanguageModelName = $('#ddlModelId').find('option:selected').text();
+            var finishedOrError = false;
+            var speedSummary = blobService.createBlockBlobFromBrowserFile(container, JobName + "-" + FileNameGuid + "/" + file.name, file, options, function (error, result, response) {
+                finishedOrError = true;
+                btn.disabled = false;
+                btn.innerHTML = 'Save Batch Job';
+                if (error) {
+                    alert('Upload failed, open browser console for more detailed info.');
+                    console.log(error);
+                    displayProcess(0);
+                } else {
+                    displayProcess(100);
+                    setTimeout(function () { // Prevent alert from stopping UI progress update
+                        SaveSpeechJob(JobName, file.name, transcriptFile.name, LanguageModelName, "", LanguageModelId, "", lpFile.name, FileNameGuid);
+                        alert("Files are uploaded successfully");
+                        $('#voicesfile').val("");
+                        $('#transcriptfile').val("");
+                        $('#lpfile').val('');
+                        $('#jobName').val('');
+
+                        var ddlbaseModels = $("#baseModelId");
+                        var ddllanguageModels = $("#languageModelId");
+                        var ddlAcousticModels = $("#acousticModelId");
+
+                        ddlAcousticModels.empty();
+                        ddllanguageModels.empty();
+                        ddlbaseModels.prop("selectedIndex", 0);
+
+                        ddlAcousticModels.prop("disabled", "disabled");
+                        ddllanguageModels.prop("disabled", "disabled");
+
+                        GetJobsData();
+                    }, 1000);
+                }
+            });
+
+
+            var speedSummaryTranscript = blobService.createBlockBlobFromBrowserFile(container, JobName + "-" + FileNameGuid + "/" + transcriptFile.name, transcriptFile, transcriptOptions, function (error, result, response) {
+                finishedOrError = true;
+                btn.disabled = false;
+                btn.innerHTML = 'Save Batch Job';
+                if (error) {
+                    alert('Upload failed, open browser console for more detailed info.');
+                    console.log(error);
+                    displayProcess(0);
+                } else {
+                    displayProcess(100);
+                }
+            });
+
+            if (lpFile) {
+                var speedSummaryLP = blobService.createBlockBlobFromBrowserFile(container, JobName + "-" + FileNameGuid + "/" + lpFile.name, lpFile, lpOptions, function (error, result, response) {
+                    finishedOrError = true;
+                    btn.disabled = false;
+                    btn.innerHTML = 'Save Batch Job';
+                    if (error) {
+                        alert('Upload failed, open browser console for more detailed info.');
+                        console.log(error);
+                        displayProcess(0);
+                    } else {
+                        displayProcess(100);
+                        setTimeout(function () { // Prevent alert from stopping UI progress update
+                        }, 1000);
+                    }
+                });
+            }
+
+            function generateUUID() { // Public Domain/MIT
+                var d = new Date().getTime();
+                if (typeof performance !== 'undefined' && typeof performance.now === 'function') {
+                    d += performance.now(); //use high-precision timer if available
+                }
+                return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+                    var r = (d + Math.random() * 16) % 16 | 0;
+                    d = Math.floor(d / 16);
+                    return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+                });
+            }
+
+
+
+            speedSummaryTranscript.on('progress', function () {
+                var process = speedSummaryTranscript.getCompletePercent();
+                displayProcess(process);
+            });
+
+            speedSummaryLP.on('progress', function () {
+                var process = speedSummaryLP.getCompletePercent();
+                displayProcess(process);
+            });
+
+
+            speedSummary.on('progress', function () {
+                var process = speedSummary.getCompletePercent();
+                displayProcess(process);
+            });
+        }
+
+        function HideBatchJob(JobId) {
+            $.ajax({
+                type: "GET",
+                url: "/api/speech/HideJob?jobId=" + JobId ,
+                async: false,
+                headers: {
+                    'Authorization': 'Bearer ' + window.accessToken
+                },
+                success: function (res) {
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    console.error(xhr.status + thrownError);
+                }
+            });
+
+            GetJobsData();
+        }
+
+        function RestartJob(JobId) {
+            if (confirm("Are you sure you want to Restart this test")) {
+                $.ajax({
+                    type: "GET",
+                    url: "/api/speech/RestartJob?jobId=" + JobId,
+                    async: false,
+                    headers: {
+                        'Authorization': 'Bearer ' + window.accessToken
+                    },
+                    success: function (res) {
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        console.error(xhr.status + thrownError);
+                    }
+                });
+
+                GetJobsData();
+            }
+        }
+
+        function SaveSpeechJob(jobName, fileName, transcriptFileName, languageModelName, AcousticModelName, LanguageModelId, AcousticModelId ,lpRefernceFilename,FileNameGuid) {
+            $.ajax({
+                type: "GET",
+                url: "/api/speech/SaveJob?jobName=" + jobName + "&fileNameGuid=" + FileNameGuid + "&fileName=" + encodeURIComponent(fileName) + "&transcriptFileName=" + encodeURIComponent(transcriptFileName) + "&languageModelName=" + languageModelName + "&AcousticModelName=" + AcousticModelName + "&LanguageModelId=" + LanguageModelId + "&AcousticModelId=" + AcousticModelId + "&LPReference=" + encodeURIComponent(lpRefernceFilename),
+                async: false,
+                headers: {
+                    'Authorization': 'Bearer ' + window.accessToken
+                },
+                success: function (res) {
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    console.error(xhr.status + thrownError);
+                }
+            });
+        };
+
+        function handleModelTypeChange() {
+
+
+
+            var ddlModelType = $("#modelType");
+            var ddlModelId = $("#ddlModelId");
+
+
+            if (ddlModelType.val() == "Custom") {
+
+                ddlModelId.empty();
+                var allModels = JSON.parse('@Html.Raw(Json.Serialize(Model.AllModels))');
+
+                $(allModels).each(function () {
+                    var option = $("<option />");
+                    option.html(this.displayName);
+                    option.val(this.self);
+                    //Add the Option element to DropDownList.
+                    ddlModelId.append(option);
+                });
+
+                ddlModelId.prop("disabled", "");
+            }
+            else if (ddlModelType.val() == "Base") {
+                ddlModelId.empty();
+                var baseModels = JSON.parse('@Html.Raw(Json.Serialize(Model.BaseModels))');
+
+                $(baseModels).each(function () {
+                    var option = $("<option />");
+                    option.html(this.displayName);
+                    option.val(this.self);
+                    //Add the Option element to DropDownList.
+                    ddlModelId.append(option);
+                });
+                ddlModelId.prop("disabled", "");
+            }
+            else {
+                ddlModelId.empty();
+
+                ddlModelId.prop("disabled", "disabled");
+            }
+
+
+        }
+
+        function FillData() {
+
+
+            //window.accessToken = userProfile.accessToken;
+            $("#btnShowModal").click(function () {
+                $("#loginModal").modal('show');
+            });
+
+            $("#btnHideModal").click(function () {
+                displayProcess(0);
+                $("#loginModal").modal('hide');
+            });
+
+            GetJobsData();
+            FillModelsDDL();
+
+            window.setInterval(function () {
+                /// call your function here
+                GetJobsData();
+            }, 10000);
+
+        }
+    </script>
+    <script type="text/javascript" src="~/lib/adal/App.js"></script>
+    }
+
+
+

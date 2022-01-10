@@ -3,7 +3,7 @@ import Resulttable from "./TestResultTable.jsx";
 import { getTableStorage, getEntityPartition } from "../services/tableStorageService.js";
 import { useParams } from "react-router-dom";
 import { ActionButton, Stack, Text } from "office-ui-fabric-react";
-import { classes } from "./../styles";
+import { classes, downloadIcon, refreshIcon } from "./../styles";
 import { useTranslation } from 'react-i18next';
 
 export default function Result() {
@@ -24,9 +24,6 @@ export default function Result() {
     InitializeScreen();
   }, []);
 
-  const refreshIconProps = { iconName: 'Refresh' };
-  const downloadIconProps = { iconName: 'Download' };
-  
   return (
     <>
       <div className={classes.root}>
@@ -39,12 +36,12 @@ export default function Result() {
           </div>
           <div style={{ height: "450px" }}>
             <ActionButton
-              iconProps={refreshIconProps}
+              iconProps={refreshIcon}
               text={t("General_Refresh")}
               onClick={() => InitializeScreen()}
             />
             <ActionButton
-              iconProps={downloadIconProps}
+              iconProps={downloadIcon}
               text={t("KnowledgeBase_TestDetail_DownloadTestSet")}
               href={`/api/file?fileName=${testsetLink}&container=qnatestcasefiles`}
             />

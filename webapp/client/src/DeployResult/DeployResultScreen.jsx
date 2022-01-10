@@ -2,21 +2,19 @@ import React, { useEffect, useState } from "react";
 import Resulttable from "./DeployResultTable.jsx";
 import { useParams } from "react-router-dom";
 import { getEntityPartition } from "../services/tableStorageService.js";
-import { classes } from "../styles"
+import { classes, refreshIcon } from "../styles"
 import { ActionButton, Stack, Text } from "office-ui-fabric-react";
 import { useTranslation } from 'react-i18next';
 
 export default function DeployResult() {
   const { partitionKey } = useParams();
   const [testResults, setTestResults] = useState([]);
-  const [testMetadata, setTestMetadata] = useState(undefined);
   const [comment, setComment] = useState('');
   const { t } = useTranslation();
 
   useEffect(() => {
     getEntityPartition("QnADeploymentJobs", partitionKey)
       .then((result) => {
-        setTestMetadata(result[0]);
         setComment(result[0].comment)
       })
       .catch((error) => console.log(error));
@@ -34,8 +32,6 @@ export default function DeployResult() {
       });
   }
 
-  const refreshIconProps = { iconName: 'Refresh' };
-
   return (
     <>
       <div className={classes.root}>
@@ -48,7 +44,7 @@ export default function DeployResult() {
           </div>
           <div style={{ height: "600px" }}>
           <ActionButton
-              iconProps={refreshIconProps}
+              iconProps={refreshIcon}
               text={t("General_Refresh")}
               onClick={() => InitializeScreen()}
             />

@@ -7,12 +7,12 @@ import { generateRunId } from "../services/utils";
 import { createJob } from "../services/tableStorageService.js";
 import { PrimaryButton, TextField } from "@fluentui/react";
 import { Dropdown } from "office-ui-fabric-react/lib/Dropdown";
-import { uploadFileToBlob } from "../services/fileUploadService.js";
 import triggerTestExecution from "../services/testFunctionService.js";
 import { getAllActions as getAllSettings } from "../services/settingService";
 import { hasAccessRight } from "../services/accessService";
 import { mergeStyles, Stack } from 'office-ui-fabric-react';
 import { classes } from "../styles"
+import { uploadFilesToBlob } from "../services/fileUploadService.js";
 
 export default function NewTest() {
   const history = useHistory();
@@ -79,7 +79,9 @@ export default function NewTest() {
 
   const handleFileUpload = async () => {
     setProgressing(true);
-    const uploadedBlobs = await uploadFileToBlob(file).then(() => {
+    let files = []
+    files.push(file)
+    const uploadedBlobs = await uploadFilesToBlob(files).then(() => {
       setTestsetName(file.name);
     });
     setUploadedBlobs(uploadedBlobs);
@@ -105,7 +107,7 @@ export default function NewTest() {
       testset: testsetName,
       username: "username",
       environment: environment + "",
-      status: "Angefordert",
+      status: "INPROGRESS",
       kbId: knowledgebase + "",
       comment: comment,
     };

@@ -13,7 +13,10 @@ export const openIcon: IIconProps = { iconName: 'OpenInNewWindow' };
 export const deleteIcon: IIconProps = { iconName: 'Delete' };
 export const completeIcon: IIconProps = { iconName: 'CompletedSolid' };
 export const cancelIcon: IIconProps = { iconName: 'Cancel' };
-export const editIcon = { iconName: 'Edit' };
+export const saveIcon: IIconProps = { iconName: "Save" };
+export const editIcon: IIconProps = { iconName: 'Edit' };
+export const refreshIcon: IIconProps = { iconName: 'Refresh' };
+export const downloadIcon: IIconProps = { iconName: 'Download' };
 
 export const stackTokens = { childrenGap: '5%' };
 export const modalStyles = mergeStyleSets({
@@ -127,3 +130,9 @@ export const dialogListStyle = css`
 export const homeButtonStyle ={
   width:"300px"
 }
+
+export const iconClassNames = mergeStyleSets({
+  success: [{ color: "green" }],
+  created: [{ color: "yellow" }],
+  failure: [{ color: "red" }],
+});

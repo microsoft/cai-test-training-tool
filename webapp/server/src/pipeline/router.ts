@@ -94,9 +94,6 @@ router.use(function (req, res, next) {
 });
 
 router.post("/startbottest", function (req, res) {
-  if(!req.user.permissions.includes("BMT_BOT_Tester")){
-    res.status(403).json({message: "Not authorized!", status: 403});
-  } else {
     var userName = req.user.profile.displayName;
     let buildParameters = req.body.buildParameters;
 
@@ -107,13 +104,9 @@ router.post("/startbottest", function (req, res) {
         console.log("error starting the build: ", err);
         res.status(400).json({ message: err });
       });
-  }
 });
 
 router.post("/start", function (req, res) {
-  if(!req.user.permissions.includes("BMT_QNA_Deploy")){
-    res.status(403).json({message: "Not authorized!", status: 403});
-  } else {
     startReleasePipeline(
       req.query.partitionKey,
       req.query.kbId,
@@ -127,7 +120,6 @@ router.post("/start", function (req, res) {
         console.log("error starting the release pipeline: ", err);
         res.status(400).json({ message: err });
       });
-    }
 });
 
 export const pipelineRouter = router;

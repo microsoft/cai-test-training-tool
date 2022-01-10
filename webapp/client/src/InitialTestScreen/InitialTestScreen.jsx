@@ -10,7 +10,6 @@ export default function InitialTestScreen() {
   const [knowdledgeBasesUAT, setKnowledgeBasesUAT] = useState([]);
 
   const [loadingData, setLoadingData] = useState(true)
-  const [hasAccess, setHasAccess] = useState(true)
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -23,13 +22,10 @@ export default function InitialTestScreen() {
         console.log(error);
         if (error.response.status == 403) {
           setLoadingData(false);
-          setHasAccess(false);
       }
       });
   }, []);
 
-
-  const refreshIconProps = { iconName: 'Refresh' };
 
   return (
     <div className={classes.root}>
@@ -45,11 +41,8 @@ export default function InitialTestScreen() {
         <div style={{ height: "640px" }}>
         {loadingData &&
                 <h4 float="left">{t("General_LoadingData")}</h4>}
-          {!loadingData && hasAccess &&
+          {!loadingData &&
           <TestTable knowledgeBases={knowdledgeBasesUAT} />
-        }
-        {!loadingData && !hasAccess &&
-            <h4 float="left">{t("General_NoAccess")}</h4>
         }
         </div>
       </Stack>

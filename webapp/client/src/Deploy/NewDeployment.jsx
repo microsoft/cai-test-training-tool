@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from "react";
-import UploadButtons from "./UploadFile.jsx";
+import UploadButtons from "../Common/UploadFile.jsx";
 import getKnowledgeBases from "../services/knowledgeBaseService.js";
 import { useHistory } from "react-router-dom";
 import { DeployPath } from "../services/pathService.js";
 import { generateRunId } from "../services/utils";
 import { createJob } from "../services/tableStorageService.js";
 import { startReleasePipeline } from "../services/startReleasePipelineService";
-import { hasAccessRight } from "../services/accessService";
 import { Dropdown, PrimaryButton, TextField } from "@fluentui/react";
-import { uploadFileToBlob } from "../services/fileUploadService.js";
-import { mergeStyles, mergeStyleSets, Stack } from "office-ui-fabric-react";
+import { mergeStyles, Stack } from "office-ui-fabric-react";
 import { classes } from "../styles.jsx";
+import { DeploymentStatus } from "../Common/StatusEnum.jsx";
 
 const dropdownStyles = mergeStyles({ width: "300px" });
 
@@ -24,7 +23,6 @@ export default function NewDeploy() {
   const [isFileValid, setIsFileValid] = useState(true);
   const [, setUploadedBlobs] = useState([]);
   const [, setProgressing] = useState(false);
-  const [hasAccess, setHasAccess] = useState(false);
 
   useEffect(() => {
     getKnowledgeBases("UAT")
@@ -37,13 +35,6 @@ export default function NewDeploy() {
       })
       .catch((error) => console.log(error));
 
-    hasAccessRight("BMT_QNA_Deploy")
-      .then((result) => {
-        if (result == true) {
-          setHasAccess(true);
-        }
-      })
-      .catch((error) => console.log(error));
   }, []);
 
   const handleKnowledgeBaseChange = (env, value) => {
@@ -61,7 +52,9 @@ export default function NewDeploy() {
 
   const handleFileUpload = async () => {
     setProgressing(true);
-    const uploadedBlobs = await uploadFileToBlob(file).then(() => {
+    let files = []
+    files.push(file)
+    const uploadedBlobs = await uploadFilesToBlob(files,"qnatestcasefiles").then(() => {
       setTestsetName(file.name);
     });
     setUploadedBlobs(uploadedBlobs);
@@ -79,7 +72,7 @@ export default function NewDeploy() {
       testset: testsetName,
       username: "username",
       //initial status when written to db
-      status: "Warten auf Genehmigung",
+      status: DeploymentStatus.PENDING_APPROVAL,
       kbId: knowledgeBase + "",
       comment: comment,
       result: "-",
@@ -114,6 +107,7 @@ export default function NewDeploy() {
                 file={file}
                 onChangeFile={handleChangeFile}
                 isFileValid={isFileValid}
+                accept=".csv .txt"
               />
             </Stack>
           </Stack>
@@ -132,14 +126,11 @@ export default function NewDeploy() {
             margin="50px"
             onClick={handleRun}
             disabled={
-              file === null || !isFileValid || testsetName === "" || !hasAccess
+              file === null || !isFileValid || testsetName === ""
             }
           />
         </Stack>
       </div>
-      <span style={{color: 'red'}}>
-        {hasAccess ? "" : "Fehlende Rechte, um Deployment zu starten."}
-      </span>
     </div>
   );
 }
