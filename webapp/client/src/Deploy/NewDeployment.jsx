@@ -5,7 +5,7 @@ import { useHistory } from "react-router-dom";
 import { DeployPath } from "../services/pathService.js";
 import { generateRunId } from "../services/utils";
 import { createJob } from "../services/tableStorageService.js";
-import { startReleasePipeline } from "../services/startReleasePipelineService";
+import { deployQnAtoProd } from "../services/deployFunctionService";
 import { hasAccessRight } from "../services/accessService";
 import { Dropdown, PrimaryButton, TextField } from "@fluentui/react";
 import { uploadFileToBlob } from "../services/fileUploadService.js";
@@ -27,7 +27,7 @@ export default function NewDeploy() {
   const [hasAccess, setHasAccess] = useState(false);
 
   useEffect(() => {
-    getKnowledgeBases("UAT")
+    getKnowledgeBases("TEST")
       .then((result) => {
         setKnowledgeBases(
           result.message.knowledgebases.map(
@@ -79,7 +79,7 @@ export default function NewDeploy() {
       testset: testsetName,
       username: "username",
       //initial status when written to db
-      status: "Warten auf Genehmigung",
+      status: "INPROGRESS",
       kbId: knowledgeBase + "",
       comment: comment,
       result: "-",
@@ -88,7 +88,7 @@ export default function NewDeploy() {
     var releaseComment = `${runId}\n${comment}`;
 
     createJob("QnADeploymentJobs", jobToBeProcessed);
-    startReleasePipeline(runId, knowledgeBase, testsetName, releaseComment);
+    deployQnAtoProd(runId, knowledgeBase, testsetName, releaseComment);
     history.push(DeployPath.InitialScreen);
   };
 
@@ -132,14 +132,11 @@ export default function NewDeploy() {
             margin="50px"
             onClick={handleRun}
             disabled={
-              file === null || !isFileValid || testsetName === "" || !hasAccess
+              file === null || !isFileValid || testsetName === ""
             }
           />
         </Stack>
       </div>
-      <span style={{color: 'red'}}>
-        {hasAccess ? "" : "Fehlende Rechte, um Deployment zu starten."}
-      </span>
     </div>
   );
 }

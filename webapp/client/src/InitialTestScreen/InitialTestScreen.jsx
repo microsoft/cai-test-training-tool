@@ -14,7 +14,7 @@ export default function InitialTestScreen() {
   const { t } = useTranslation();
 
   useEffect(() => {
-    getKnowledgeBases("UAT")
+    getKnowledgeBases("TEST")
       .then((result) => {
         setKnowledgeBasesUAT(result.message.knowledgebases);
         setLoadingData(false);
@@ -47,9 +47,6 @@ export default function InitialTestScreen() {
                 <h4 float="left">{t("General_LoadingData")}</h4>}
           {!loadingData && hasAccess &&
           <TestTable knowledgeBases={knowdledgeBasesUAT} />
-        }
-        {!loadingData && !hasAccess &&
-            <h4 float="left">{t("General_NoAccess")}</h4>
         }
         </div>
       </Stack>

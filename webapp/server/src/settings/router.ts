@@ -5,12 +5,8 @@ const router: Router = express.Router({});
 const azure = require('azure-storage');
 
 router.get('/actions', async (req, res) => {
-    if(!req.user.permissions.includes("BMT_Settings_Reader")){
-        res.status(403).json({message: "Not authorized!", status: 403});
-      } else {
         var query = new azure.TableQuery();
         res.status(200).json(await ExecuteQuery(query));
-      }
 });
 
 router.get('/actions/baseProperties', async (req, res) => {
@@ -94,6 +90,11 @@ router.put('/actions/:setting/:actionId', async (req, res) => {
         return await UpsertAction(req, res);
       }
 })
+
+router.get('/environments', async (req, res) => {
+   res.status(200).json(JSON.parse(process.env.QNA_ENV));
+});
+
 
 async function UpsertAction(req, res) {
     var action = req.body;
