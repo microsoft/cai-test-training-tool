@@ -52,9 +52,6 @@
     "KnowledgeBase_TestResult_ResultFieldName_OK" : "Korrekt",
 
 
-    "KnowledgeBaseDeployment_Title" : "Neues Deployment in die Produktionsumgebung",
-    "KnowledgeBaseDeployment_NewDeploymentButtonLabel" : "Neues Deployment",
-
     "KnowledgeBase_DeploymentList_JobIdFieldName" : "Job Id",
     "KnowledgeBase_TestResult_ResultFieldName" : "Ergebnis",
     "KnowledgeBase_TestResult_AnswerFieldName" : "Erhaltene Antwort",

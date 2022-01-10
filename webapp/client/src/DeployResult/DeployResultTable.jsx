@@ -5,7 +5,7 @@ import {
   Icon,
 } from "@fluentui/react";
 import { t } from "i18next";
-import { handleColumnClick } from "../Common/TableCommon";
+import { handleColumnClick, TableDateFormat } from "../Common/TableCommon";
 import { iconClassNames } from "../styles";
 import { useTranslation } from 'react-i18next';
 
@@ -24,7 +24,7 @@ export default function ResultTable(props) {
       minWidth: 120,
       maxWidth: 120,
       onRender: (item) => {
-        return moment(item.Timestamp).format(DATE_FORMAT);
+        return moment(item.Timestamp).format(TableDateFormat);
       },
     },
     {

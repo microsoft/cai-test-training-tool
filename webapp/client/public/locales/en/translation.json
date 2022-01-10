@@ -15,9 +15,13 @@
     "KnowledgeBase_Test_Title" : "Test a Knowledge Base",
     "KnowledgeBase_Test_NewTest_Button" : "New Test",
     
+    "KnowledgeBase_TestList_JobIdFieldName" : "Job Id",
     "KnowledgeBase_TestList_TimestampFieldName" : "Timestamp",
     "KnowledgeBase_TestList_EnvironmentFieldName" : "Environment",
     "KnowledgeBase_TestList_ResultFieldName" : "Result",
+    "KnowledgeBase_TestList_KnowledgeBaseFieldName" : "Knowledge Base",
+    "KnowledgeBase_TestList_StatusFieldName" : "Status",
+    "KnowledgeBase_TestList_TestsetFieldName" : "Testset",
     "KnowledgeBase_TestList_UsernameFieldName" : "User",
     "KnowledgeBase_TestList_DetailsButtonLabel" : "Details",
     "KnowledgeBase_TestList_DeleteButtonLabel" : "Delete",
@@ -47,13 +51,12 @@
     "KnowledgeBaseDeployment_Title" : "New deployment in the production environment",
     "KnowledgeBaseDeployment_NewDeploymentButtonLabel" : "New Deployment",
     
-    "KnowledgeBase_DeploymentList_JobIdFieldName" : "Job Id",
     "KnowledgeBase_TestResult_ResultFieldName" : "Result",
     "KnowledgeBase_TestResult_AnswerFieldName" : "Answer",
     "KnowledgeBase_TestResult_ResultCorrect" : "Correct",
     "KnowledgeBase_TestResult_ResultIncorrect" : "Incorrect",
-    "KnowledgeBaseDeployment_Title" : "New deployment in the production environment",
-    "KnowledgeBaseDeployment_NewDeploymentButtonLabel" : "New Deployment",
+    
+    "KnowledgeBase_DeploymentList_JobIdFieldName" : "Job Id",
     "KnowledgeBase_DeploymentList_ExpectedID" : "Exp. ID",
     "KnowledgeBase_DeploymentList_ExpectedMetadata" : "Exp. Metadata",
     "KnowledgeBase_DeploymentList_Metadata" : "Metadata",
@@ -123,10 +126,13 @@
     
     "BatchProcessing_Title" : "Batch Processing Test",
     "BatchProcessing_NewLabel" : "Add new batch",
+
+    "BatchProcessing_JobNameFieldName" : "Job Name",
     "BatchProcessing_LastUpdateFieldName" : "Last Update Date",
     "BatchProcessing_LPRAccuracyFieldName" : "LPR Accuracy",
     "BatchProcessing_StatusFieldName" : "Status",
     "BatchProcessing_PercentageFieldName" : "Completion %",
+
     "BatchProcessingResult_Title" : "Batch Processing Results",
     "BatchProcessingResult_WerLabel" : "Word Error Rate",
     "BatchProcessingResult_WrrLabel" : "Word Recognition Rate",

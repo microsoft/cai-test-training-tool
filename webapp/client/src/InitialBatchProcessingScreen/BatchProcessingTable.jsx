@@ -58,7 +58,7 @@ export default function BatchProcessingTable() {
     }
       }
     },   
-    { name: "Job Name", minWidth: TableFieldSizes.JobIdFieldSize, maxWidth: TableFieldSizes.JobIdFieldSize, isResizable : true,
+    { name: t("BatchProcessing_JobNameFieldName"), minWidth: TableFieldSizes.JobIdFieldSize, maxWidth: TableFieldSizes.JobIdFieldSize, isResizable : true,
       onRender: (item) => {
       return <Link href={getPath(BatchProcessingPath.Results,{rowKey: item.RowKey})}>{item.JobName}</Link>
     }},

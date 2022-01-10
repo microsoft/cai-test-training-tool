@@ -22,7 +22,7 @@ var uploadFilesToBlob = async (files, containerName, path) => {
   await containerClient.createIfNotExists();
 
   // upload file
-  await createBlobInContainer(containerClient, files, path == undefined ? '': path);
+  await createBlobInContainer(containerClient, files, path == undefined ? '' : path);
 
   return getBlobsInContainer(containerClient);
 };
@@ -135,12 +135,13 @@ router.post("/", async function (req, res) {
       console.log("error uploading file: ", err);
       res.status(400).json({ message: err });
     }
+  }
 });
 
 router.delete("/transcript/:bot/:transcript", async function (req, res) {
-    var result = await deleteTranscript(req.params.bot, req.params.transcript);
-    console.log(result);
-    res.status(result ? 200 : 400).send();
+  var result = await deleteTranscript(req.params.bot, req.params.transcript);
+  console.log(result);
+  res.status(result ? 200 : 400).send();
 });
 
 router.get("/getphonenumber/:bot/:transcript", async function (req, res) {

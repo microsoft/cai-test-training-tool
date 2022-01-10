@@ -257,28 +257,6 @@ function update_status(runId, message){
   );
 }
 
-router.post("/startbottest", function (req, res) {
-    var userName = req.user.profile.displayName;
-    let buildParameters = req.body.buildParameters;
-
-    startBotTest(buildParameters, userName).
-      then((result) => {
-        res.status(200).json(result);
-      }).catch((err) => {
-        console.log("error starting the build: ", err);
-        res.status(400).json({ message: err });
-      });
-});
-
-router.post("/start", function (req, res) {
-    startReleasePipeline(
-      req.query.partitionKey,
-      req.query.kbId,
-      req.query.testsetName,
-      req.query.comment
-    )
-    });
-    
 async function triggerTestExecution(
   environment,
   testset,
