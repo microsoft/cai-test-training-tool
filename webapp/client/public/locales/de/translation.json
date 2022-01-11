@@ -6,6 +6,7 @@
     "General_Cancel" : "Abbrechen" ,
     "General_Save" : "Speichern" ,
     "General_Download" : "Download",
+    "General_SpinnerLabel" : "Loading",
     "Tool_Title" : "Konversations KITest und Trainingstool",
 
     "Home_KnowledgeBase_Description" : "Testen einer Knowledgebase anhand einer Testdatei.",

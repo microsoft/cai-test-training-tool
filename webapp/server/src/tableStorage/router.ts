@@ -95,7 +95,25 @@ router.post("/job", async function (req, res) {
 
 router.delete("/:tableName/:partitionKey/:rowKey", async function (req, res) {
   var result = await deleteEntity(req.params.tableName, req.params.partitionKey, req.params.rowKey);
-  res.status(result ? 200 : 400);
+  res.status(result ? 200 : 400).send();
+});
+
+router.delete("/:tableName/:partitionKey", async function (req, res) {
+
+  var entities : any =await getPartitionFromTable(req.params.tableName, req.params.partitionKey)
+
+  var status = 200;
+
+  for (let index = 0; index < entities.length; index++) {
+    const element : any = entities[index];
+    var result = await deleteEntity(req.params.tableName, element.PartitionKey, element.RowKey);
+    if(!result) {
+      status = 400;
+      break;
+    }
+  }
+
+  res.status(status).send();
 });
 
 

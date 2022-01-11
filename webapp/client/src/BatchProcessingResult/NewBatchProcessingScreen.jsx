@@ -12,6 +12,7 @@ import { createJob } from "../services/tableStorageService.js";
 import { sendMessage } from "../services/queueService.js";
 import { getModels } from "../services/speechServiceService.js";
 import { useEffect } from "react";
+import { LoadingSpinner } from "../Common/LoadingSpinner.jsx";
 
 
 
@@ -26,6 +27,7 @@ export default function NewBatchProcessingScreen() {
   const [isTranscriptFileValid, setIsTranscriptFileValid] = useState(true);
   const [isLicensePlateFileValid, setIsLicensePlateFileValid] = useState(true);
   const [, setProgressing] = useState(false);
+  const [showSpinner, setShowSpinner] = useState(false);
 
 
   const [models, setModels] = useState([])
@@ -35,6 +37,8 @@ export default function NewBatchProcessingScreen() {
   const [selectedModel, setSelectedModel] = useState(null)
 
   const dropdownStyles = mergeStyles({ width: "300px" });
+
+  const spinnerStyle = mergeStyles({ height: '100vh', position: 'absolute', top: 0, left: 0, bottom: 0, right: 0, background: 'rgba(255, 255, 255, 0.6)' });
 
   const handleFileUpload = async () => {
     setProgressing(true);
@@ -78,8 +82,8 @@ export default function NewBatchProcessingScreen() {
       SpeechAcousticModelId: null,
       LPReferenceFilename: licensePlateFile?.name,
       BatchJobId: rowKey
-     }
-    await sendMessage("voicesfilestasks",messageToBeSent)
+    }
+    await sendMessage("voicesfilestasks", messageToBeSent)
 
     setBatchFile(null);
     setTranscriptFile(null);
@@ -92,13 +96,15 @@ export default function NewBatchProcessingScreen() {
     var allModels = await getModels();
 
     setModels(allModels);
-    setModelTypes(Object.keys(allModels).map(x=> new Object({key:x, text:x})));
-    setAvailableModels(allModels[0]?.map(x=> new Object({key:x.displayName, text:x.displayName})))
+    setModelTypes(Object.keys(allModels).map(x => new Object({ key: x, text: x })));
+    setAvailableModels(allModels[0]?.map(x => new Object({ key: x.displayName, text: x.displayName })))
 
-  },[]);
+  }, []);
 
   const handleRun = async () => {
+    setShowSpinner(true)
     await handleFileUpload();
+    setShowSpinner(false);
     history.push(BatchProcessingPath.InitialScreen);
   };
 
@@ -135,93 +141,102 @@ export default function NewBatchProcessingScreen() {
     }
   };
 
-  useEffect(()=>{
-    if(selectedModelType !== "None") {
-      setAvailableModels(models[selectedModelType].map(x=>new Object({key:x.displayName,text:x.displayName})))
+  useEffect(() => {
+    if (selectedModelType !== "None") {
+      setAvailableModels(models[selectedModelType].map(x => new Object({ key: x.displayName, text: x.displayName })))
     }
-  },[selectedModelType])
+  }, [selectedModelType])
 
   const handleModelChange = (env, value) => {
-    setSelectedModel(models[selectedModelType].filter(x=>x.displayName==value.key)[0]);
+    setSelectedModel(models[selectedModelType].filter(x => x.displayName == value.key)[0]);
   };
 
   return (
     <div>
-      <div className={classes.root}>
-        <Stack className={classes.stack} gap={20}>
-          <h1>{t("NewBatchProcessing_Title")}</h1>
-          <Stack gap={20}>
-            <StackItem>
-              <h4>{t("NewBatchProcessing_AudioFiles_Label")}*</h4>
-              <UploadButtons
-                onChangeValid={handleBatchChangeValid}
-                onChangeFile={handleChangeBatchFile}
-                file={batchFile}
-                isFileValid={isBatchFileValid}
-                accept=".zip"
-              />
-            </StackItem>
-            <StackItem>
-              <h4>{t("NewBatchProcessing_TranscriptFiles_Label")}*</h4>
-              <UploadButtons
-                onChangeValid={handleTranscriptChangeValid}
-                onChangeFile={handleChangeTranscriptFile}
-                file={transcriptFile}
-                isFileValid={isTranscriptFileValid}
-                accept=".txt"
-              />
-            </StackItem>
-            <StackItem>
-              <h4>{t("NewBatchProcessing_LicensePlatesFiles_Label")}</h4>
-              <UploadButtons
-                onChangeValid={handleLicensePlateChangeValid}
-                onChangeFile={handleChangeLicensePlateFile}
-                file={licensePlateFile}
-                isFileValid={isLicensePlateFileValid}
-                accept="*"
-              />
-            </StackItem>
-            <StackItem>
-              <TextField
-                id="1"
-                label={t("NewBatchProcessing_JobName_Label")}
-                onChange={(event) => setJobName(event.target.value)}
-              />
-            </StackItem>
-            <StackItem>
-              <Dropdown
-                label={t("NewBatchProcessing_ModelType_Label")}
-                onChange={handleModelTypeChange}
-                defaultSelectedKey="None"
-                options={modelTypes}
-                className={dropdownStyles}
-              />
-            </StackItem>
-            <StackItem>
-              <Dropdown
-                label={t("NewBatchProcessing_Model_Label")}
-                onChange={handleModelChange}
-                options={availableModels}
-                defaultSelectedKey={availableModels &&  availableModels.length > 0 ? availableModels[0].key : undefined}
-                className={dropdownStyles}
-                disabled={selectedModelType === "None"}
-              />
-            </StackItem>
+      {showSpinner && (
+        <div
+          className={spinnerStyle}
+        >
+          <LoadingSpinner message={t('General_SpinnerLabel')} />
+        </div>
+      )}
+      {!showSpinner && (
+        <div className={classes.root}>
+          <Stack className={classes.stack} gap={20}>
+            <h1>{t("NewBatchProcessing_Title")}</h1>
+            <Stack gap={20}>
+              <StackItem>
+                <h4>{t("NewBatchProcessing_AudioFiles_Label")}*</h4>
+                <UploadButtons
+                  onChangeValid={handleBatchChangeValid}
+                  onChangeFile={handleChangeBatchFile}
+                  file={batchFile}
+                  isFileValid={isBatchFileValid}
+                  accept=".zip"
+                />
+              </StackItem>
+              <StackItem>
+                <h4>{t("NewBatchProcessing_TranscriptFiles_Label")}*</h4>
+                <UploadButtons
+                  onChangeValid={handleTranscriptChangeValid}
+                  onChangeFile={handleChangeTranscriptFile}
+                  file={transcriptFile}
+                  isFileValid={isTranscriptFileValid}
+                  accept=".txt"
+                />
+              </StackItem>
+              <StackItem>
+                <h4>{t("NewBatchProcessing_LicensePlatesFiles_Label")}</h4>
+                <UploadButtons
+                  onChangeValid={handleLicensePlateChangeValid}
+                  onChangeFile={handleChangeLicensePlateFile}
+                  file={licensePlateFile}
+                  isFileValid={isLicensePlateFileValid}
+                  accept="*"
+                />
+              </StackItem>
+              <StackItem>
+                <TextField
+                  id="1"
+                  label={t("NewBatchProcessing_JobName_Label")}
+                  onChange={(event) => setJobName(event.target.value)}
+                />
+              </StackItem>
+              <StackItem>
+                <Dropdown
+                  label={t("NewBatchProcessing_ModelType_Label")}
+                  onChange={handleModelTypeChange}
+                  defaultSelectedKey="None"
+                  options={modelTypes}
+                  className={dropdownStyles}
+                />
+              </StackItem>
+              <StackItem>
+                <Dropdown
+                  label={t("NewBatchProcessing_Model_Label")}
+                  onChange={handleModelChange}
+                  options={availableModels}
+                  defaultSelectedKey={availableModels && availableModels.length > 0 ? availableModels[0].key : undefined}
+                  className={dropdownStyles}
+                  disabled={selectedModelType === "None"}
+                />
+              </StackItem>
+            </Stack>
+            <PrimaryButton
+              className={classes.button}
+              text={t('NewBatchProcessing_StartJob_Label')}
+              margin="50px"
+              onClick={handleRun}
+              disabled={
+                batchFile === null || !isBatchFileValid
+                || transcriptFile === null || !isTranscriptFileValid
+                || (licensePlateFile !== null && !isLicensePlateFileValid)
+                || jobName === ""
+              }
+            />
           </Stack>
-          <PrimaryButton
-            className={classes.button}
-            text={t('NewBatchProcessing_StartJob_Label')}
-            margin="50px"
-            onClick={handleRun}
-            disabled={
-              batchFile === null || !isBatchFileValid
-              || transcriptFile === null || !isTranscriptFileValid
-              || (licensePlateFile !== null && !isLicensePlateFileValid)
-              || jobName === ""
-            }
-          />
-        </Stack>
-      </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -6,7 +6,7 @@ import {
   ActionButton,
   Link
 } from "@fluentui/react";
-import { deleteEntity, getTableStorage } from "../services/tableStorageService.js";
+import { deleteEntity, deletePartition, getTableStorage } from "../services/tableStorageService.js";
 
 import { useTranslation } from 'react-i18next';
 import { BatchProcessingPath, getPath } from "../services/pathService.js";
@@ -34,6 +34,7 @@ export default function BatchProcessingTable() {
              allowDisabledFocus
               onClick={()=>{
                 deleteEntity("BatchJobs",item.PartitionKey,item.RowKey)
+                deletePartition("BatchJobDetails",item.RowKey)
                 //TODO remove files
                 initializeScreen()
               }}

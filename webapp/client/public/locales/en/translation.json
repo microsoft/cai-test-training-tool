@@ -6,6 +6,7 @@
     "General_Cancel" : "Cancel" ,
     "General_Save" : "Confirm" ,
     "General_Download" : "Download",
+    "General_SpinnerLabel" : "Loading",
     "Tool_Title" : "Conversational AI Test and Training Tool",
     
     "Home_KnowledgeBase_Description" : "Test a Knowledgebase with test data.",
