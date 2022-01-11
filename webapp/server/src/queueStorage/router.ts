@@ -8,8 +8,11 @@ const { QueueServiceClient } = require("@azure/storage-queue");
 async function createJob(queueName, body) {
   const queueServiceClient = QueueServiceClient.fromConnectionString(process.env.SA_CONNECTION_STRING);
 
+  const base64Encode = (str) => Buffer.from(str).toString('base64')
+
+
   const queueClient = queueServiceClient.getQueueClient(queueName);
-  await queueClient.sendMessage(JSON.stringify(body));
+  await queueClient.sendMessage(base64Encode(JSON.stringify(body)));
 }
 
 router.post("/job", async function (req, res) {

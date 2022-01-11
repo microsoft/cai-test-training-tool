@@ -62,8 +62,8 @@ export default function NewBatchProcessingScreen() {
       CompletionPercentage: "0%",
       JobName: jobName,
       LPReferenceFilename: licensePlateFile?.name,
-      SpeechLanguageModelName: selectedModel.displayName,
-      SpeechLanguageModelId: selectedModel !== "None" ? selectedModel.url : null,
+      SpeechLanguageModelName: selectedModel !== null ? selectedModel.displayName : null,
+      SpeechLanguageModelId: selectedModel !== null ? selectedModel.url : null,
       TranscriptFileName: transcriptFile.name,
       Status: "New"
     };
@@ -74,7 +74,7 @@ export default function NewBatchProcessingScreen() {
       JobName: jobName,
       FileName: batchFile.name,
       TranscriptFileName: transcriptFile.name,
-      SpeechLanguageModelId: selectedModel !== "None" ? selectedModel.url : null,
+      SpeechLanguageModelId: selectedModel !== null ? selectedModel.url : null,
       SpeechAcousticModelId: null,
       LPReferenceFilename: licensePlateFile?.name,
       BatchJobId: rowKey
@@ -168,7 +168,7 @@ export default function NewBatchProcessingScreen() {
                 onChangeFile={handleChangeTranscriptFile}
                 file={transcriptFile}
                 isFileValid={isTranscriptFileValid}
-                accept="*"
+                accept=".txt"
               />
             </StackItem>
             <StackItem>
