@@ -187,7 +187,7 @@ namespace BatchTesting.Tool.Function
                     // get all transcriptions for the user
                     transcriptions = await GetAllTransactions(client);
 
-                    log.LogInformation("Service Details (" + myQueueItem.JobId + ") : Running = " + transcriptions.Where(i => i.Description.Contains(myQueueItem.JobId) && i.Status == "Running").Count() + " NotStarted = " + transcriptions.Where(i => i.Description.Contains(myQueueItem.JobId) && i.Status == "NotStarted").Count() + " Succeeded = " + transcriptions.Where(i => i.Description.Contains(myQueueItem.JobId) && i.Status == "Succeeded").Count() + " Failed = " + transcriptions.Where(i => i.Description.Contains(myQueueItem.JobId) && i.Status == "Failed").Count());
+                    log.LogInformation("Service Details (" + myQueueItem.JobId + ") : Running = " + transcriptions.Where(i => (string.IsNullOrEmpty(i.Description)? false : i.Description.Contains(myQueueItem.JobId)) && i.Status == "Running").Count() + " NotStarted = " + transcriptions.Where(i => (string.IsNullOrEmpty(i.Description) ? false : i.Description.Contains(myQueueItem.JobId)) && i.Status == "NotStarted").Count() + " Succeeded = " + transcriptions.Where(i => (string.IsNullOrEmpty(i.Description) ? false : i.Description.Contains(myQueueItem.JobId)) && i.Status == "Succeeded").Count() + " Failed = " + transcriptions.Where(i => (string.IsNullOrEmpty(i.Description) ? false : i.Description.Contains(myQueueItem.JobId)) && i.Status == "Failed").Count());
 
                     //completed = 0; running = 0; notStarted = 0;
                     // for each transcription in the list we check the status

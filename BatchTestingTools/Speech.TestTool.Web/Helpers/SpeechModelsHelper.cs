@@ -16,16 +16,14 @@ namespace Speech.TestTool.Function.Helpers
         {
             CrisClient crisClient = CrisClient.CreateApiV2Client(crisKey, hostName, port);
             var model = await crisClient.GetCustomModelsAsync();
-            return model.Models.Where(i => i.Locale == "de-DE" && i.Properties.DeprecationDates.AdaptationDateTime >= DateTime.Now).OrderByDescending(i => i.CreatedDateTime).ToList();
-            //return models.Where(i => i.locale == "de-DE" && i.modelKind == "AcousticAndLanguage").ToList();
+            return model.Models.Where(i => i.Properties.DeprecationDates.TranscriptionDateTime >= DateTime.Now).OrderByDescending(i => i.CreatedDateTime).ToList();
         }
 
         public async static Task<List<ModelV3>> GetBaseSpeechModels(string crisKey, string hostName, int port)
         {
             CrisClient crisClient = CrisClient.CreateApiV2Client(crisKey, hostName, port);
             var model = await crisClient.GetBaseModelsAsync();
-            return model.Models.Where(i => i.Locale == "de-DE" && i.Properties.DeprecationDates.AdaptationDateTime>= DateTime.Now).OrderByDescending(i => i.CreatedDateTime).ToList();
-            //return models.Where(i => i.locale == "de-DE" && i.modelKind == "AcousticAndLanguage").ToList();
+            return model.Models.Where(i => i.Properties.DeprecationDates.TranscriptionDateTime >= DateTime.Now).OrderByDescending(i => i.CreatedDateTime).ToList();
         }
     }
 }
