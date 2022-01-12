@@ -24,7 +24,7 @@ var uploadFilesToBlob = async (files, containerName, path) => {
   // upload file
   await createBlobInContainer(containerClient, files, path == undefined ? '' : path);
 
-  return getBlobsInContainer(containerClient);
+  return getBlobsInContainer(containerClient, containerName);
 };
 
 const checkFileNames = (blobname, filename) => {
@@ -85,21 +85,18 @@ var createBlobInContainer = async (containerClient, files, path = '') => {
   }
 };
 
-var getBlobsInContainer = async (containerClient) => {
-  var returnedBlobUrls = [];
+var getBlobsInContainer = async (containerClient, blobPrefix = "") => {
+  var returnedBlob = [];
 
   // get list of blobs in container
-  for await (var blob of containerClient.listBlobsFlat()) {
-    returnedBlobUrls.push(
-      `https://${process.env.STORAGE_ACCOUNT_NAME}.blob.core.windows.net/${process.env.CONTAINER_NAME}/${blob.name}`
+  for await (var blob of containerClient.listBlobsFlat({prefix: blobPrefix})) {
+    returnedBlob.push(
+      blob.name
     );
   }
-  return returnedBlobUrls;
+  return returnedBlob;
 };
 
-const getFileName = (path) => {
-  return path.split('\\').pop().split('/').pop();
-};
 
 // routes
 const fileUpload = require('express-fileupload');
@@ -109,18 +106,6 @@ router.use(function (req, res, next) {
   console.log("accessing file upload route");
   next();
 });
-
-var getBlobsInContainerHierarchy = async (containerClient, folderName) => {
-  console.log(folderName);
-  var returnedBlobUrls = [];
-  // get list of blobs in container
-  for await (var blob of containerClient.listBlobsByHierarchy(folderName)) {
-    returnedBlobUrls.push(
-      blob.name.trim().slice(0, -1)
-    );
-  }
-  return returnedBlobUrls;
-};
 
 router.post("/", async function (req, res) {
   if (!req.files || Object.keys(req.files).length === 0) {
@@ -138,100 +123,52 @@ router.post("/", async function (req, res) {
   }
 });
 
-router.delete("/transcript/:bot/:transcript", async function (req, res) {
-  var result = await deleteTranscript(req.params.bot, req.params.transcript);
-  console.log(result);
+router.delete("/:container/:blobName", async function (req, res) {
+  var result = await deleteBlobsInPath(req.params.container, req.params.blobName);
   res.status(result ? 200 : 400).send();
 });
 
-router.get("/getphonenumber/:bot/:transcript", async function (req, res) {
-  var result = await getPhoneNumber(req.params.bot, req.params.transcript);
-  console.log(result);
-  res.status(result ? 200 : 400).send(result);
-});
 
-async function getPhoneNumber(botname, transcriptname) {
-  const blobServiceClient = BlobServiceClient.fromConnectionString(process.env.SA_CONNECTION_STRING);
-  const containerClient = blobServiceClient.getContainerClient("bottesting");
-  const blockBlobClient = containerClient.getBlockBlobClient(botname + '/current/' + transcriptname + '.transcript');
-  const downloadBlockBlobResponse = await blockBlobClient.download(0);
-
-  var transcript = await streamToString(downloadBlockBlobResponse.readableStreamBody);
-  var tmpStr = String(transcript).match(/"callee":"(.*?)",/);
-  var result = tmpStr[1];
-
-  if (result.startsWith("&#x2B;")) {
-    result = result.replace("&#x2B;", "");
-  }
-
-  return result;
-}
-
-async function streamToString(readableStream) {
-  return new Promise((resolve, reject) => {
-    const chunks = [];
-    readableStream.on("data", (data) => {
-      chunks.push(data.toString());
-    });
-    readableStream.on("end", () => {
-      resolve(chunks.join(""));
-    });
-    readableStream.on("error", reject);
-  });
-}
-
-async function deleteTranscript(botname, transcriptname) {
-  console.log("deleting transcript...");
-  var tableSvc = azure.createBlobService(process.env.SA_CONNECTION_STRING);
-  var result = await new Promise((resolve) => tableSvc.deleteBlobIfExists(process.env.BOTTEST_CONTAINER_NAME, botname + "/current/" + transcriptname + ".transcript", function (error, response) {
-    if (!error) {
-      console.log("no error");
-      return resolve(true)
-    }
-    console.log("testtesttest");
-    return resolve(response)
-  }))
-  console.log("TEST");
-  console.log(result);
-  return result;
-}
-
-router.get("/getcontainerhierarchy", async function (req, res) {
-  // get blobServiceClient from connection string
+async function deleteBlobsInPath(container, folderName) {
   var blobServiceClient = BlobServiceClient.fromConnectionString(
     process.env.SA_CONNECTION_STRING
   );
 
   // get Container - full public read access
   var containerClient = blobServiceClient.getContainerClient(
-    process.env.BOTTEST_CONTAINER_NAME
+    container
   );
 
-  var result = await getBlobsInContainerHierarchy(containerClient, "/");
+  var blobsToDelete = await getBlobsInContainer(containerClient,folderName)
 
-  var allBlobs = new Array<string>();
-  for await (var blob of containerClient.listBlobsFlat()) {
-    var blobName = blob.name;
-    if (blobName != "testruns") {
-      allBlobs.push(blobName);
+
+  var blobSvc = azure.createBlobService(process.env.SA_CONNECTION_STRING);
+
+  var result = true;
+
+  for (let index = 0; index < blobsToDelete.length; index++) {
+    const element = blobsToDelete[index];
+    var deletionResult = await new Promise((resolve) => blobSvc.deleteBlobIfExists(container, element, function (error, response) {
+      if (!error) {
+        return resolve(true)
+      }
+      return resolve(response)
+    }))
+    
+    if(!deletionResult) {
+      result = false;
+      break;
     }
   }
 
-  var bots = new Array();
-  result.forEach(
-    bot => {
-      var blobs = allBlobs.filter(b => b.startsWith(`${bot}/current`)).map(b => getFileName(b).replace(".transcript", "").trim());
-      bots.push(new Object({ bot: bot, transcripts: blobs }));
-    });
+  return result;
+}
 
-  res.status(200).json(bots);
-})
 
 router.get("/", async function (req, res) {
-  var container = req.query.container;// process.env.CONTAINER_NAME;
-  var fileName = req.query.fileName;//
+  var container = req.query.container;
+  var fileName = req.query.fileName;
   var url = await getFileFromBlob(fileName, container)
-  console.log(`GetBlob: ${url}`);
   res.redirect(url);
 });
 
