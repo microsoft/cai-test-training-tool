@@ -26,22 +26,25 @@ export default function NewBatchProcessingScreen() {
   const [isBatchFileValid, setIsBatchFileValid] = useState(true);
   const [isTranscriptFileValid, setIsTranscriptFileValid] = useState(true);
   const [isLicensePlateFileValid, setIsLicensePlateFileValid] = useState(true);
-  const [, setProgressing] = useState(false);
   const [showSpinner, setShowSpinner] = useState(false);
 
 
   const [models, setModels] = useState([])
+
   const [modelTypes, setModelTypes] = useState()
   const [selectedModelType, setSelectedModelType] = useState("None")
+
+  const [availableModelOptions, setAvailableModelOptions] = useState([])
+  const [selectedModelOption, setSelectedModelOption] = useState(null)
+
   const [availableModels, setAvailableModels] = useState([])
   const [selectedModel, setSelectedModel] = useState(null)
 
   const dropdownStyles = mergeStyles({ width: "300px" });
-
   const spinnerStyle = mergeStyles({ height: '100vh', position: 'absolute', top: 0, left: 0, bottom: 0, right: 0, background: 'rgba(255, 255, 255, 0.6)' });
 
   const handleFileUpload = async () => {
-    setProgressing(true);
+    setShowSpinner(true);
 
     let files = []
     let jobId = uuidv4()
@@ -67,7 +70,7 @@ export default function NewBatchProcessingScreen() {
       JobName: jobName,
       LPReferenceFilename: licensePlateFile?.name,
       SpeechLanguageModelName: selectedModel !== null ? selectedModel.displayName : null,
-      SpeechLanguageModelId: selectedModel !== null ? selectedModel.url : null,
+      SpeechLanguageModelId: selectedModel !== null ? selectedModel.id : null,
       TranscriptFileName: transcriptFile.name,
       Status: "New"
     };
@@ -78,7 +81,7 @@ export default function NewBatchProcessingScreen() {
       JobName: jobName,
       FileName: batchFile.name,
       TranscriptFileName: transcriptFile.name,
-      SpeechLanguageModelId: selectedModel !== null ? selectedModel.url : null,
+      SpeechLanguageModelId: selectedModel !== null ? selectedModel.id : null,
       SpeechAcousticModelId: null,
       LPReferenceFilename: licensePlateFile?.name,
       BatchJobId: rowKey
@@ -88,7 +91,7 @@ export default function NewBatchProcessingScreen() {
     setBatchFile(null);
     setTranscriptFile(null);
     setLicensePlateFile(null);
-    setProgressing(false);
+    setShowSpinner(false);
   };
 
 
@@ -97,14 +100,10 @@ export default function NewBatchProcessingScreen() {
 
     setModels(allModels);
     setModelTypes(Object.keys(allModels).map(x => new Object({ key: x, text: x })));
-    setAvailableModels(allModels[0]?.map(x => new Object({ key: x.displayName, text: x.displayName })))
-
   }, []);
 
   const handleRun = async () => {
-    setShowSpinner(true)
     await handleFileUpload();
-    setShowSpinner(false);
     history.push(BatchProcessingPath.InitialScreen);
   };
 
@@ -128,27 +127,39 @@ export default function NewBatchProcessingScreen() {
     setTranscriptFile(value);
   };
 
+  const handleModelOptionChange = (env, value) => {
+    setSelectedModelOption(value.key)
+  };
+
   const handleChangeLicensePlateFile = (value) => {
     setLicensePlateFile(value);
   };
 
   const handleModelTypeChange = (env, value) => {
     setSelectedModelType(value.key);
-    if (value.id === "None") {
-      setSelectedModel(null);
-    } else {
-      setSelectedModel(models[value.key][0])
-    }
   };
 
   useEffect(() => {
     if (selectedModelType !== "None") {
-      setAvailableModels(models[selectedModelType].map(x => new Object({ key: x.displayName, text: x.displayName })))
+      setAvailableModelOptions(models[selectedModelType].map(x => new Object({ key: x.displayName, text: x.displayName })))
+      setSelectedModelOption(models[selectedModelType][0].displayName)
+    } else {
+      setAvailableModelOptions([])
+      setAvailableModels([])
+      setSelectedModel(null)
     }
   }, [selectedModelType])
 
+  useEffect(() => {
+    if (selectedModelType !== "None") {
+      setAvailableModels(models[selectedModelType].filter(x => x.displayName == selectedModelOption)[0].options.map(x => new Object({ key: x.displayName, text: x.displayName })))
+      setSelectedModel(models[selectedModelType].filter(x => x.displayName == selectedModelOption)[0].options[0])
+    }
+  }, [selectedModelOption])
+
+
   const handleModelChange = (env, value) => {
-    setSelectedModel(models[selectedModelType].filter(x => x.displayName == value.key)[0]);
+    setSelectedModel(models[selectedModelType].filter(x => x.displayName == selectedModelOption)[0].options.filter(x => x.displayName == value.key)[0]);
   };
 
   return (
@@ -203,23 +214,41 @@ export default function NewBatchProcessingScreen() {
                 />
               </StackItem>
               <StackItem>
-                <Dropdown
-                  label={t("NewBatchProcessing_ModelType_Label")}
-                  onChange={handleModelTypeChange}
-                  defaultSelectedKey="None"
-                  options={modelTypes}
-                  className={dropdownStyles}
-                />
-              </StackItem>
-              <StackItem>
-                <Dropdown
-                  label={t("NewBatchProcessing_Model_Label")}
-                  onChange={handleModelChange}
-                  options={availableModels}
-                  defaultSelectedKey={availableModels && availableModels.length > 0 ? availableModels[0].key : undefined}
-                  className={dropdownStyles}
-                  disabled={selectedModelType === "None"}
-                />
+                <Stack className={classes.stack} gap={20} horizontal>
+                  <StackItem>
+                    <Dropdown
+                      label={t("NewBatchProcessing_ModelType_Label")}
+                      onChange={handleModelTypeChange}
+                      defaultSelectedKey="None"
+                      options={modelTypes}
+                      className={dropdownStyles}
+                    />
+                  </StackItem>
+                  {selectedModelType !== "None" && (
+                    <>
+                      <StackItem>
+                        <Dropdown
+                          label={selectedModelType === "Base" ? "Locales" : "Projects"}
+                          onChange={handleModelOptionChange}
+                          options={availableModelOptions}
+                          defaultSelectedKey={availableModelOptions && availableModelOptions.length > 0 ? availableModelOptions[0].key : undefined}
+                          className={dropdownStyles}
+                          disabled={selectedModelType === "None"}
+                        />
+                      </StackItem>
+                      <StackItem>
+                        <Dropdown
+                          label={t("NewBatchProcessing_Model_Label")}
+                          onChange={handleModelChange}
+                          options={availableModels}
+                          defaultSelectedKey={availableModels && availableModels.length > 0 ? availableModels[0].key : undefined}
+                          className={dropdownStyles}
+                          disabled={selectedModelType === "None"}
+                        />
+                      </StackItem>
+                    </>
+                  )}
+                </Stack>
               </StackItem>
             </Stack>
             <PrimaryButton
@@ -236,7 +265,8 @@ export default function NewBatchProcessingScreen() {
             />
           </Stack>
         </div>
-      )}
-    </div>
+      )
+      }
+    </div >
   );
 }
