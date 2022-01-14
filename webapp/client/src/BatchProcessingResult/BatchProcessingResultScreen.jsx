@@ -24,10 +24,10 @@ export default function BatchProcessingResult() {
   const licensePlaceColumns = [
     { fieldName: "RowKey", name: t("BatchProcessingResult_FileNameFieldName"), minWidth: 150, maxWidth: 300 },
     { fieldName: "LPTranscript", name: t("BatchProcessingResult_ReferenceFieldName"), minWidth: 150, maxWidth: 200 },
-    { fieldName: "Recognized", name: t("BatchProcessingResult_RecognizedFieldName"), minWidth: 150 },
+    { fieldName: "Recognized", name: t("BatchProcessingResult_RecognizedFieldName"), minWidth: 150, maxWidth: 400 },
     { fieldName: "ValidationLPRRecognized", name: t("BatchProcessingResult_ProcessedFieldName"), minWidth: 150, maxWidth: 300 },
     {
-      name: t("BatchProcessingResult_LUISEntitiesFieldName"), minWidth: 150, maxWidth: 300, isMultiline: true,
+      name: t("BatchProcessingResult_LUISEntitiesFieldName"), minWidth: 150, maxWidth: 500, isMultiline: true,
       onRender: (item) => {
 
         if (item.LUISEntitiesJson != null) {

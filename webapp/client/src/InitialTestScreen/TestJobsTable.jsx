@@ -40,7 +40,7 @@ export default function TestTable({ knowledgeBases }) {
       }
     },
     {
-      fieldName: "PartitionKey", name: t("KnowledgeBase_TestList_JobIdFieldName"), minWidth: TableFieldSizes.JobIdFieldSize, maxWidth: TableFieldSizes.JobIdFieldSize, isResizable: true,
+      fieldName: "PartitionKey", name: t("KnowledgeBase_TestList_JobIdFieldName"), minWidth: TableFieldSizes.JobIdFieldSize, maxWidth: TableFieldSizes.JobIdFieldSize, isResizable: false,
       onRender: (item) => {
         return <Link href={getPath(TestPath.Results, { partitionKey: item.PartitionKey })}>{item.PartitionKey}</Link>
       }
@@ -53,10 +53,10 @@ export default function TestTable({ knowledgeBases }) {
       onRender: (item) => {
         return moment(item.Timestamp).format(TableDateFormat);
       },
-      isResizable: true
+      isResizable: false
     },
-    { fieldName: "kbId", name: t("KnowledgeBase_TestList_KnowledgeBaseFieldName"), minWidth: 160, maxWidth: 170, isResizable: true },
-    { fieldName: "environment", name: t("KnowledgeBase_TestList_EnvironmentFieldName"), minWidth: 70, maxWidth: 90, isResizable: true },
+    { fieldName: "kbId", name: t("KnowledgeBase_TestList_KnowledgeBaseFieldName"), minWidth: 160, maxWidth: 170, isResizable: false },
+    { fieldName: "environment", name: t("KnowledgeBase_TestList_EnvironmentFieldName"), minWidth: 70, maxWidth: 90, isResizable: false },
     {
       name: t("KnowledgeBase_TestList_StatusFieldName"),
       fieldName: "status",
@@ -87,11 +87,11 @@ export default function TestTable({ knowledgeBases }) {
           );
         }
       },
-      isResizable: true
+      isResizable: false
     },
-    { fieldName: "testset", name: t("KnowledgeBase_TestList_TestsetFieldName"), minWidth: 150, maxWidth: 300, isResizable: true },
-    { fieldName: "result", name: t("KnowledgeBase_TestList_ResultFieldName"), minWidth: 70, maxWidth: 70, isResizable: true },
-    { fieldName: "username", name: t("KnowledgeBase_TestList_UsernameFieldName"), minWidth: 90, maxWidth: 300, isResizable: true },
+    { fieldName: "testset", name: t("KnowledgeBase_TestList_TestsetFieldName"), minWidth: 150, maxWidth: 300, isResizable: false },
+    { fieldName: "result", name: t("KnowledgeBase_TestList_ResultFieldName"), minWidth: 70, maxWidth: 70, isResizable: false },
+    { fieldName: "username", name: t("KnowledgeBase_TestList_UsernameFieldName"), minWidth: 90, maxWidth: 300, isResizable: false },
   ]);
 
   useEffect(() => {

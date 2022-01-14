@@ -43,7 +43,7 @@ export default function DeployJobsTable({ knowledgebases }) {
       }
     },
     {
-      fieldName: "PartitionKey", name: t("KnowledgeBase_DeploymentList_JobIdFieldName"), minWidth: TableFieldSizes.JobIdFieldSize, maxWidth: TableFieldSizes.JobIdFieldSize, isResizable: true,
+      fieldName: "PartitionKey", name: t("KnowledgeBase_DeploymentList_JobIdFieldName"), minWidth: TableFieldSizes.JobIdFieldSize, maxWidth: TableFieldSizes.JobIdFieldSize, isResizable: false,
       onRender: (item) => {
         return <Link href={getPath(DeployPath.Results, { partitionKey: item.PartitionKey })}>{item.PartitionKey}</Link>
       }
@@ -53,19 +53,19 @@ export default function DeployJobsTable({ knowledgebases }) {
       name: t("KnowledgeBase_DeploymentList_TimestampFieldName"),
       minWidth: TableFieldSizes.TimestampFieldSize,
       maxWidth: TableFieldSizes.TimestampFieldSize,
-      isResizable: true,
+      isResizable: false,
       onRender: (item) => {
         return moment(item.Timestamp).format(TableDateFormat);
       },
     },
-    { fieldName: "kbId", name: t("KnowledgeBase_DeploymentList_KnowledgeBaseFieldName"), minWidth: 160, maxWidth: 170, isResizable: true },
+    { fieldName: "kbId", name: t("KnowledgeBase_DeploymentList_KnowledgeBaseFieldName"), minWidth: 160, maxWidth: 170, isResizable: false },
     {
       fieldName: "status",
       name: t("KnowledgeBase_DeploymentList_StatusFieldName"),
       minWidth: 150,
       maxWidth: 150,
       isMultiline: true,
-      isResizable: true,
+      isResizable: false,
       onRender: (item) => {
         var iconName = "WarningSolid";
         var className = iconClassNames.failure;
@@ -89,10 +89,10 @@ export default function DeployJobsTable({ knowledgebases }) {
         }
       },
     },
-    { fieldName: "testset", name: t("KnowledgeBase_DeploymentList_TestsetFieldName"), minWidth: 150, maxWidth: 300, isResizable: true },
-    { fieldName: "result", name: t("KnowledgeBase_DeploymentList_ResultFieldName"), minWidth: 70, maxWidth: 70, isResizable: true },
-    { fieldName: "comment", name: t("KnowledgeBase_DeploymentList_CommentFieldName"), minWidth: 90, maxWidth: 200, isMultiline: true, isResizable: true },
-    { fieldName: "username", name: t("KnowledgeBase_DeploymentList_UsernameFieldName"), minWidth: 90, maxWidth: 300, isResizable: true },
+    { fieldName: "testset", name: t("KnowledgeBase_DeploymentList_TestsetFieldName"), minWidth: 150, maxWidth: 300, isResizable: false },
+    { fieldName: "result", name: t("KnowledgeBase_DeploymentList_ResultFieldName"), minWidth: 70, maxWidth: 70, isResizable: false },
+    { fieldName: "comment", name: t("KnowledgeBase_DeploymentList_CommentFieldName"), minWidth: 90, maxWidth: 200, isMultiline: true, isResizable: false },
+    { fieldName: "username", name: t("KnowledgeBase_DeploymentList_UsernameFieldName"), minWidth: 90, maxWidth: 300, isResizable: false },
   ]);
 
 

@@ -27,6 +27,7 @@ export default function NewBatchProcessingScreen() {
   const [isTranscriptFileValid, setIsTranscriptFileValid] = useState(true);
   const [isLicensePlateFileValid, setIsLicensePlateFileValid] = useState(true);
   const [showSpinner, setShowSpinner] = useState(false);
+  const [spinnerMessage, setSpinnerMessage] = useState('');
 
 
   const [models, setModels] = useState([])
@@ -44,6 +45,7 @@ export default function NewBatchProcessingScreen() {
   const spinnerStyle = mergeStyles({ height: '100vh', position: 'absolute', top: 0, left: 0, bottom: 0, right: 0, background: 'rgba(255, 255, 255, 0.6)' });
 
   const handleFileUpload = async () => {
+    setSpinnerMessage(t('General_SpinnerLabel_ProcessingRequest'));
     setShowSpinner(true);
 
     let files = []
@@ -96,10 +98,13 @@ export default function NewBatchProcessingScreen() {
 
 
   useEffect(async () => {
+    setSpinnerMessage(t('General_SpinnerLabel_LoadingModels'));
+    setShowSpinner(true);
     var allModels = await getModels();
 
     setModels(allModels);
     setModelTypes(Object.keys(allModels).map(x => new Object({ key: x, text: x })));
+    setShowSpinner(false);
   }, []);
 
   const handleRun = async () => {
@@ -168,7 +173,7 @@ export default function NewBatchProcessingScreen() {
         <div
           className={spinnerStyle}
         >
-          <LoadingSpinner message={t('General_SpinnerLabel')} />
+          <LoadingSpinner message={spinnerMessage} />
         </div>
       )}
       {!showSpinner && (

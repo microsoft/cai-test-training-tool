@@ -21,6 +21,11 @@ async function getBaseModels() {
             url = response.data["@nextLink"]
             for (let index = 0; index < response.data.values.length; index++) {
                 const model = response.data.values[index];
+                if(model.properties?.deprecationDates?.transcriptionDateTime && 
+                    new Date(model.properties.deprecationDates.transcriptionDateTime)  < new Date()) {
+                        // model is deprecated
+                        continue
+                    }
                 if(models.filter(x=>x.displayName === model.locale).length == 0) {
                     models.push(new Object({displayName: model.locale, options: new Array}))
                 }

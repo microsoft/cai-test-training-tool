@@ -43,7 +43,7 @@ export default function AudioGenerationTable() {
       },
     },
     {
-      name: "Job Name", minWidth: TableFieldSizes.JobIdFieldSize, maxWidth: TableFieldSizes.JobIdFieldSize, isResizable: true,
+      name: "Job Name", minWidth: TableFieldSizes.JobIdFieldSize, maxWidth: TableFieldSizes.JobIdFieldSize, isResizable: false,
       onRender: (item) => {
         return <Link href={getPath(AudioGenerationPath.Results, { rowKey: item.RowKey })}>{item.JobName}</Link>
       }
@@ -53,14 +53,14 @@ export default function AudioGenerationTable() {
       name: t("BatchProcessing_LastUpdateFieldName"),
       minWidth: TableFieldSizes.TimestampFieldSize,
       maxWidth: TableFieldSizes.TimestampFieldSize,
-      isResizable: true,
+      isResizable: false,
       onRender: (item) => {
         return moment(item.Timestamp).format(TableDateFormat);
       },
     },
     {
       name: t("BatchProcessing_PercentageFieldName"),
-      minWidth: 100,
+      minWidth: 200,
       maxWidth: 130,
       isMultiline: false,
       onRender: (item) => {
@@ -68,22 +68,22 @@ export default function AudioGenerationTable() {
           <ProgressIndicator className={progressClass} barHeight={4} label={item.CompletionPercentage} percentComplete={parseInt(item.CompletionPercentage.replace("%", "")) / 100} />
         );
       },
-      isResizable: true
+      isResizable: false
     },
     {
-      name: "Generated", minWidth: 50, maxWidth: 70, isResizable: true,
+      name: "Generated", minWidth: 70, maxWidth: 70, isResizable: false,
       onRender: (item) => {
         return <Link href={item.GeneratedFileURL}>{t("General_Download")}</Link>
       }
     },
     {
-      name: "Converted", minWidth: 50, maxWidth: 70, isResizable: true,
+      name: "Converted", minWidth: 70, maxWidth: 70, isResizable: false,
       onRender: (item) => {
         return <Link href={item.ConvertedFileURL}>{t("General_Download")}</Link>
       }
     },
     {
-      name: "Noise", minWidth: 50, maxWidth: 70, isResizable: true,
+      name: "Noise", minWidth: 70, maxWidth: 70, isResizable: false,
       onRender: (item) => {
         return <Link href={item.NoiseFileURL}>{t("General_Download")}</Link>
       }
