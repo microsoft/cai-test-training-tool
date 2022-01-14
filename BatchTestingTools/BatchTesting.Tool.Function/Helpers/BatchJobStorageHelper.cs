@@ -74,7 +74,7 @@ namespace BatchTesting.Tool.Function.Helpers
         public async static Task<List<BatchJob>> GetJobsWithStatus(string Status, string connectionString, string batchJobTableName)
         {
             var table = AzureTableStorageHelper.GetTable(connectionString, batchJobTableName);
-            var query = new TableQuery<BatchJob>().Where(TableQuery.GenerateFilterCondition("Status", QueryComparisons.Equal, Status));
+            var query = new TableQuery<BatchJob>().Where(TableQuery.CombineFilters(TableQuery.GenerateFilterCondition("Status", QueryComparisons.Equal, Status), TableOperators.And , TableQuery.GenerateFilterConditionForDate("Timestamp",QueryComparisons.GreaterThanOrEqual, DateTime.Now.AddDays(-5))));
 
             List<BatchJob> retList = new List<BatchJob>();
 
@@ -122,6 +122,7 @@ namespace BatchTesting.Tool.Function.Helpers
             while (currSeg == null || currSeg.ContinuationToken != null)
             {
                 currSeg = await table.ExecuteQuerySegmentedAsync(query, token);
+                token = currSeg.ContinuationToken;
                 retList.AddRange(currSeg.Results);
             }
           

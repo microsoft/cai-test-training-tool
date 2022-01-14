@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Speech.TestTool.Web.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -57,6 +58,23 @@ namespace Speech.TestTool.Web.CrisClient
             var path = $"{this.speechToTextBasePath}models/base";
             List<ModelV3> models = new List<ModelV3>();
             var result = await this.GetAsync<SpeechModelsV3>(path);
+            models.AddRange(result.Models);
+            while (result.NextLink != null)
+            {
+                result = await this.GetAsync<SpeechModelsV3>(result.NextLink.ToString());
+                models.AddRange(result.Models);
+            }
+
+            result.Models = models;
+
+            return result;
+        }
+
+        public async Task<Projects> GetCustomProjectsAsync()
+        {
+            var path = $"{this.speechToTextBasePath}projects";
+            List<ModelV3> models = new List<ModelV3>();
+            var result = await this.GetAsync<Projects>(path);
             models.AddRange(result.Models);
             while (result.NextLink != null)
             {
