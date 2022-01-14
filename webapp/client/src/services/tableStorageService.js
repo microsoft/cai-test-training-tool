@@ -23,6 +23,13 @@ export async function deleteEntity(tableName,partitionKey,rowKey) {
   });
 }
 
+export async function deletePartition(tableName,partitionKey) {
+  return httpClient.delete(`/api/tablestorage/${tableName}/${partitionKey}`
+  ).then((response) => {
+    return response.data
+  });
+}
+
 export async function getEntity(tableName,partitionKey,rowKey) {
   return httpClient.get(`/api/tablestorage/${tableName}/${partitionKey}/${rowKey}`
   ).then((response) => {

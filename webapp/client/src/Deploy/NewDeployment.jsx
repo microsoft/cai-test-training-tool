@@ -5,7 +5,7 @@ import { useHistory } from "react-router-dom";
 import { DeployPath } from "../services/pathService.js";
 import { generateRunId } from "../services/utils";
 import { createJob } from "../services/tableStorageService.js";
-import { startReleasePipeline } from "../services/startReleasePipelineService";
+import { deployQnAtoProd } from "../services/deployFunctionService";
 import { Dropdown, PrimaryButton, TextField } from "@fluentui/react";
 import { mergeStyles, Stack } from "office-ui-fabric-react";
 import { classes } from "../styles.jsx";
@@ -25,7 +25,7 @@ export default function NewDeploy() {
   const [, setProgressing] = useState(false);
 
   useEffect(() => {
-    getKnowledgeBases("UAT")
+    getKnowledgeBases("TEST")
       .then((result) => {
         setKnowledgeBases(
           result.message.knowledgebases.map(
@@ -72,7 +72,7 @@ export default function NewDeploy() {
       testset: testsetName,
       username: "username",
       //initial status when written to db
-      status: DeploymentStatus.PENDING_APPROVAL,
+      status: DeploymentStatus.IN_PROGRESS,
       kbId: knowledgeBase + "",
       comment: comment,
       result: "-",
@@ -81,7 +81,7 @@ export default function NewDeploy() {
     var releaseComment = `${runId}\n${comment}`;
 
     createJob("QnADeploymentJobs", jobToBeProcessed);
-    startReleasePipeline(runId, knowledgeBase, testsetName, releaseComment);
+    deployQnAtoProd(runId, knowledgeBase, testsetName, releaseComment);
     history.push(DeployPath.InitialScreen);
   };
 

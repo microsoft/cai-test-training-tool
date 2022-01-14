@@ -6,13 +6,14 @@ import {
   ActionButton,
   Link
 } from "@fluentui/react";
-import { deleteEntity, getTableStorage } from "../services/tableStorageService.js";
+import { deleteEntity, deletePartition, getTableStorage } from "../services/tableStorageService.js";
 
 import { useTranslation } from 'react-i18next';
 import { BatchProcessingPath, getPath } from "../services/pathService.js";
 import { handleColumnClick, onRenderRow, progressClass, TableDateFormat, TableFieldSizes } from "../Common/TableCommon.jsx";
 import { BatchProcessingStatus } from "../Common/StatusEnum.jsx";
 import {deleteIcon, refreshIcon} from "../styles"
+import { deleteFilesInBlob, deleteFilesInBlobFolder } from "../services/fileUploadService.js";
 
 const moment = require("moment");
 
@@ -34,7 +35,8 @@ export default function BatchProcessingTable() {
              allowDisabledFocus
               onClick={()=>{
                 deleteEntity("BatchJobs",item.PartitionKey,item.RowKey)
-                //TODO remove files
+                deletePartition("BatchJobDetails",item.RowKey)
+                deleteFilesInBlobFolder("voices",item.RowKey)
                 initializeScreen()
               }}
              >
@@ -58,7 +60,7 @@ export default function BatchProcessingTable() {
     }
       }
     },   
-    { name: "Job Name", minWidth: TableFieldSizes.JobIdFieldSize, maxWidth: TableFieldSizes.JobIdFieldSize, isResizable : true,
+    { name: t("BatchProcessing_JobNameFieldName"), minWidth: TableFieldSizes.JobIdFieldSize, maxWidth: TableFieldSizes.JobIdFieldSize, isResizable : true,
       onRender: (item) => {
       return <Link href={getPath(BatchProcessingPath.Results,{rowKey: item.RowKey})}>{item.JobName}</Link>
     }},

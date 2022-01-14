@@ -22,4 +22,16 @@ export const uploadFilesToBlob = async (files, containerName, path="") => {
   );
 };
 
+export const deleteFilesInBlobFolder = async (containerName, pathToFolder="") => {
+  const requestOptions = {
+    method: "DELETE",
+  };
+
+  return fetch(`/api/file/${containerName}/${pathToFolder}`, requestOptions).then(
+    (response) => {
+      return handleResponse(response);
+    }
+  );
+};
+
 

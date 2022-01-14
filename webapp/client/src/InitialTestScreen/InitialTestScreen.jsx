@@ -13,7 +13,7 @@ export default function InitialTestScreen() {
   const { t } = useTranslation();
 
   useEffect(() => {
-    getKnowledgeBases("UAT")
+    getKnowledgeBases("TEST")
       .then((result) => {
         setKnowledgeBasesUAT(result.message.knowledgebases);
         setLoadingData(false);

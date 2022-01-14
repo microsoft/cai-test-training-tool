@@ -13,12 +13,11 @@ export default function StartDeploy() {
   const [knowdledgeBases, setKnowledgeBases] = useState([]);
 
   const [loadingData, setLoadingData] = useState(true)
-  const [hasAccess, setHasAccess] = useState(true)
 
   const { t } = useTranslation();
 
   useEffect(() => {
-    getKnowledgeBases("UAT")
+    getKnowledgeBases("TEST")
       .then((result) => {
         setKnowledgeBases(result.message.knowledgebases)
         setLoadingData(false);
@@ -26,7 +25,6 @@ export default function StartDeploy() {
       .catch((error) => {
         if (error.response.status == 403) {
           setLoadingData(false);
-          setHasAccess(false);
         }
         console.log(error)
       });
@@ -46,11 +44,8 @@ export default function StartDeploy() {
         <div style={{ height: "640px" }}>
           {loadingData &&
             <h4 float="left">{t("General_LoadingData")}</h4>}
-          {!loadingData && hasAccess &&
+          {!loadingData &&
             <DeployJobsTable knowledgebases={knowdledgeBases} />
-          }
-          {!loadingData && !hasAccess &&
-            <h4 float="left">{t("General_NoAccess")}</h4>
           }
         </div>
       </Stack>

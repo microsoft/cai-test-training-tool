@@ -69,17 +69,21 @@ export default function DeployJobsTable({ knowledgebases }) {
       onRender: (item) => {
         var iconName = "WarningSolid";
         var className = iconClassNames.failure;
+        var text = t("KnowledgeBase_TestList_StatusFailed");
         if (item.status != undefined) {
-          if (item.status.toString() === DeploymentStatus.PENDING_APPROVAL) {
+          if (item.status.toString() === DeploymentStatus.IN_PROGRESS) {
             iconName = "WarningSolid";
             className = iconClassNames.created;
-          } else if (item.status.toString() === DeploymentStatus.OK) {
+            text = t("KnowledgeBase_TestList_StatusInprogress");
+          } else if (item.status.toString() === DeploymentStatus.SUCCESSFUL) {
             iconName = "SkypeCircleCheck";
             className = iconClassNames.success;
+            text = t("KnowledgeBase_TestList_StatusSuccessful");
+
           }
           return (
             <span>
-              <Icon iconName={iconName} className={className} /> {t(`KnowledgeBase_DeploymentList_StatusFieldName_${item.status}`)}
+              <Icon iconName={iconName} className={className} /> {text}
             </span>
           );
         }

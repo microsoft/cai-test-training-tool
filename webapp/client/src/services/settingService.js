@@ -28,3 +28,7 @@ export async function deleteAction(setting, actionId) {
 export async function getActionProperties() {
     return (await httpClient.get(`${URLBASE}/actions/baseProperties`)).data;
 }
+
+export async function getTestEnvironments() {
+    return (await httpClient.get(`${URLBASE}/environments`)).data
+}

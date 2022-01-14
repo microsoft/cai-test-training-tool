@@ -7,7 +7,7 @@ const router: Router = express.Router({});
 
 async function getKnowledgeBases(environment) {
   var subscription =
-    environment === "UAT"
+    environment === "TEST"
       ? process.env.QNA_ACCESS_KEY_UAT
       : process.env.QNA_ACCESS_KEY_PRD;
   var headers = {

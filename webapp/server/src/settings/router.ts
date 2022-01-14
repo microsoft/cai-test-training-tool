@@ -71,6 +71,11 @@ router.put('/actions/:setting/:actionId', async (req, res) => {
         return await UpsertAction(req, res);
 })
 
+router.get('/environments', async (req, res) => {
+   res.status(200).json(JSON.parse(process.env.QNA_ENV));
+});
+
+
 async function UpsertAction(req, res) {
     var action = req.body;
 

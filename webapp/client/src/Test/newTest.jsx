@@ -8,7 +8,7 @@ import { createJob } from "../services/tableStorageService.js";
 import { PrimaryButton, TextField } from "@fluentui/react";
 import { Dropdown } from "office-ui-fabric-react/lib/Dropdown";
 import triggerTestExecution from "../services/testFunctionService.js";
-import { getAllActions as getAllSettings } from "../services/settingService";
+import { getTestEnvironments} from "../services/settingService";
 import { hasAccessRight } from "../services/accessService";
 import { mergeStyles, Stack } from 'office-ui-fabric-react';
 import { classes } from "../styles"
@@ -30,23 +30,14 @@ export default function NewTest() {
   const [hasAccess, setHasAccess] = useState(false);
 
   useEffect(() => {
-    getAllSettings()
+    getTestEnvironments()
       .then((result) => {
-        var envSelection = result.filter(m => m.key == "QNATesting_Environments");
-
-        var envOptions = envSelection[0].options;
-        var environmentOptions = Object.keys(envOptions).map(function (key) {
-          return { key: key, text: envOptions[key] }
+        console.log(result)
+        console.log(result[0])
+        var environmentOptions = Object.keys(result).map(function (key) {
+          return { key: key, text: result[key] }
         });
         setEnvironmentOptions(environmentOptions);
-      })
-      .catch((error) => console.log(error));
-
-    hasAccessRight("BMT_QNA_Tester")
-      .then((result) => {
-        if (result == true) {
-          setHasAccess(true);
-        }
       })
       .catch((error) => console.log(error));
 
@@ -170,13 +161,10 @@ export default function NewTest() {
             color="primary"
             margin="50px"
             onClick={handleRun}
-            disabled={file === null || !isFileValid || testsetName === "" || !hasAccess}
+            disabled={file === null || !isFileValid || testsetName === "" }
           />
         </Stack>
       </div >
-      <span style={{color: 'red'}}>
-        {hasAccess ? "" : "Fehlende Rechte, um Test zu starten."}
-      </span>
     </div>
   );
 }

@@ -22,11 +22,33 @@ export default function BatchProcessingResult() {
   ];
 
   const licensePlaceColumns = [
-    { fieldName: "RowKey", name:  t("BatchProcessingResult_FileNameFieldName"), minWidth: 150, maxWidth: 300 },
+    { fieldName: "RowKey", name: t("BatchProcessingResult_FileNameFieldName"), minWidth: 150, maxWidth: 300 },
     { fieldName: "LPTranscript", name: t("BatchProcessingResult_ReferenceFieldName"), minWidth: 150, maxWidth: 200 },
     { fieldName: "Recognized", name: t("BatchProcessingResult_RecognizedFieldName"), minWidth: 150 },
     { fieldName: "ValidationLPRRecognized", name: t("BatchProcessingResult_ProcessedFieldName"), minWidth: 150, maxWidth: 300 },
-    { fieldName: "LUISEntities", name: t("BatchProcessingResult_LUISEntitiesFieldName"), minWidth: 150, maxWidth: 300 },
+    {
+      name: t("BatchProcessingResult_LUISEntitiesFieldName"), minWidth: 150, maxWidth: 300, isMultiline: true,
+      onRender: (item) => {
+
+        if (item.LUISEntitiesJson != null) {
+
+
+          let parsedJson = JSON.parse(item.LUISEntitiesJson)
+
+          if (parsedJson != undefined && parsedJson.length > 0) {
+            return (
+              <>
+              <b>Text:</b> {parsedJson[0].text}<br />
+              <b>StartIndex:</b> {parsedJson[0].startIndex}<br />
+              <b>Length:</b> {parsedJson[0].length}<br />
+              <b>Score:</b> {parsedJson[0].score}<br />
+              </>
+            );
+          }
+        }
+        return ("")
+      }
+    },
     { fieldName: "LPRScore", name: t("BatchProcessingResult_ScoreFieldName"), minWidth: 150, maxWidth: 150 },
   ];
 

@@ -6,6 +6,7 @@
     "General_Cancel" : "Cancel" ,
     "General_Save" : "Confirm" ,
     "General_Download" : "Download",
+    "General_SpinnerLabel" : "Loading",
     "Tool_Title" : "Conversational AI Test and Training Tool",
     
     "Home_KnowledgeBase_Description" : "Test a Knowledgebase with test data.",
@@ -15,13 +16,20 @@
     "KnowledgeBase_Test_Title" : "Test a Knowledge Base",
     "KnowledgeBase_Test_NewTest_Button" : "New Test",
     
+    "KnowledgeBase_TestList_JobIdFieldName" : "Job Id",
     "KnowledgeBase_TestList_TimestampFieldName" : "Timestamp",
     "KnowledgeBase_TestList_EnvironmentFieldName" : "Environment",
     "KnowledgeBase_TestList_ResultFieldName" : "Result",
+    "KnowledgeBase_TestList_KnowledgeBaseFieldName" : "Knowledge Base",
+    "KnowledgeBase_TestList_StatusFieldName" : "Status",
+    "KnowledgeBase_TestList_TestsetFieldName" : "Testset",
     "KnowledgeBase_TestList_UsernameFieldName" : "User",
     "KnowledgeBase_TestList_DetailsButtonLabel" : "Details",
     "KnowledgeBase_TestList_DeleteButtonLabel" : "Delete",
     
+    "KnowledgeBase_TestList_StatusInprogress" : "In progress",
+    "KnowledgeBase_TestList_StatusFailed" : "Failed",
+    "KnowledgeBase_TestList_StatusSuccessful" : "Successful",
     "KnowledgeBase_TestDetail_DownloadTestSet" : "Download Testset",
     "KnowledgeBase_TestDetail_Title" : "Testing Knowledge Bases",
     "KnowledgeBase_TestDetail_SubTitle" : "Test Results",
@@ -44,7 +52,18 @@
     "KnowledgeBaseDeployment_Title" : "New deployment in the production environment",
     "KnowledgeBaseDeployment_NewDeploymentButtonLabel" : "New Deployment",
     
+    "KnowledgeBase_TestResult_ResultFieldName" : "Result",
+    "KnowledgeBase_TestResult_AnswerFieldName" : "Answer",
+    "KnowledgeBase_TestResult_ResultCorrect" : "Correct",
+    "KnowledgeBase_TestResult_ResultIncorrect" : "Incorrect",
+    
     "KnowledgeBase_DeploymentList_JobIdFieldName" : "Job Id",
+    "KnowledgeBase_DeploymentList_ExpectedID" : "Exp. ID",
+    "KnowledgeBase_DeploymentList_ExpectedMetadata" : "Exp. Metadata",
+    "KnowledgeBase_DeploymentList_Metadata" : "Metadata",
+    "KnowledgeBase_DeploymentList_ExpectedContext" : "Exp. Context",
+    "KnowledgeBase_DeploymentList_Context" : "Context",
+    "KnowledgeBase_DeploymentList_ExpectedPrompts" : "Exp. Prompts",
     "KnowledgeBase_DeploymentList_TimestampFieldName" : "Timestamp",
     "KnowledgeBase_DeploymentList_KnowledgeBaseFieldName" : "Knowledgebase",
     "KnowledgeBase_DeploymentList_StatusFieldName" : "Status",
@@ -108,10 +127,13 @@
     
     "BatchProcessing_Title" : "Batch Processing Test",
     "BatchProcessing_NewLabel" : "Add new batch",
+
+    "BatchProcessing_JobNameFieldName" : "Job Name",
     "BatchProcessing_LastUpdateFieldName" : "Last Update Date",
     "BatchProcessing_LPRAccuracyFieldName" : "LPR Accuracy",
     "BatchProcessing_StatusFieldName" : "Status",
     "BatchProcessing_PercentageFieldName" : "Completion %",
+
     "BatchProcessingResult_Title" : "Batch Processing Results",
     "BatchProcessingResult_WerLabel" : "Word Error Rate",
     "BatchProcessingResult_WrrLabel" : "Word Recognition Rate",

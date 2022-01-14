@@ -11,6 +11,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { handleColumnClick, onRenderRow,  TableDateFormat, TableFieldSizes } from "../Common/TableCommon.jsx";
 import { deleteIcon, iconClassNames, refreshIcon } from "../styles.jsx";
+import { TestStatus } from "../Common/StatusEnum.jsx";
 
 const moment = require("moment");
 
@@ -39,7 +40,7 @@ export default function TestTable({ knowledgeBases }) {
       }
     },
     {
-      fieldName: "PartitionKey", name: "Job Id", minWidth: TableFieldSizes.JobIdFieldSize, maxWidth: TableFieldSizes.JobIdFieldSize, isResizable: true,
+      fieldName: "PartitionKey", name: t("KnowledgeBase_TestList_JobIdFieldName"), minWidth: TableFieldSizes.JobIdFieldSize, maxWidth: TableFieldSizes.JobIdFieldSize, isResizable: true,
       onRender: (item) => {
         return <Link href={getPath(TestPath.Results, { partitionKey: item.PartitionKey })}>{item.PartitionKey}</Link>
       }
@@ -54,10 +55,10 @@ export default function TestTable({ knowledgeBases }) {
       },
       isResizable: true
     },
-    { fieldName: "kbId", name: "Knowledgebase", minWidth: 160, maxWidth: 170, isResizable: true },
+    { fieldName: "kbId", name: t("KnowledgeBase_TestList_KnowledgeBaseFieldName"), minWidth: 160, maxWidth: 170, isResizable: true },
     { fieldName: "environment", name: t("KnowledgeBase_TestList_EnvironmentFieldName"), minWidth: 70, maxWidth: 90, isResizable: true },
     {
-      name: "Status",
+      name: t("KnowledgeBase_TestList_StatusFieldName"),
       fieldName: "status",
       minWidth: 90,
       maxWidth: 150,
@@ -65,26 +66,30 @@ export default function TestTable({ knowledgeBases }) {
       onRender: (item) => {
         var iconName = "WarningSolid";
         var className = iconClassNames.failure;
+        var text = t("KnowledgeBase_TestList_StatusFailed");
         if (item.status != undefined) {
-          if (item.status.toString() === "INPROGRESS") {
+          if (item.status.toString() === TestStatus.IN_PROGRESS) {
             iconName = "WarningSolid";
             className = iconClassNames.created;
+            text = t("KnowledgeBase_TestList_StatusInprogress");
           } else if (
-            item.status.toString().toLowerCase().includes("OK")
+            item.status.toString() === TestStatus.SUCCESSFUL ||
+            item.status.toString() === TestStatus.OK
           ) {
             iconName = "SkypeCircleCheck";
             className = iconClassNames.success;
+            text = t("KnowledgeBase_TestList_StatusSuccessful");
           }
           return (
             <span>
-              <Icon iconName={iconName} className={className} /> {t(`KnowledgeBase_TestList_StatusFieldName_${item.status}`)}
+              <Icon iconName={iconName} className={className} /> {text}
             </span>
           );
         }
       },
       isResizable: true
     },
-    { fieldName: "testset", name: "Testset", minWidth: 150, maxWidth: 300, isResizable: true },
+    { fieldName: "testset", name: t("KnowledgeBase_TestList_TestsetFieldName"), minWidth: 150, maxWidth: 300, isResizable: true },
     { fieldName: "result", name: t("KnowledgeBase_TestList_ResultFieldName"), minWidth: 70, maxWidth: 70, isResizable: true },
     { fieldName: "username", name: t("KnowledgeBase_TestList_UsernameFieldName"), minWidth: 90, maxWidth: 300, isResizable: true },
   ]);
