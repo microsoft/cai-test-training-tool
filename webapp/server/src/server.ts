@@ -18,6 +18,7 @@ import { fileRouter as fileRouter } from './file/router';
 import { tableStorageRouter } from './tableStorage/router';
 import { queueStorageRouter } from './queueStorage/router';
 import { speechServiceRouter } from './speechService/router';
+import { audioGenerationRouter } from './audioGenerationService/router';
 
 if (process.env.NODE_ENV == "development") {
   var dotenv = require("dotenv")
@@ -202,6 +203,8 @@ app.use(`${BASEURL}/api/knowledgebase`, ensureAuthenticated, knowledgeBaseRouter
 app.use(`${BASEURL}/api/tablestorage`, ensureAuthenticated, tableStorageRouter);
 
 app.use(`${BASEURL}/api/queue`, ensureAuthenticated, queueStorageRouter);
+
+app.use(`${BASEURL}/api/audiobatch`, ensureAuthenticated, audioGenerationRouter);
 
 app.use(`${BASEURL}/api/pipeline`, ensureAuthenticated, pipelineRouter);
 

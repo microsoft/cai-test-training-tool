@@ -74,6 +74,57 @@ async function getCustomModels() {
     return models;
 }
 
+async function getMicrosoftVoicesToken() {
+    
+    var url = `https://${process.env.SPEECH_SERVICE_REGION}.api.cognitive.microsoft.com/sts/v1.0/issueToken`
+    var models = new Array();
+
+    var headers = {
+        "Ocp-Apim-Subscription-Key": process.env.SPEECH_SERVICE_KEY,
+      };
+      var requestOptions = {
+        method: "GET",
+        headers: headers,
+      };
+
+      var response = await axios.get(url, requestOptions);
+
+      if(response.status == 200) {
+        return response.data;
+    } else {
+        return "";
+    }
+}
+
+async function getMicrosoftVoices() {
+
+    let token = await getMicrosoftVoicesToken();
+
+    if(token == null && token == "" )
+    {
+        return [];
+    }
+    
+    var url = `https://${process.env.SPEECH_SERVICE_REGION}.tts.speech.microsoft.com/cognitiveservices/voices/list`
+    var models = new Array();
+
+    var headers = {
+        "Authorization": 'Bearer' + token,
+      };
+
+      var requestOptions = {
+        method: "GET",
+        headers: headers,
+      };
+
+      var response = await axios.get(url, requestOptions);
+      
+    if (response.status == 200) {
+        return response.data;
+    } else {
+        return [];
+    }
+}
 
 router.get('/models', async (req, res) => {
 
@@ -84,6 +135,19 @@ router.get('/models', async (req, res) => {
         "None": [],
         "Base": baseModels,
         "Custom": customModels
+    });
+})
+
+
+router.get('/voices', async (req, res) => {
+
+    let microsoftVoices = await getMicrosoftVoices();
+
+    res.json({
+        "None": [],
+        "Microsoft": microsoftVoices,
+        "Amazon": [],
+        "Google":[]
     });
 })
 
