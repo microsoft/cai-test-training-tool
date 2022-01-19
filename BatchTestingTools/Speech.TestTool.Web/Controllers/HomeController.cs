@@ -54,18 +54,18 @@ namespace Daimler.Speech.Web.Controllers
 
             CloudStorageAccount storageAccount = CloudStorageAccount.Parse(StorageConnectionString);
 
-            var customModels = await SpeechModelsHelper.GetCustomSpeechModels(servicesSettings.SpeechServiceKey, servicesSettings.Region + ".api.cognitive.microsoft.com", 443);
+            var customProjects = await SpeechModelsHelper.GetCustomProjects(servicesSettings.SpeechServiceKey, servicesSettings.Region + ".api.cognitive.microsoft.com", 443);
 
             var baseModels = await SpeechModelsHelper.GetBaseSpeechModels(servicesSettings.SpeechServiceKey, servicesSettings.Region + ".api.cognitive.microsoft.com", 443); ;
 
-            //var speechAcousticModels = await SpeechModelsHelper.GetActiveSpeechModels(StorageConnectionString, "SpeechModels", "AcousticModels");
+            List<string> locales = baseModels.Select(i => i.Locale).Distinct().ToList();
 
+            locales.Sort();
 
+            string SAS = storageAccount.GetSharedAccessSignature(new SharedAccessAccountPolicy() { Permissions = SharedAccessAccountPermissions.Write | SharedAccessAccountPermissions.Read, Services = SharedAccessAccountServices.Table | SharedAccessAccountServices.Blob, Protocols = SharedAccessProtocol.HttpsOnly, ResourceTypes = SharedAccessAccountResourceTypes.Container | SharedAccessAccountResourceTypes.Object | SharedAccessAccountResourceTypes.Service, SharedAccessExpiryTime = DateTimeOffset.Now.AddDays(1) });
 
-            string SAS = storageAccount.GetSharedAccessSignature(new SharedAccessAccountPolicy() { Permissions = SharedAccessAccountPermissions.Write|SharedAccessAccountPermissions.Read, Services = SharedAccessAccountServices.Table|SharedAccessAccountServices.Blob,Protocols=SharedAccessProtocol.HttpsOnly,ResourceTypes=SharedAccessAccountResourceTypes.Container|SharedAccessAccountResourceTypes.Object|SharedAccessAccountResourceTypes.Service, SharedAccessExpiryTime = DateTimeOffset.Now.AddDays(1) });
-
-            StorageDetails storageDetails = new StorageDetails() {StorageSAS=SAS,StorageAccountName= servicesSettings.StorageName };
-            BatchJobPageData batchJobPageData = new BatchJobPageData() {BaseModels = baseModels, AllModels= customModels, StorageInfo = storageDetails };
+            StorageDetails storageDetails = new StorageDetails() { StorageSAS = SAS, StorageAccountName = servicesSettings.StorageName };
+            BatchJobPageData batchJobPageData = new BatchJobPageData() { BaseModels = baseModels, AllProjects = customProjects, BaseModelsLanguages = locales, StorageInfo = storageDetails };
 
             return View(batchJobPageData);
         }
@@ -77,11 +77,11 @@ namespace Daimler.Speech.Web.Controllers
 
             CloudStorageAccount storageAccount = CloudStorageAccount.Parse(StorageConnectionString);
 
-            List<string> SpeechTypes = servicesSettings.AudioGenerationSpeechTypes != null? servicesSettings.AudioGenerationSpeechTypes.Split(",").ToList(): new List<string>();
+            List<string> SpeechTypes = servicesSettings.AudioGenerationSpeechTypes != null ? servicesSettings.AudioGenerationSpeechTypes.Split(",").ToList() : new List<string>();
 
             List<string> ttsLanguages = servicesSettings.TTSLanguages != null ? servicesSettings.TTSLanguages.Split(",").ToList() : new List<string>();
 
-            List<SpeechVoice> speechVoices =  await GetMicrosoftSpeechVoices();
+            List<SpeechVoice> speechVoices = await GetMicrosoftSpeechVoices();
 
             var GVoices = ListVoices();
 
@@ -92,7 +92,7 @@ namespace Daimler.Speech.Web.Controllers
             string SAS = storageAccount.GetSharedAccessSignature(new SharedAccessAccountPolicy() { Permissions = SharedAccessAccountPermissions.Write | SharedAccessAccountPermissions.Read, Services = SharedAccessAccountServices.Table | SharedAccessAccountServices.Blob, Protocols = SharedAccessProtocol.HttpsOnly, ResourceTypes = SharedAccessAccountResourceTypes.Container | SharedAccessAccountResourceTypes.Object | SharedAccessAccountResourceTypes.Service, SharedAccessExpiryTime = DateTimeOffset.Now.AddDays(1) });
 
             StorageDetails storageDetails = new StorageDetails() { StorageSAS = SAS, StorageAccountName = servicesSettings.StorageName };
-            AudioGenerationPageData AudioGenerationJobPageData = new AudioGenerationPageData() {StorageInfo = storageDetails , SpeechTypes= SpeechTypes , MSSpeechVoices= speechVoices, GoogleVoices = GVoices , AmazonVoices = AmazonVoices, TTSLanguages = ttsLanguages };
+            AudioGenerationPageData AudioGenerationJobPageData = new AudioGenerationPageData() { StorageInfo = storageDetails, SpeechTypes = SpeechTypes, MSSpeechVoices = speechVoices, GoogleVoices = GVoices, AmazonVoices = AmazonVoices, TTSLanguages = ttsLanguages };
 
             return View(AudioGenerationJobPageData);
         }
@@ -207,15 +207,15 @@ namespace Daimler.Speech.Web.Controllers
             var batchJob = await BatchJobStorageHelper.GetJobsById(Id, servicesSettings.StorageConnectionString);
             var batchJobDetails = await BatchJobStorageHelper.GetJobDetails(batchJob.RowKey, servicesSettings.StorageConnectionString);
             foreach (var detail in batchJobDetails)
-            {                
+            {
                 detail.ETag = "";
                 detail.LPRecognizedJson = "";
                 detail.LUISEntitiesJson = "";
             }
 
-            var LPResults = batchJobDetails.Where(i => !string.IsNullOrEmpty(i.ValidationLPRRecognized)).Select(u => new VoiceFile { LPRScore = u.LPRScore, LUISEntities = u.LUISEntities, RowKey = u.RowKey, ValidationLPRRecognized=u.ValidationLPRRecognized,LPTranscript=u.LPTranscript, Recognized=u.Recognized }).ToList();
+            var LPResults = batchJobDetails.Where(i => !string.IsNullOrEmpty(i.ValidationLPRRecognized)).Select(u => new VoiceFile { LPRScore = u.LPRScore, LUISEntities = u.LUISEntities, RowKey = u.RowKey, ValidationLPRRecognized = u.ValidationLPRRecognized, LPTranscript = u.LPTranscript, Recognized = u.Recognized }).ToList();
 
-            BatchJobResults batchJobResults = new BatchJobResults() { Job = batchJob, JobDetails = batchJobDetails, LPDetails= LPResults };
+            BatchJobResults batchJobResults = new BatchJobResults() { Job = batchJob, JobDetails = batchJobDetails, LPDetails = LPResults };
             return View(batchJobResults);
         }
 
@@ -230,7 +230,7 @@ namespace Daimler.Speech.Web.Controllers
                 detail.Exception = "";
             }
 
-            AudioGenerationResults batchJobResults = new AudioGenerationResults() { Job = batchJob, JobDetails = batchJobDetails};
+            AudioGenerationResults batchJobResults = new AudioGenerationResults() { Job = batchJob, JobDetails = batchJobDetails };
             return View(batchJobResults);
         }
 
@@ -259,7 +259,7 @@ namespace Daimler.Speech.Web.Controllers
             return View(model);
         }
 
-        
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

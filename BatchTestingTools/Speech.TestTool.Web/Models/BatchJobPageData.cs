@@ -10,7 +10,9 @@ namespace Daimler.Speech.Web.Models
     {
         public StorageDetails StorageInfo { get; set; }
 
-        public List<ModelV3> AllModels { get; set; }
+        public List<Project> AllProjects { get; set; }
+
+        public List<string> BaseModelsLanguages { get; set; }
 
         public List<ModelV3> BaseModels { get; set; }
 

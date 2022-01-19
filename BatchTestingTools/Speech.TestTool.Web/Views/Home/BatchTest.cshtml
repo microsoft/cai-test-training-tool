@@ -74,12 +74,22 @@
                             </select>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div id="modelOptionsGroup" class="form-group" style="display:none">
+                        <div id="modelOptionsLabel">
+                            Languages:
+                        </div>
+                        <div>
+                            <select name="modelOptions" id="modelOptions" onchange="handleModelOptionsChange()" style="width:500px">
+                            </select>
+                        </div>
+                    </div>
+
+                    <div id="modelsGroup" class="form-group" style="display:none">
                         <div>
                             Model:
                         </div>
                         <div>
-                            <select name="ddlModelId" disabled="true" id="ddlModelId" style="width:500px"></select>
+                            <select name="ddlModelId" id="ddlModelId" style="width:500px"></select>
                         </div>
                     </div>
                 </form>
@@ -219,6 +229,15 @@
             var lpFile = document.getElementById('lpfile').files;
             var JobName = $('#jobName').val();
 
+            var ddlModelType = $("#modelType");
+            var ddlModelId = $("#ddlModelId");
+
+            if (ddlModelType.val() !== "None" && (ddlModelId.val() == null || ddlModelId.val() == "")) {
+                alert("Please select a Model or select None as a Model Type!");
+                return;
+            }
+
+
             if (!files.length) {
                 alert('Please select a file!');
                 return;
@@ -251,7 +270,7 @@
             var blockSize = file.size > 1024 * 1024 * 32 ? 1024 * 1024 * 4 : 1024 * 512;
             var transcriptBlockSize = transcriptFile.size > 1024 * 1024 * 32 ? 1024 * 1024 * 4 : 1024 * 512;
 
-            var lpBlockSize = lpFile.size > 1024 * 1024 * 32 ? 1024 * 1024 * 4 : 1024 * 512;
+
             var options = {
                 storeBlobContentMD5: checkMD5,
                 blockSize: blockSize
@@ -262,10 +281,7 @@
                 blockSize: transcriptBlockSize
             };
 
-            var lpOptions = {
-                storeBlobContentMD5: checkMD5,
-                blockSize: lpBlockSize
-            };
+
             var uploadAudio = false;
 
             blobService.singleBlobPutThresholdInBytes = blockSize;
@@ -283,12 +299,14 @@
                 } else {
                     displayProcess(100);
                     setTimeout(function () { // Prevent alert from stopping UI progress update
-                        SaveSpeechJob(JobName, file.name, transcriptFile.name, LanguageModelName, "", LanguageModelId, "", lpFile.name, FileNameGuid);
+                        SaveSpeechJob(JobName, file.name, transcriptFile.name, LanguageModelName, "", LanguageModelId, "", (lpFile ? lpFile.name : "" ), FileNameGuid);
                         alert("Files are uploaded successfully");
                         $('#voicesfile').val("");
                         $('#transcriptfile').val("");
                         $('#lpfile').val('');
                         $('#jobName').val('');
+                        ddlModelType.val('None');
+                        handleModelTypeChange();
 
                         var ddlbaseModels = $("#baseModelId");
                         var ddllanguageModels = $("#languageModelId");
@@ -307,6 +325,7 @@
             });
 
 
+
             var speedSummaryTranscript = blobService.createBlockBlobFromBrowserFile(container, JobName + "-" + FileNameGuid + "/" + transcriptFile.name, transcriptFile, transcriptOptions, function (error, result, response) {
                 finishedOrError = true;
                 btn.disabled = false;
@@ -321,6 +340,14 @@
             });
 
             if (lpFile) {
+
+                var lpBlockSize = lpFile.size > 1024 * 1024 * 32 ? 1024 * 1024 * 4 : 1024 * 512;
+
+                var lpOptions = {
+                    storeBlobContentMD5: checkMD5,
+                    blockSize: lpBlockSize
+                };
+
                 var speedSummaryLP = blobService.createBlockBlobFromBrowserFile(container, JobName + "-" + FileNameGuid + "/" + lpFile.name, lpFile, lpOptions, function (error, result, response) {
                     finishedOrError = true;
                     btn.disabled = false;
@@ -334,6 +361,11 @@
                         setTimeout(function () { // Prevent alert from stopping UI progress update
                         }, 1000);
                     }
+                });
+
+                speedSummaryLP.on('progress', function () {
+                    var process = speedSummaryLP.getCompletePercent();
+                    displayProcess(process);
                 });
             }
 
@@ -356,10 +388,7 @@
                 displayProcess(process);
             });
 
-            speedSummaryLP.on('progress', function () {
-                var process = speedSummaryLP.getCompletePercent();
-                displayProcess(process);
-            });
+
 
 
             speedSummary.on('progress', function () {
@@ -424,7 +453,11 @@
 
         function handleModelTypeChange() {
 
+            var modelOptionsLabel = $("#modelOptionsLabel");
+            var ddlmodelOptions = $("#modelOptions");
 
+            var modelOptionGroup = $("#modelOptionsGroup");
+            var modelsGroup = $("#modelsGroup");
 
             var ddlModelType = $("#modelType");
             var ddlModelId = $("#ddlModelId");
@@ -433,38 +466,95 @@
             if (ddlModelType.val() == "Custom") {
 
                 ddlModelId.empty();
-                var allModels = JSON.parse('@Html.Raw(Json.Serialize(Model.AllModels))');
+                ddlmodelOptions.empty();
+                var allProjects = JSON.parse('@Html.Raw(Json.Serialize(Model.AllProjects))');
 
-                $(allModels).each(function () {
+                $(allProjects).each(function () {
                     var option = $("<option />");
                     option.html(this.displayName);
                     option.val(this.self);
                     //Add the Option element to DropDownList.
-                    ddlModelId.append(option);
+                    ddlmodelOptions.append(option);
                 });
+                modelOptionsLabel.html("Projects: ");
+                modelOptionGroup.show();
+                modelsGroup.show();
 
-                ddlModelId.prop("disabled", "");
+                handleModelOptionsChange();
             }
             else if (ddlModelType.val() == "Base") {
                 ddlModelId.empty();
-                var baseModels = JSON.parse('@Html.Raw(Json.Serialize(Model.BaseModels))');
+                ddlmodelOptions.empty();
+                var languages = JSON.parse('@Html.Raw(Json.Serialize(Model.BaseModelsLanguages))');
 
-                $(baseModels).each(function () {
+                $(languages).each(function () {
+                    var option = $("<option />");
+                    option.html(this);
+                    option.val(this);
+                    //Add the Option element to DropDownList.
+                    ddlmodelOptions.append(option);
+                });
+
+                ddlmodelOptions.val("de-DE");
+                modelOptionsLabel.html("Languages: ");
+                modelOptionGroup.show();
+                modelsGroup.show();
+
+                handleModelOptionsChange();
+            }
+            else {
+                ddlModelId.empty();
+                ddlmodelOptions.empty();
+
+                modelOptionGroup.hide();
+                modelsGroup.hide();
+            }
+
+
+        }
+
+        function handleModelOptionsChange() {
+            var ddlModelType = $("#modelType");
+            var ddlmodelOptions = $("#modelOptions");
+            var ddlModelId = $("#ddlModelId");
+
+            if (ddlModelType.val() == "Custom") {
+                var projects = JSON.parse('@Html.Raw(Json.Serialize(Model.AllProjects))');
+                var selectedProject = projects.filter(function (i) {
+                    return i.self === ddlmodelOptions.val();
+                });
+
+                var projectModels = ((selectedProject !== null) && (selectedProject.length > 0) ? selectedProject[0].models : []);
+
+                ddlModelId.empty();
+
+                $(projectModels).each(function () {
                     var option = $("<option />");
                     option.html(this.displayName);
                     option.val(this.self);
                     //Add the Option element to DropDownList.
                     ddlModelId.append(option);
-                });
-                ddlModelId.prop("disabled", "");
+                })
+
             }
-            else {
+            else if (ddlModelType.val() == "Base") {
+
+                var models = JSON.parse('@Html.Raw(Json.Serialize(Model.BaseModels))');
+                var filteredModels = models.filter(function (i) {
+                    return i.locale === ddlmodelOptions.val();
+                });
+
                 ddlModelId.empty();
 
-                ddlModelId.prop("disabled", "disabled");
+                $(filteredModels).each(function () {
+                    var option = $("<option />");
+                    option.html(this.displayName);
+                    option.val(this.self);
+                    //Add the Option element to DropDownList.
+                    ddlModelId.append(option);
+                })
+
             }
-
-
         }
 
         function FillData() {
@@ -491,7 +581,7 @@
         }
     </script>
     <script type="text/javascript" src="~/lib/adal/App.js"></script>
-    }
+}
 
 
 

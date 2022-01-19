@@ -40,7 +40,7 @@ namespace Speech.TestTool.Web.CrisClient
         {
             var path = $"{this.speechToTextBasePath}models";
             List<ModelV3> models = new List<ModelV3>();
-            var result =  await this.GetAsync<SpeechModelsV3>(path);
+            var result = await this.GetAsync<SpeechModelsV3>(path);
             models.AddRange(result.Models);
             while (result.NextLink != null)
             {
@@ -52,6 +52,7 @@ namespace Speech.TestTool.Web.CrisClient
 
             return result;
         }
+
 
         public async Task<SpeechModelsV3> GetBaseModelsAsync()
         {
@@ -70,21 +71,35 @@ namespace Speech.TestTool.Web.CrisClient
             return result;
         }
 
-        public async Task<Projects> GetCustomProjectsAsync()
+
+
+        public async Task<List<Project>> GetCustomProjectsAsync()
         {
             var path = $"{this.speechToTextBasePath}projects";
-            List<ModelV3> models = new List<ModelV3>();
-            var result = await this.GetAsync<Projects>(path);
-            models.AddRange(result.Models);
+            List<Project> projects = new List<Project>();
+            var result = await this.GetAsync<ProjectsV3>(path);
+            projects.AddRange(result.Projects);
             while (result.NextLink != null)
             {
-                result = await this.GetAsync<SpeechModelsV3>(result.NextLink.ToString());
-                models.AddRange(result.Models);
+                result = await this.GetAsync<ProjectsV3>(result.NextLink.ToString());
+                projects.AddRange(result.Projects);
             }
 
-            result.Models = models;
+            foreach (Project project in projects)
+            {
+                List<ModelV3> models = new List<ModelV3>();
+                var modelResult = await this.GetAsync<SpeechModelsV3>(project.links.models);
+                models.AddRange(modelResult.Models);
+                while (modelResult.NextLink != null)
+                {
+                    modelResult = await this.GetAsync<SpeechModelsV3>(modelResult.NextLink.ToString());
+                    models.AddRange(modelResult.Models);
+                }
 
-            return result;
+                project.Models = models;
+            }
+
+            return projects;
         }
 
 

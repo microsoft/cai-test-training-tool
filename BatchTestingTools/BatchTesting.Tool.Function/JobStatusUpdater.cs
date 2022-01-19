@@ -40,7 +40,7 @@ namespace BatchTesting.Tool.Function
 
 
         [FunctionName("JobStatusUpdater")]
-        public async Task Run([TimerTrigger("0 */5 * * * *")]TimerInfo myTimer, ILogger log)
+        public async Task Run([TimerTrigger("0 */5 * * * *")] TimerInfo myTimer, ILogger log)
         {
             try
             {
@@ -70,7 +70,12 @@ namespace BatchTesting.Tool.Function
 
         private async Task BatchTestValidation(BatchJob jobs, List<VoiceFile> jobDetails)
         {
-            var transcriptPairs = await Common.GetTranscriptValues(jobs.RowKey, jobs.LPReferenceFilename, storageConnectionString);
+            List<TranscriptPair> transcriptPairs = new List<TranscriptPair>();
+            if (!string.IsNullOrEmpty(jobs.LPReferenceFilename))
+            {
+                transcriptPairs = await Common.GetTranscriptValues(jobs.RowKey, jobs.LPReferenceFilename, storageConnectionString);
+            }
+
 
             List<ValidationItem> validationItems = new List<ValidationItem>();
 
@@ -82,7 +87,7 @@ namespace BatchTesting.Tool.Function
                 validationItems.Add(new ValidationItem() { Id = jobDetail.RowKey, Recognized = string.IsNullOrEmpty(jobDetail.Processed) ? "" : jobDetail.Processed, Reference = jobDetail.Transcript, LPRecognized = transcriptPair != null ? string.IsNullOrEmpty(jobDetail.LPRecognized) ? "" : jobDetail.LPRecognized : jobDetail.LPRecognized, LPReference = transcriptPair != null ? transcriptPair.Transcript : null });
             }
 
-            var results = await WERHelper.GetWERValue(validationItems,WERFunctionURL, WERFunctionKey);
+            var results = await WERHelper.GetWERValue(validationItems, WERFunctionURL, WERFunctionKey);
 
             if (results != null)
             {
@@ -134,7 +139,7 @@ namespace BatchTesting.Tool.Function
                     jobStatus += "\n - " + "Missing Reference Trancript";
                 }
 
-                await BatchJobStorageHelper.UpdateBatchJobStatus(jobs.RowKey, storageConnectionString,batchJobTableName, jobStatus, results, "100%");
+                await BatchJobStorageHelper.UpdateBatchJobStatus(jobs.RowKey, storageConnectionString, batchJobTableName, jobStatus, results, "100%");
             }
             else
             {
@@ -169,6 +174,6 @@ namespace BatchTesting.Tool.Function
             }
 
         }
-     
+
     }
 }

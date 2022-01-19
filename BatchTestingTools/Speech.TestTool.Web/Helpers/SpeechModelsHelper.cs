@@ -25,5 +25,12 @@ namespace Speech.TestTool.Function.Helpers
             var model = await crisClient.GetBaseModelsAsync();
             return model.Models.Where(i => i.Properties.DeprecationDates.TranscriptionDateTime >= DateTime.Now).OrderByDescending(i => i.CreatedDateTime).ToList();
         }
+
+        public async static Task<List<Project>> GetCustomProjects(string crisKey, string hostName, int port)
+        {
+            CrisClient crisClient = CrisClient.CreateApiV2Client(crisKey, hostName, port);
+            var projects = await crisClient.GetCustomProjectsAsync();
+            return projects;
+        }
     }
 }

@@ -34,7 +34,7 @@ namespace BatchTesting.Tool.Function
             try
             {
                 log.LogInformation("Custom Processing (JobId = " + myQueueItem.JobId + " FileName= " + myQueueItem.FileName + " Message= " + myQueueItem.Message + ")");
-                var postprocessorManager = new PostprocessorManager( configuration);
+                var postprocessorManager = new PostprocessorManager(configuration);
 
                 var processedResponseModel = await postprocessorManager.GetPostProcessedResultAsync(myQueueItem.Message, myQueueItem.CPLName);
 
@@ -64,6 +64,14 @@ namespace BatchTesting.Tool.Function
                         foreach (var lpLUISEntity in processedResponseModel["entities"])
                         {
                             LUISEntity += (!string.IsNullOrEmpty(LUISEntity) ? ", " : "") + lpLUISEntity?["entity"]?.ToString();
+                        }
+
+                        if (string.IsNullOrEmpty(LUISEntity))
+                        {
+                            foreach (var lpLUISEntity in processedResponseModel["entities"])
+                            {
+                                LUISEntity += (!string.IsNullOrEmpty(LUISEntity) ? ", " : "") + lpLUISEntity?["text"]?.ToString();
+                            }
                         }
                     }
 
