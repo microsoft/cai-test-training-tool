@@ -228,5 +228,5 @@ let port = preferredPort;
 app.listen(port, () => {
   // We don't use the debug logger here because we always want it to be shown.
   // eslint-disable-next-line no-console
-  console.log(`\n\n${chalk.green('Bot management tool now running at:')}\n\n${chalk.blue(`http://localhost:${port}`)}\n`);
+  console.log(`\n\n${chalk.green('Conversational AI Test and Training Tool now running at:')}\n\n${chalk.blue(`http://localhost:${port}`)}\n`);
 });

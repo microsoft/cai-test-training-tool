@@ -13,8 +13,10 @@ initializeIcons();
 function App() {
 
   const { t } = useTranslation();
-  let languageOptions = i18n.options.whitelist.map(x=>new Object({key:x, text:x.toUpperCase()}))
-  
+  let languageOptions = i18n.options.whitelist.map(x => new Object({ key: x, text: x.toUpperCase() }))
+
+  document.title = t("Tool_Title");
+
   return (
     <div className="App">
       <div className={classes.headerContainer} role="banner">
@@ -26,11 +28,11 @@ function App() {
           <div className={classes.title}>{t("Tool_Title")}</div>
         </div>
         <div className={classes.headerLanguageDropdown}>
-        <Dropdown
-           options={languageOptions}
-           defaultSelectedKey={i18n.language}
-           onChange={(ev, item) => {i18n.changeLanguage(item.key); window.location.reload()}}
-        />
+          <Dropdown
+            options={languageOptions}
+            defaultSelectedKey={i18n.language}
+            onChange={(ev, item) => { i18n.changeLanguage(item.key); window.location.reload() }}
+          />
         </div>
       </div>
       <Nav />
