@@ -22,28 +22,73 @@ TBD!
 
 TBD!
 
-### Deployment of the application
+### Main Application
 
-#### Main Application
+#### Run the application
+
+
+To run the main application the following software must be installed:
+- Node.js = 14.x
+- yarn
+
+On the `/webapp` folder run the follwoing commands in sequence:
+```
+yarn install
+yarn build
+yarn start
+```
+
+`yarn install` will ensure all required dependencies are fetched from npm.
+
+`yarn build` will compile both server and client source codes.
+
+`yarn start` starts the application in Production mode.
+
+__Note:__ When running locally you can also use `yarn start:dev`. This target will start the application in Development mode (i.e. the NODE_ENV variable is set to development). The code is prepared to read the environment variables from an .env file when running in Development mode.
+
+The application is running once the following output is seen in the console:
+
+//TODO -- add here stuff.
+
+#### Setting Application Settings
+
+For the app to run there is a set of settings that need to be provided as environment variables. Locally it is recomended that these variables can be set locally using a .env file that should not be commited in a repo.
+When deploying the code in an Azure Web App these variables can be set up directly in the Web App instance Configuration pane as seen in the figure below.
+
+![Web application configuration screen](assets/img/webapp-config.jpeg)
+
+The required settings for the running the app are the following:
+| Setting Name | Description |
+|--------------| ------------|
+|SA_CONNECTION_STRING | Storage account connection string |
+|**QNA_ACCESS_KEY_UAT** | QNA Maker Subscription Key |
+|API_KNOWLEDGE_BASE | URL to the QnaMaker| 
+|**CONTAINER_NAME** | "ADD HERE"|
+|TENANTID | ID of the Active Directory Tennat|
+|CLIENTID | Client ID of the App Registration used for authentication|
+|REDIRECT_URL | Redirect URL used on the authentication flow. Should be in the format "https://\<hostname\>/auth/aad/callback"|
+|CLIENT_SECRET | Client Secret of the App Registration used for user authentication|
+|SPEECH_SERVICE_KEY | Subscription Key for Speech Service|
+|SPEECH_SERVICE_REGION | Region of the Speech Service|
+
+#### Multilanguge support
+The frontend application has supports localization through the usage of the i18n library (more information available on the [i18n library official website](https://www.i18next.com/)). 
+
+To add a new language to the tool the following steps need to be performed:
+
+
+#### Deployment to Azure
+
+
+### Backend Functions
+
 TBD!
 
-##### Code Deployment
+#### Code Deployment
 
 TBD!
 
-##### Setting Application Settings
-
-TBD!
-
-#### Backend Functions
-
-TBD!
-
-##### Code Deployment
-
-TBD!
-
-##### Setting Application Settings
+#### Setting Application Settings
 
 TBD!
 
