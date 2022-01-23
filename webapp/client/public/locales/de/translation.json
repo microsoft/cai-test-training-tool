@@ -33,6 +33,22 @@
     "KnowledgeBase_TestDetail_Title" : "Testing Knowledge Bases",
     "KnowledgeBase_TestDetail_SubTitle" : "Testergebnisse",
 
+    "KnowledgeBase_NewTest_NewTest" : "Neuer Test",
+    "KnowledgeBase_NewTest_Environment" : "Umgebung",
+    "KnowledgeBase_NewTest_Testcases" : "Testfälle",
+    "KnowledgeBase_NewTest_Upload" : "Datei hochladen",
+    "KnowledgeBase_NewTest_Comment" : "Bemerkung",
+    "KnowledgeBase_NewTest_StartTest" : "Test starten",
+    "KnowledgeBase_NewTest_NoFile" : "Keine Datei ausgewählt",
+    "KnowledgeBase_NewTest_SelectFile" : "Bitte auswählen...",
+
+
+    "KnowledgeBase_NewDeployment_NewDeployment" : "Neues Deplyoment",
+    "KnowledgeBase_NewDeployment_Testcases" : "Testfälle",
+    "KnowledgeBase_NewDeployment_Upload" : "Datei hochladen",
+    "KnowledgeBase_NewDeployment_Comment" : "Bemerkung",
+    "KnowledgeBase_NewDeployment_StartDeployment" : "Deployment starten",
+
     "KnowledgeBase_TestResult_TimestampFieldName" :"Datum",
     "KnowledgeBase_TestResult_QuestionFieldName" : "Frage",
     "KnowledgeBase_TestResult_ExpectedAnswerFieldName" : "Erwartete Antwort",
