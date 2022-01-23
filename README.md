@@ -74,8 +74,26 @@ The required settings for the running the app are the following:
 #### Multilanguge support
 The frontend application has supports localization through the usage of the i18n library (more information available on the [i18n library official website](https://www.i18next.com/)). 
 
-To add a new language to the tool the following steps need to be performed:
+Each language has its own json file that defines the texts that appear in the lables. Those json files are stored in the public folder of the webapp as can be seen in the image below:
 
+![Web application language files](assets/img/webapp-multilanguage.jpg)
+
+
+To add a new language to the tool the following steps need to be performed:
+1. Create a new folder inside `webapp/public/locales`for the new language file. The name of the new folder should match the name of the language you are adding. (e.g. If adding Spanish, the folder should be named `es`).
+
+2. Inside the newly created folder add a `translation.json` file. To ensure that no label is missed, copy the translation.json from another language such as `en` or `de`.
+
+3. Add the new langauge in the list of allowed languages for the app. On the `/webapp/client/src/i18nextConf.js` file, append the language to the whitelist array.
+ ```javascript
+.init({
+    debug: true,
+
+    whitelist: ['en','de', 'ADD HERE NEW LANGUAGE'],
+
+    fallbackLng: 'en',
+
+ ```
 
 #### Deployment to Azure
 
