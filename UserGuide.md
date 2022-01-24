@@ -60,28 +60,27 @@ To view the results of your tests you can open the details page after the test r
 
 ## Deploying a new KB <a name="DeployingKB"></a>
 
-To run a deployment of a QnAMaker KB into Production you must use the [Bot Management Tool](https://app-goblabla-botmanagement-uat.azurewebsites.net/deploy-initial).
+To run a deployment of a QnAMaker KB into Production you cav use the [Bot Management Tool](https://app-goblabla-botmanagement-uat.azurewebsites.net/deploy-initial). 
 
 After logging in to the tool navigate to the "QnA Maker Deployment" section
-![image.png](assets/img/image-f1d276d1-f5b2-4a3c-a851-95f4c11e5443.png)
+![image](https://user-images.githubusercontent.com/45654580/150743324-df113df3-d1a1-4298-96f0-b95484aaeacb.png)
 
-Select "Neues Deployment"
-![image.png](assets/img/image-b74ef95a-9963-4e2c-937e-fc746e14b21c.png)
+Select "New Deployment"
+![image](https://user-images.githubusercontent.com/45654580/150743410-22bc2fb3-bb21-4c31-8e6d-7e96af500f1d.png)
 
-Select a Knowledge Base from the Drop-Down-List and upload a file with your testcases.
-![image.png](assets/img/image-a5e92532-b00a-4dc8-bddf-e1d83d16d1f0.png)
+Select a Knowledge Base from the Drop-Down-List and upload a file with your testcases. The knowledge base should be tested with the same test set using the QnA Test section before.
 
-You can add an optional comment. Then select "Deployment Starten"
+![image](https://user-images.githubusercontent.com/45654580/150743770-77fc6266-3f94-40ae-8473-a20afea2aceb.png)
+
+You can add an optional comment. Then select "Start Deployment"
 ![image.png](assets/img/image-f5a22b0f-d6ec-403a-be38-a36c9c4f3a58.png)
 
-The new deployment will appear in the "QnA Deployment" section list with status "Angenommen":
-![image.png](assets/img/image-d8530157-e4a9-4d3f-ba9a-cf73e66140d2.png)
-
+The new deployment will appear in the "QnA Deployment" section list with status "In progress":
+![image](https://user-images.githubusercontent.com/45654580/150744203-02d6e5a0-884c-4f70-b398-52469b132d55.png)
 ### Result Details <a name="DeploymentResults"></a>
 
 To view the results of your deployment tests you can open the "Detailansicht" after the deployment is complete.
-![image.png](assets/img/image-d9dbcc79-f023-42b0-9277-4646e1c946dd.png)
-
+![image](https://user-images.githubusercontent.com/45654580/150743923-71076390-8b84-4f0b-bd54-828ac79daccb.png)
 # Speech Testing <a name="SpeechTesting"></a>
 
 TBD!
