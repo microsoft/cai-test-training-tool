@@ -62,6 +62,8 @@ To view the results of your tests you can open the details page after the test r
 
 To run a deployment of a QnAMaker KB into Production you cav use the [Bot Management Tool](https://app-goblabla-botmanagement-uat.azurewebsites.net/deploy-initial). 
 
+Make sure the .env file contains QNA_PROD_KEY = "<prod-key>" to connect to your production environment
+
 After logging in to the tool navigate to the "QnA Maker Deployment" section
 ![image](https://user-images.githubusercontent.com/45654580/150743324-df113df3-d1a1-4298-96f0-b95484aaeacb.png)
 
@@ -72,14 +74,15 @@ Select a Knowledge Base from the Drop-Down-List and upload a file with your test
 
 ![image](https://user-images.githubusercontent.com/45654580/150743770-77fc6266-3f94-40ae-8473-a20afea2aceb.png)
 
-You can add an optional comment. Then select "Start Deployment"
-![image.png](assets/img/image-f5a22b0f-d6ec-403a-be38-a36c9c4f3a58.png)
+You can add an optional comment. Then select "Start Deployment".
+    
+TODO: Describe deployment process // explain QNA_PRD_DEPLOYMENT_TEST_COVERAGE_IN_PERCENT = "50"
 
 The new deployment will appear in the "QnA Deployment" section list with status "In progress":
 ![image](https://user-images.githubusercontent.com/45654580/150744203-02d6e5a0-884c-4f70-b398-52469b132d55.png)
 ### Result Details <a name="DeploymentResults"></a>
 
-To view the results of your deployment tests you can open the "Detailansicht" after the deployment is complete.
+To view the results of your deployment tests you can open a detailed view after the deployment is complete by clicking on the job id.
 ![image](https://user-images.githubusercontent.com/45654580/150743923-71076390-8b84-4f0b-bd54-828ac79daccb.png)
 # Speech Testing <a name="SpeechTesting"></a>
 
