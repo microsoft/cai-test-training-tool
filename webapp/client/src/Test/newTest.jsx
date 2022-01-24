@@ -13,9 +13,11 @@ import { hasAccessRight } from "../services/accessService";
 import { mergeStyles, Stack } from 'office-ui-fabric-react';
 import { classes } from "../styles"
 import { uploadFilesToBlob } from "../services/fileUploadService.js";
+import { useTranslation } from 'react-i18next';
 
 export default function NewTest() {
   const history = useHistory();
+  const { t } = useTranslation();
 
   const [environment, setEnvironment] = useState("UAT");
   const [knowledgebase, setKnowledgebase] = useState("");
@@ -117,10 +119,10 @@ export default function NewTest() {
     <div>
       <div className={classes.root}>
         <Stack className={classes.stack} gap={20}>
-          <h1>Neuer Test</h1>
-          <h4>Umgebung*</h4>
+          <h1>{t("KnowledgeBase_NewTest_NewTest")}</h1>
+          <h4>{t("KnowledgeBase_NewTest_Environment")}*</h4>
           <Dropdown
-            placeholder="Bitte auswählen..."
+            placeholder = {t("KnowledgeBase_NewTest_SelectFile")}
             onChange={handleEnvironmentChange}
             options={environmentOptions}
             className={dropdownStyles}
@@ -129,14 +131,14 @@ export default function NewTest() {
             <Stack gap={20}>
               <h4>Knowledge Base*</h4>
               <Dropdown
-                placeholder="Bitte auswählen..."
+                placeholder={t("KnowledgeBase_NewTest_SelectFile")}
                 onChange={handleKnowledegBaseChange}
                 options={knowdledgeBases}
                 className={dropdownStyles}
               />
             </Stack>
             <Stack gap={20}>
-              <h4>Testfälle*</h4>
+              <h4>{t("KnowledgeBase_NewTest_Testcases")}*</h4>
               <UploadButtons
                 onChangeValid={handleChangeValid}
                 file={file}
@@ -149,14 +151,14 @@ export default function NewTest() {
             multiline
             rows={5}
             id="1"
-            label="Bemerkung"
+            label={t("KnowledgeBase_NewTest_Comment")}
             value={comment}
             variant="filled"
             onChange={(event) => setComment(event.target.value)}
           />
           <PrimaryButton
             className={classes.button}
-            text="Test starten"
+            text={t("KnowledgeBase_NewTest_StartTest")}
             variant="contained"
             color="primary"
             margin="50px"

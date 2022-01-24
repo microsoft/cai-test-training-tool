@@ -10,10 +10,12 @@ import { Dropdown, PrimaryButton, TextField } from "@fluentui/react";
 import { mergeStyles, Stack } from "office-ui-fabric-react";
 import { classes } from "../styles.jsx";
 import { DeploymentStatus } from "../Common/StatusEnum.jsx";
+import { useTranslation } from 'react-i18next';
 
 const dropdownStyles = mergeStyles({ width: "300px" });
 
 export default function NewDeploy() {
+  const { t } = useTranslation();
   const history = useHistory();
   const [knowledgeBase, setKnowledgeBase] = useState(0);
   const [knowdledgeBases, setKnowledgeBases] = useState([]);
@@ -89,19 +91,19 @@ export default function NewDeploy() {
     <div>
       <div className={classes.root}>
         <Stack className={classes.stack} gap={20}>
-          <h1>Neues Deployment</h1>
+          <h1>{t("KnowledgeBase_NewDeployment_NewDeployment")}</h1>
           <Stack horizontal className={classes.stack} gap={20}>
             <Stack gap={20}>
               <h4>Knowledge Base*</h4>
               <Dropdown
-                placeholder="Bitte auswählen..."
+                placeholder={t("KnowledgeBase_NewTest_SelectFile")}
                 onChange={handleKnowledgeBaseChange}
                 options={knowdledgeBases}
                 className={dropdownStyles}
               />
             </Stack>
             <Stack gap={20}>
-              <h4>Testfälle*</h4>
+              <h4>{t("KnowledgeBase_NewDeployment_Testcases")}*</h4>
               <UploadButtons
                 onChangeValid={handleChangeValid}
                 file={file}
@@ -115,14 +117,14 @@ export default function NewDeploy() {
             multiline
             rows={5}
             id="1"
-            label="Bemerkung"
+            label={t("KnowledgeBase_NewDeployment_Comment")}
             value={comment}
             variant="filled"
             onChange={(event) => setComment(event.target.value)}
           />
           <PrimaryButton
             className={classes.button}
-            text="Deployment starten"
+            text={t("KnowledgeBase_NewDeployment_StartDeployment")}
             margin="50px"
             onClick={handleRun}
             disabled={

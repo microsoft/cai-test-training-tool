@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { PrimaryButton, mergeStyleSets, Stack } from "@fluentui/react";
 import { classes } from "../styles"
+import { useTranslation } from 'react-i18next';
 
 const inputStyle = mergeStyleSets({
   input: {
@@ -16,6 +17,7 @@ export default function UploadButtons({
   onChangeFile,
   isFileValid,
 }) {
+  const { t } = useTranslation();
   const [progressing, setProgressing] = useState(false);
   const [errorInfo, setErrorInfo] = useState("");
   let fileReader;
@@ -32,7 +34,7 @@ export default function UploadButtons({
       }
       if (rows[i].split(";").length !== 7) {
         onChangeValid(false);
-        setErrorInfo("Fehler in Testcase " + String(i) + ". Anzahl der Spalten muss 7 ergeben (6 Semikolons)!");
+        setErrorInfo("Error in testcase " + String(i) + ". Number of columns has to be 7 (6 semicolons)!");
         break;
       } 
       else {
@@ -40,7 +42,7 @@ export default function UploadButtons({
       }
     }
     if(atLeastOneTestCase == false){
-      setErrorInfo("Keinen validen Testcase gefunden! Anzahl der Spalten muss 7 ergeben (6 Semikolons)!");
+      setErrorInfo("No valid testcase found!  Number of columns has to be 7 (6 semicolons)!");
       onChangeValid(false);
     }
   };
@@ -77,7 +79,7 @@ export default function UploadButtons({
           />
           <label htmlFor="contained-button-file">
             <PrimaryButton
-              text="Datei hochladen"
+              text={t("KnowledgeBase_NewTest_Upload")}
               variant="contained"
               color="secondary.light"
               component="span"
@@ -85,10 +87,10 @@ export default function UploadButtons({
           </label>
         </div>
         <span color={file ? "green" : "red"}>
-          {file ? file.name : "Keine Datei ausgewählt."}
+          {file ? file.name : t("KnowledgeBase_NewTest_NoFile")}
         </span>
         {!isFileValid && (
-          <span color="error">Format fehlerhaft. {errorInfo}</span>
+          <span color="error">Format invalid. {errorInfo}</span>
         )}
       </Stack>
     </div>
