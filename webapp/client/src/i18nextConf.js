@@ -12,16 +12,14 @@ i18n
   // learn more: https://github.com/i18next/i18next-http-backend
   // want your translations to be loaded from a professional CDN? => https://github.com/locize/react-tutorial#step-2---use-the-locize-cdn
   .use(Backend)
-  .use(LanguageDetector)
+  // .use(LanguageDetector)
   // pass the i18n instance to react-i18next.
   .use(initReactI18next)
   // init i18next
   // for all options read: https://www.i18next.com/overview/configuration-options
   .init({
     whitelist: ['en','de'],
-    
-    fallbackLng: 'en',
-
+    lng : localStorage.getItem("chosenLanguage") || 'en',
     interpolation: {
       escapeValue: false, // not needed for react as it escapes by default
     }

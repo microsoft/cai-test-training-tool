@@ -31,7 +31,7 @@ function App() {
           <Dropdown
             options={languageOptions}
             defaultSelectedKey={i18n.language}
-            onChange={(ev, item) => { i18n.changeLanguage(item.key); window.location.reload() }}
+            onChange={(ev, item) => { i18n.changeLanguage(item.key); localStorage.setItem("chosenLanguage", item.key); }}
           />
         </div>
       </div>
