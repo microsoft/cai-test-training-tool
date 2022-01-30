@@ -42,7 +42,7 @@ To test a knowledge base go to the QnA testing page of the tool:
 
 ![image](https://user-images.githubusercontent.com/45654580/150695901-c69d7299-c1d9-404b-a3d4-88a078f4551e.png)
 
-1. Select an environment that contains the knowledge base you want to test. The environment name and connection key can be configured in the .env file of the project. E.g. QNA_ENV = ["TEST", "DEV"] and QNA_KEY = ["<key_for_TEST>", "key_for_DEV"] 
+1. Select an environment that contains the knowledge base you want to test.
 2. Then you can chose the knowledge base you want to test
 3. Upload a test file. Make sure it is compliant to the format described above.
 4. If the format check of the test file was successful, you can start the test run by clicking the start button on the bottom of the page.
@@ -62,8 +62,6 @@ To view the results of your tests you can open the details page after the test r
 
 To run a deployment of a QnAMaker KB into Production you cav use the [Bot Management Tool](https://app-goblabla-botmanagement-uat.azurewebsites.net/deploy-initial). 
 
-Make sure the .env file contains QNA_PROD_KEY = "<prod-key>" to connect to your production environment
-
 After logging in to the tool navigate to the "QnA Maker Deployment" section
 ![image](https://user-images.githubusercontent.com/45654580/150743324-df113df3-d1a1-4298-96f0-b95484aaeacb.png)
 
@@ -76,7 +74,7 @@ Select a Knowledge Base from the Drop-Down-List and upload a file with your test
 
 You can add an optional comment. Then select "Start Deployment".
     
-TODO: Describe deployment process // explain QNA_PRD_DEPLOYMENT_TEST_COVERAGE_IN_PERCENT = "50"
+For the deployment only a certain percantage of the test cases defined in the testset is executed. This value is configured in the app settings of the tool.
 
 The new deployment will appear in the "QnA Deployment" section list with status "In progress":
 ![image](https://user-images.githubusercontent.com/45654580/150744203-02d6e5a0-884c-4f70-b398-52469b132d55.png)
