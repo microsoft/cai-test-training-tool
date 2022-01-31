@@ -70,6 +70,11 @@ The required settings for the running the app are the following:
 |CLIENT_SECRET | Client Secret of the App Registration used for user authentication|
 |SPEECH_SERVICE_KEY | Subscription Key for Speech Service|
 |SPEECH_SERVICE_REGION | Region of the Speech Service|
+|QNA_ENV | Names of Environments you are using for the QnA Maker Testing as array: e.g. ["TEST", "DEV"] |
+|QNA_KEY | Connection keys for the enironments defined for QNA_ENV as array: e.g. ["<key_for_TEST>", "<key_for_DEB>"] |
+|QNA_PROD_KEY | Connection key for the production environment used in the QnA Maker Deploymwent: "<key_for_PROD>" |
+|QNA_PRD_DEPLOYMENT_TEST_COVERAGE_IN_PERCENT | Percentage of test cases that will be tested in the production environment: e.g. "50" |
+
 
 #### Multilanguge support
 The frontend application has supports localization through the usage of the i18n library (more information available on the [i18n library official website](https://www.i18next.com/)). 
