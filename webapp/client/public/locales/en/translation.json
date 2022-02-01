@@ -8,6 +8,7 @@
     "General_Download" : "Download",
     "General_SpinnerLabel_ProcessingRequest" : "Processing Request",
     "General_SpinnerLabel_LoadingModels" : "Loading Models",
+    "General_SpinnerLabel_LoadingVoices" : "Loading Voices",
     "Tool_Title" : "Conversational AI Test and Training Tool",
     
     "Home_KnowledgeBase_Description" : "Test a Knowledgebase with test data.",
@@ -158,6 +159,11 @@
     "NewBatchProcessing_StartJob_Label" : "Start Job",
     "NewBatchProcessing_ModelType_Label" : "Model Type",
     "NewBatchProcessing_Model_Label" : "Model",
+
+    "NewAudioGeneration_Title" : "New Audio Generation Job",
+    "NewAudioGeneration_SpeechService_Label" : "Speech Service:",
+    "NewAudioGeneration_Languages_Label" : "Languages :",
+    "NewAudioGeneration_Voices_Label" : "Voices :",
     
     "AudioGeneration_Title" : "Audio Generation",
     "AudioGeneration_NewLabel" : "Add new job",

@@ -6,7 +6,8 @@ import {
   ActionButton,
   Link
 } from "@fluentui/react";
-import { deleteEntity, getTableStorage } from "../services/tableStorageService.js";
+import { deleteEntity, deletePartition, getTableStorage } from "../services/tableStorageService.js";
+import { deleteFilesInBlob, deleteFilesInBlobFolder } from "../services/fileUploadService.js";
 
 import { useTranslation } from 'react-i18next';
 import { AudioGenerationPath, getPath } from "../services/pathService.js";
@@ -35,6 +36,8 @@ export default function AudioGenerationTable() {
              allowDisabledFocus
               onClick={()=>{
                 deleteEntity("AudioGenerationJobs",item.PartitionKey,item.RowKey)
+                deletePartition("AudioGenerationJobDetails",item.RowKey)
+                deleteFilesInBlobFolder("audiogeneration",item.RowKey)
                 initializeScreen()
               }}
              >
@@ -70,6 +73,7 @@ export default function AudioGenerationTable() {
       },
       isResizable: false
     },
+    { fieldName: "Status", name: t("BatchProcessing_StatusFieldName"),minWidth: 70, maxWidth: 300, isResizable : true, isMultiline:false },
     {
       name: "Generated", minWidth: 70, maxWidth: 70, isResizable: false,
       onRender: (item) => {

@@ -7,6 +7,7 @@ async function postAudioBatchJob(req) {
     
     var url = `${process.env.AUDIO_BATCH_FUNCTION_URL}`
 
+
     var headers = {
         "x-functions-key": process.env.AUDIO_BATCH_FUNCTION_KEY,
       };
@@ -23,10 +24,12 @@ async function postAudioBatchJob(req) {
 
 router.post('/Job', async (req, res) => {
 
-    let response = await postAudioBatchJob(req);
+    let response = await postAudioBatchJob(req.body);
+
+    console.log(response.data);
 
     res.json({
-        "Response": response
+        "Response": response.data
     });
 })
 

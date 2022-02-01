@@ -61,9 +61,9 @@ export default function NewBatchProcessingScreen() {
       RowKey: rowKey,
       CompletionPercentage: "0%",
       JobName: jobName,
-      AudioFont: selectedVoice !== null ? selectedVoice.displayName : null,
-      AudioLanguage: selectedVoicesLanguages !== null ? selectedVoicesLanguages.displayName : null,
-      SpeechServiceType: selectedServiceType !== null ? selectedServiceType.displayName : null,
+      AudioFont: selectedVoice !== null ? selectedVoice.Name : null,
+      AudioLanguage: selectedVoicesLanguages !== null ? selectedVoicesLanguages : null,
+      SpeechServiceType: selectedServiceType !== null ? selectedServiceType : null,
       TranscriptFileName: transcriptFile.name,
       Status: "New"
     };
@@ -73,29 +73,28 @@ export default function NewBatchProcessingScreen() {
     const messageToBeSent = {
       Jobname: jobName,
       TranscriptFile: transcriptFile.name,
-      AudioFont: selectedVoice !== null ? selectedVoice.displayName : null,
-      TTSProvider: selectedServiceType !== null ? selectedServiceType.displayName : null,
+      AudioFont: selectedVoice !== null ? selectedVoice.Name : null,
+      TTSProvider: selectedServiceType !== null ? selectedServiceType : null,
       GenerateTranscript: false,
       Level : 2,
-      Language : selectedVoicesLanguages !== null ? selectedVoicesLanguages.displayName : null,
+      Language : selectedVoicesLanguages !== null ? selectedVoicesLanguages : null,
       JobId: rowKey
     }
     await sendMessage(messageToBeSent)
 
     setTranscriptFile(null);
-    setSelectedServiceType("Microsoft");
+    setSelectedServiceType("None");
     setSelectedVoicesLanguages(null);
     setShowSpinner(false);
   };
 
 
   useEffect(async () => {
-    setSpinnerMessage(t('General_SpinnerLabel_LoadingModels'));
+    setSpinnerMessage(t('General_SpinnerLabel_LoadingVoices'));
     setShowSpinner(true);
     var allVoices = await getVoices();
-
     setVoices(allVoices);
-    setspeachServiceTypes(Object.keys(allModels).map(x => new Object({ key: x, text: x })));
+    setspeachServiceTypes(Object.keys(allVoices).map(x => new Object({ key: x, text: x })));
     setShowSpinner(false);
   }, []);
 
@@ -123,20 +122,31 @@ export default function NewBatchProcessingScreen() {
   };
 
   useEffect(() => {
-    if (selectedServiceType !== "None") {
-      setAvailableVoicesLanguages(models[selectedServiceType].map(x => new Object({ key: x.displayName, text: x.displayName })))
-      // setSelectedModelOption(models[selectedModelType][0].displayName)
+    if (selectedServiceType === "Microsoft") {
+
+      setAvailableVoicesLanguages(Voices[selectedServiceType].map(x => x.Locale).filter((value, index, self) => self.indexOf(value) === index).map(x => new Object({ key: x, text: x })));
+      setSelectedVoicesLanguages(Voices[selectedServiceType][0].Locale)
     } else {
       setAvailableVoicesLanguages([])
       setAvailableVoices([])
+      setSelectedVoicesLanguages(null)
       setSelectedVoice(null)
     }
   }, [selectedServiceType])
 
 
+  useEffect(() => {
+    if (selectedServiceType === "Microsoft") {
+      setAvailableVoices(Voices[selectedServiceType].filter(x => x.Locale == selectedVoicesLanguages).map(x => new Object({ key: x.Name, text: x.DisplayName })));
+      setSelectedVoice(Voices[selectedServiceType].filter(x => x.Locale == selectedVoicesLanguages)[0])
+    }
+  }, [selectedVoicesLanguages])
+
+
 
   const handleVoicesChange = (env, value) => {
-    // setSelectedVoice(Voices[selectedModelType].filter(x => x.displayName == selectedModelOption)[0].options.filter(x => x.displayName == value.key)[0]);
+    setSelectedVoice(Voices[selectedServiceType].filter(x => x.Locale == selectedVoicesLanguages).filter(x => x.Name == value.key)[0]);
+
   };
 
   return (
@@ -151,7 +161,7 @@ export default function NewBatchProcessingScreen() {
       {!showSpinner && (
         <div className={classes.root}>
           <Stack className={classes.stack} gap={20}>
-            <h1>{t("NewBatchProcessing_Title")}</h1>
+            <h1>{t("NewAudioGeneration_Title")}</h1>
             <Stack gap={20}>
   
               <StackItem>
@@ -175,7 +185,7 @@ export default function NewBatchProcessingScreen() {
                 <Stack className={classes.stack} gap={20} horizontal>
                   <StackItem>
                     <Dropdown
-                      label="Speech Service:"
+                      label={t("NewAudioGeneration_SpeechService_Label")}
                       onChange={handleServiesTypeChange}
                       defaultSelectedKey="None"
                       options={speachServiceTypes}
@@ -186,7 +196,7 @@ export default function NewBatchProcessingScreen() {
                     <>
                       <StackItem>
                         <Dropdown
-                          label= "Languages:"
+                          label= {t("NewAudioGeneration_Languages_Label")}
                           onChange={handleLanguagesOptionChange}
                           options={voicesLanguages}
                           defaultSelectedKey={voicesLanguages && voicesLanguages.length > 0 ? voicesLanguages[0].key : undefined}
@@ -196,7 +206,7 @@ export default function NewBatchProcessingScreen() {
                       </StackItem>
                       <StackItem>
                         <Dropdown
-                          label="Voices:"
+                          label={t("NewAudioGeneration_Voices_Label")}
                           onChange={handleVoicesChange}
                           options={availableVoices}
                           defaultSelectedKey={availableVoices && availableVoices.length > 0 ? availableVoices[0].key : undefined}
@@ -215,10 +225,8 @@ export default function NewBatchProcessingScreen() {
               margin="50px"
               onClick={handleRun}
               disabled={
-                batchFile === null || !isBatchFileValid
-                || transcriptFile === null || !isTranscriptFileValid
-                || (licensePlateFile !== null && !isLicensePlateFileValid)
-                || jobName === ""
+                transcriptFile === null || !isTranscriptFileValid
+                || jobName === "" || selectedVoice === null
               }
             />
           </Stack>

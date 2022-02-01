@@ -77,17 +77,18 @@ async function getCustomModels() {
 async function getMicrosoftVoicesToken() {
     
     var url = `https://${process.env.SPEECH_SERVICE_REGION}.api.cognitive.microsoft.com/sts/v1.0/issueToken`
+
     var models = new Array();
 
     var headers = {
         "Ocp-Apim-Subscription-Key": process.env.SPEECH_SERVICE_KEY,
       };
       var requestOptions = {
-        method: "GET",
+        method: "POST",
         headers: headers,
       };
 
-      var response = await axios.get(url, requestOptions);
+      var response = await axios.post(url,null ,requestOptions);
 
       if(response.status == 200) {
         return response.data;
@@ -109,7 +110,7 @@ async function getMicrosoftVoices() {
     var models = new Array();
 
     var headers = {
-        "Authorization": 'Bearer' + token,
+        "Authorization": 'Bearer ' + token,
       };
 
       var requestOptions = {

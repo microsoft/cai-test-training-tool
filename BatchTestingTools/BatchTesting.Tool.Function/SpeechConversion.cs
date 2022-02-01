@@ -86,7 +86,8 @@ namespace BatchTesting.Tool.Function
 
                 transcriptions = await GetAllTransactions(client);
 
-                toBeDeletedTranscriptions = transcriptions.Where(i => i.CreatedDateTime < DateTime.UtcNow.AddDays(-1)).ToList();
+                //toBeDeletedTranscriptions = transcriptions.Where(i => i.CreatedDateTime < DateTime.UtcNow.AddDays(-1)).ToList();
+                toBeDeletedTranscriptions = transcriptions.ToList();
 
                 // delete all pre-existing completed transcriptions. If transcriptions are still running or not started, they will not be deleted
                 foreach (var item in toBeDeletedTranscriptions)
