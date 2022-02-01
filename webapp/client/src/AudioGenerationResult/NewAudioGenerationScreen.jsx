@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import UploadButtons from "../Common/UploadFile.jsx";
 import { useHistory } from "react-router-dom";
-import { BatchProcessingPath } from "../services/pathService.js";
+import { AudioGenerationPath } from "../services/pathService.js";
 import { Dropdown, PrimaryButton, TextField } from "@fluentui/react";
 import { uploadFilesToBlob, uploadFileToBlob } from "../services/fileUploadService.js";
 import { mergeStyles, Stack, StackItem } from "office-ui-fabric-react";
