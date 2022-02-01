@@ -35,6 +35,23 @@
     "KnowledgeBase_TestDetail_DownloadTestSet" : "Download Testset",
     "KnowledgeBase_TestDetail_Title" : "Testing Knowledge Bases",
     "KnowledgeBase_TestDetail_SubTitle" : "Test Results",
+
+    "KnowledgeBase_NewTest_NewTest" : "New Test",
+    "KnowledgeBase_NewTest_Environment" : "Environment",
+    "KnowledgeBase_NewTest_Select" : "Select...",
+    "KnowledgeBase_NewTest_Testcases" : "Testcases",
+    "KnowledgeBase_NewTest_Upload" : "Upload file",
+    "KnowledgeBase_NewTest_Comment" : "Comment",
+    "KnowledgeBase_NewTest_StartTest" : "Start test",
+    "KnowledgeBase_NewTest_NoFile" : "No file selected",
+    "KnowledgeBase_NewTest_SelectFile" : "Select...",
+
+
+    "KnowledgeBase_NewDeployment_NewDeployment" : "New Deployment",
+    "KnowledgeBase_NewDeployment_Testcases" : "Testcases",
+    "KnowledgeBase_NewDeployment_Upload" : "Upload file",
+    "KnowledgeBase_NewDeployment_Comment" : "Comment",
+    "KnowledgeBase_NewDeployment_StartDeployment" : "Start deployment",
     
     "KnowledgeBase_TestResult_TimestampFieldName" :"Timestamp",
     "KnowledgeBase_TestResult_QuestionFieldName" : "Question",
