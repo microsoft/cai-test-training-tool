@@ -47,7 +47,7 @@ class TextToSpeech(object):
         }
         response = requests.post(url, headers=headers, data=self.tts)
         if response.status_code == 200:
-            fname = he.getFilename('generated/', output_folder, provider, language, font.split(',')[1][1:-1], i, 'wav')
+            fname = he.getFilename('generated/', output_folder, provider, language, font, i, 'wav')
             with open(fname, "wb") as audio:
                 audio.write(response.content)
                 logging.info(f"[INFO] - File {fname} written.")
@@ -56,8 +56,12 @@ class TextToSpeech(object):
                     logging.info("[INFO] - Transcription written to file.")
             return os.path.basename(fname)
         else:
-            logging.error(f"[ERROR] - Status code: {str(response.status_code)} -> something went wrong, please check your subscription key and headers.")
-            raise Exception(f"[ERROR] - Could not finish synthetization!")
+            if response.reason:
+                logging.error(f"[ERROR] - Status code: {str(response.status_code)} -> {str(response.reason)}.")
+                raise Exception(f"[ERROR] - Could not finish synthetization, because {str(response.reason)}")
+            else:
+                logging.error(f"[ERROR] - Status code: {str(response.status_code)} -> something went wrong, please check your subscription key and headers.")
+                raise Exception(f"[ERROR] - Could not finish synthetization!")
         
 ''' GOOGLE '''
 def googleTTS(ssml_text, output_folder, provider, language, font, i, transcribe, transfile):
