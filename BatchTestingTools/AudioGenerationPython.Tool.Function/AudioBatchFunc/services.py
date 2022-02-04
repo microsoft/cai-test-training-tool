@@ -25,20 +25,41 @@ except Exception as e:
 class TextToSpeech(object):
     def __init__(self, subscription_key, language, font, text, region):
         self.subscription_key = subscription_key
-        self.tts = f'<speak version="1.0" xml:lang="en-us"><voice xml:lang="{language}" name="{font}">{text}</voice></speak>'
+        self.text = text
+        self.region = region
+        self.language = language
         self.timestr = time.strftime("%Y%m%d-%H%M")
         self.access_token = None
 
-    def get_token(self, region, subscription_key):
-        fetch_token_url = f"https://{region}.api.cognitive.microsoft.com/sts/v1.0/issueToken"
+    def get_token(self, subscription_key):
+        fetch_token_url = f"https://{self.region}.api.cognitive.microsoft.com/sts/v1.0/issueToken"
         headers = {
             'Ocp-Apim-Subscription-Key': self.subscription_key
         }
         response = requests.post(fetch_token_url, headers=headers)
         self.access_token = str(response.text)
 
-    def save_audio(self, region, resource_name, output_folder, provider, language, font, i, transcribe, transfile):
-        url = f'https://{region}.tts.speech.microsoft.com/cognitiveservices/v1'
+    def get_voiceList(self):
+        url = f"https://{self.region}.tts.speech.microsoft.com/cognitiveservices/voices/list"
+
+        payload={}
+        headers = {
+        'Authorization': 'Bearer ' + self.access_token,
+         }
+
+        response = requests.request("GET", url, headers=headers, data=payload)
+        voices = response.json()
+
+        LocalName_ShortName = {}
+        for i in voices: 
+            if i['Locale'] == self.language:     
+                LocalName_ShortName[i['LocalName']]=i['ShortName']
+
+        return LocalName_ShortName
+
+    def save_audio(self, resource_name, output_folder, provider, font, i, transcribe, transfile):
+        url = f'https://{self.region}.tts.speech.microsoft.com/cognitiveservices/v1'
+        self.tts = f'<speak version="1.0" xml:lang="en-us"><voice xml:lang="{self.language}" name="{font}">{self.text}</voice></speak>'
         headers = {
             'Authorization': 'Bearer ' + self.access_token,
             'Content-Type': 'application/ssml+xml',
@@ -47,7 +68,7 @@ class TextToSpeech(object):
         }
         response = requests.post(url, headers=headers, data=self.tts)
         if response.status_code == 200:
-            fname = he.getFilename('generated/', output_folder, provider, language, font, i, 'wav')
+            fname = he.getFilename('generated/', output_folder, provider, self.language, font, i, 'wav')
             with open(fname, "wb") as audio:
                 audio.write(response.content)
                 logging.info(f"[INFO] - File {fname} written.")
@@ -72,7 +93,7 @@ def googleTTS(ssml_text, output_folder, provider, language, font, i, transcribe,
         language_code=language,
         name=font.split('_')[0])
     audio_config = tts.types.AudioConfig(
-        audio_encoding = tts.enums.AudioEncoding.LINEAR16)
+        audio_encoding = tts.enums.AudioEncoding.LINEAR16)  
     client = tts.TextToSpeechClient()
     # Submit request
     response = client.synthesize_speech(
