@@ -81,10 +81,7 @@
         });
 
 
-        function FillData(userProfile) {
-
-
-            window.accessToken = userProfile.accessToken;
+        function FillData(userProfile) {            
             var tableData = JSON.parse('@Html.Raw(Json.Serialize(Model.JobDetails))');
 
             table.replaceData(tableData);
