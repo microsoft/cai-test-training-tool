@@ -73,7 +73,7 @@ export default function AudioGenerationTable() {
       },
       isResizable: false
     },
-    { fieldName: "Status", name: t("BatchProcessing_StatusFieldName"),minWidth: 70, maxWidth: 300, isResizable : true, isMultiline:false },
+    { fieldName: "Status", name: t("BatchProcessing_StatusFieldName"),minWidth: 70, maxWidth: 300, isResizable : false, isMultiline:false },
     {
       name: "Generated", minWidth: 70, maxWidth: 70, isResizable: false,
       onRender: (item) => {

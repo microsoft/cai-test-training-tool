@@ -61,7 +61,7 @@ export default function NewBatchProcessingScreen() {
       RowKey: rowKey,
       CompletionPercentage: "0%",
       JobName: jobName,
-      AudioFont: selectedVoice !== null ? selectedVoice.Name : null,
+      AudioFont: selectedVoice !== null ? selectedVoice.ShortName : null,
       AudioLanguage: selectedVoicesLanguages !== null ? selectedVoicesLanguages : null,
       SpeechServiceType: selectedServiceType !== null ? selectedServiceType : null,
       TranscriptFileName: transcriptFile.name,
@@ -73,7 +73,7 @@ export default function NewBatchProcessingScreen() {
     const messageToBeSent = {
       Jobname: jobName,
       TranscriptFile: transcriptFile.name,
-      AudioFont: selectedVoice !== null ? selectedVoice.Name : null,
+      AudioFont: selectedVoice !== null ? selectedVoice.ShortName : null,
       TTSProvider: selectedServiceType !== null ? selectedServiceType : null,
       GenerateTranscript: false,
       Level : 2,
