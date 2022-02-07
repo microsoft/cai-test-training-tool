@@ -282,7 +282,7 @@
                 $(speechVoices).each(function () {
                     var option = $("<option />");
                     option.html(this.displayName);
-                    option.val(this.name);
+                    option.val(this.shortName);
                     //Add the Option element to DropDownList.
                     speechServiceVoiceddl.append(option);
                 });
