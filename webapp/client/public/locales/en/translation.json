@@ -6,6 +6,7 @@
     "General_Cancel" : "Cancel" ,
     "General_Save" : "Confirm" ,
     "General_Download" : "Download",
+    "General_DefaultNoneSelection" : "None",
     "Tool_Title" : "Conversational AI Test and Training Tool",
     
     "Home_KnowledgeBase_Description" : "Test a Knowledgebase with test data.",
@@ -21,11 +22,14 @@
     "KnowledgeBase_TestList_EnvironmentFieldName" : "Environment",
     "KnowledgeBase_TestList_ResultFieldName" : "Result",
     "KnowledgeBase_TestList_UsernameFieldName" : "User",
+    "KnowledgeBase_TestList_StatusFieldName_INPROGRESS" : "In Progress",
+    "KnowledgeBase_TestList_StatusFieldName_FAILED" : "Failed",
+    "KnowledgeBase_TestList_StatusFieldName_OK" : "OK",
     "KnowledgeBase_TestList_DetailsButtonLabel" : "Details",
-    "KnowledgeBase_TestList_DeleteButtonLabel" : "Delete",
-    
+    "KnowledgeBase_TestList_DeleteButtonLabel" : "Delete", 
+
     "KnowledgeBase_TestDetail_DownloadTestSet" : "Download Testset",
-    "KnowledgeBase_TestDetail_Title" : "Testing Knowledge Bases",
+    "KnowledgeBase_TestDetail_Title" : "Testing Knowledgebases",
     "KnowledgeBase_TestDetail_SubTitle" : "Test Results",
     
     "KnowledgeBase_TestResult_TimestampFieldName" :"Timestamp",
@@ -40,10 +44,14 @@
     "KnowledgeBase_TestResult_ActualContextFieldName" : "Act. Context",
     "KnowledgeBase_TestResult_ExpectedPromptsFieldName" : "Exp. Prompts",
     "KnowledgeBase_TestResult_ActualPromptsFieldName" : "Act. Prompts",
-    "KnowledgeBase_TestResult_ExpectedScoreFieldName" : "Min Score",
+    "KnowledgeBase_TestResult_ExpectedScoreFieldName" : "Min. Score",
     "KnowledgeBase_TestResult_ActualScoreFieldName" : "Score",
-    
-    "KnowledgeBaseDeployment_Title" : "Knwoedgebase Deployment",
+    "KnowledgeBase_TestResult_CommentHeader" : "Comments",
+    "KnowledgeBase_TestResult_ResultFieldName_INPROGRESS" : "In Progress",
+    "KnowledgeBase_TestList_ResultFieldName_FAILED" : "Incorrect",
+    "KnowledgeBase_TestList_ResultFieldName_OK" : "Correct",
+        
+    "KnowledgeBaseDeployment_Title" : "Knowledgebase Deployment",
     "KnowledgeBaseDeployment_NewDeploymentButtonLabel" : "New Deployment",
     
     "KnowledgeBase_DeploymentList_JobIdFieldName" : "Job Id",
@@ -81,13 +89,12 @@
     "KnowledgeBase_DeploymentResult_ExpectedPromptsFieldName" : "Exp. Prompts",
     "KnowledgeBase_DeploymentResult_ActualPromptsUATFieldName" : "Prompts UAT",
     "KnowledgeBase_DeploymentResult_ActualPromptsPRDFieldName" : "Prompts PRD",
-    "KnowledgeBase_DeploymentResult_ExpectedScoreFieldName" : "Min Score",
+    "KnowledgeBase_DeploymentResult_ExpectedScoreFieldName" : "Min. Score",
     "KnowledgeBase_DeploymentResult_ActualScoreUATFieldName" : "Score UAT",
     "KnowledgeBase_DeploymentResult_ActualScorePRDFieldName" : "Score PRD",
-    "KnowledgeBase_DeploymentResult_ResultFieldName_INPROGRESS" : "",
+    "KnowledgeBase_DeploymentResult_ResultFieldName_INPROGRESS" : "In Progress",
     "KnowledgeBase_DeploymentResult_ResultFieldName_FAILED" : "Incorrect",
     "KnowledgeBase_DeploymentResult_ResultFieldName_OK" : "Correct",
-
     
     "Settings_SettingsList_SettingFieldName" : "Setting",
     "Settings_SettingsList_ActionFieldName" : "Action",
@@ -95,7 +102,7 @@
     "Settings_SettingsList_DeleteModalTitle" : "Delete",
     "Settings_SettingsList_DeleteModalYes" : "Yes",
     "Settings_SettingsList_DeleteModalNo" : "No",
-    "Settings_SettingsList_DeleteModalPrompt" : "really delete?",
+    "Settings_SettingsList_DeleteModalPrompt" : "Do you really want to delete?",
     
     "Settings_AddSettings_Title" : "Add Setting",
     
@@ -106,15 +113,15 @@
     "Settings_EditSettings_Dropdown_Field" : "Setting Field",
     "Settings_EditSettings_NewElement_Title" : "New Setting",
     "Settings_EditSettings_Default_Title" : "Default Value",
-    "Settings_EditSettings_ReloadLabel" : "Someone else changed the options. The screen was reloaded to show the latest options",
+    "Settings_EditSettings_ReloadLabel" : "Someone else changed the options. The screen was reloaded to show the latest options.",
     
-    "BatchProcessing_Title" : "Batch Processing Test",
-    "BatchProcessing_NewLabel" : "Add new batch",
-    "BatchProcessing_LastUpdateFieldName" : "Last Update Date",
+    "BatchProcessing_Title" : "Batch Testing",
+    "BatchProcessing_NewLabel" : "Add new test",
+    "BatchProcessing_LastUpdateFieldName" : "Last Update",
     "BatchProcessing_LPRAccuracyFieldName" : "LPR Accuracy",
     "BatchProcessing_StatusFieldName" : "Status",
     "BatchProcessing_PercentageFieldName" : "Completion %",
-    "BatchProcessingResult_Title" : "Batch Processing Results",
+    "BatchProcessingResult_Title" : "Batch Testing Results",
     "BatchProcessingResult_WerLabel" : "Word Error Rate",
     "BatchProcessingResult_WrrLabel" : "Word Recognition Rate",
     "BatchProcessingResult_SerLabel" : "Sentence Error Rate",
@@ -124,19 +131,20 @@
     "BatchProcessingResult_FileNameFieldName" : "File Name",
     "BatchProcessingResult_ReferenceFieldName" : "Reference",
     "BatchProcessingResult_RecognizedFieldName" : "Recognized",
-    "BatchProcessingResult_ProcessedFieldName" : "Processed",
+    "BatchProcessingResult_ProcessedFieldName" : "Validation Result",
     "BatchProcessingResult_ScoreFieldName" : "Score",
     "BatchProcessingResult_StatusFieldName" : "Status",
     "BatchProcessingResult_LUISEntitiesFieldName" : "LUIS Entities",
     
     "NewBatchProcessing_AudioFiles_Label" : "Audio Files",
-    "NewBatchProcessing_Title" : "New Batch Job",
+    "NewBatchProcessing_Title" : "New Job",
     "NewBatchProcessing_TranscriptFiles_Label" : "Transcript files",
     "NewBatchProcessing_LicensePlatesFiles_Label" : "License Plate Reference",
     "NewBatchProcessing_JobName_Label" : "Job Name",
     "NewBatchProcessing_StartJob_Label" : "Start Job",
     "NewBatchProcessing_ModelType_Label" : "Model Type",
     "NewBatchProcessing_Model_Label" : "Model",
+    "NewBatchProcessing_Locale_Label" : "Language",
     
     "AudioGeneration_Title" : "Audio Generation",
     "AudioGeneration_NewLabel" : "Add new job",
@@ -144,16 +152,14 @@
     "AudioGeneration_Error" : "Error",
     "AudioGeneration_SpeechServiceType" : "Speech Service Type",
     "AudioGeneration_Language" : "Language",
-    "AudioGenerationResult_Title" : "Audio Generation Results",
+    "AudioGenerationResult_Title" : "Status",
+
+    "NewAudioGeneration_SpeechService_Label": "Speech Service",
+    "NewAudioGeneration_Languages_Label": "Language",
+    "NewAudioGeneration_Voices_Label": "Voice",
+    "NewBatchProcessing_Startjob_Label": "Start Job",
     
     "UploadFile_ButtonLabel" : "Upload File",
-    "UploadFile_NoFileLabel" : "No file uploaded",
-    "UploadFile_IncorrectFormatLabel" : "Incorrect format",
-    
-    "KnowledgeBase_TestList_StatusFieldName_INPROGRESS" : "In Progress",
-    "KnowledgeBase_TestList_StatusFieldName_FAILED" : "Failed",
-    "KnowledgeBase_TestList_StatusFieldName_OK" : "OK",
-    "KnowledgeBase_TestResult_ResultFieldName_INPROGRESS" : "",
-    "KnowledgeBase_TestList_ResultFieldName_FAILED" : "Incorrect",
-    "KnowledgeBase_TestList_ResultFieldName_OK" : "Correct"
+    "UploadFile_NoFileLabel" : "No file was uploaded.",
+    "UploadFile_IncorrectFormatLabel" : "Incorrect format!"
 }
