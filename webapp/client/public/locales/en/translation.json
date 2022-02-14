@@ -12,10 +12,12 @@
     "Tool_Title" : "Conversational AI Test and Training Tool",
     
     "Home_KnowledgeBase_Description" : "Test a Knowledgebase with test data.",
-    "Home_QnaDeployment_Description" : "Deployment of a test knowledgebase into PROD.",
-    "Home_ToolSettings_Description" : "Change the settings of the Bot Testing Tool",
+    "Home_QnaDeployment_Description" : "Deployment of a Knowledgebase into PROD.",
+    "Home_ToolSettings_Description" : "Change the settings of the Bot Testing Tool.",
+    "Home_BatchProcessing_Description": "Batch Test Function for Speech.",
+    "Home_AudioGeneration_Description": "Function to synthesize audio from text files.",
     
-    "KnowledgeBase_Test_Title" : "Test a Knowledge Base",
+    "KnowledgeBase_Test_Title" : "Knowledgebase Testing",
     "KnowledgeBase_Test_NewTest_Button" : "New Test",
     
     "KnowledgeBase_TestList_JobIdFieldName" : "Job Id",
@@ -68,7 +70,7 @@
     "KnowledgeBase_TestResult_ExpectedScoreFieldName" : "Min Score",
     "KnowledgeBase_TestResult_ActualScoreFieldName" : "Score",
     
-    "KnowledgeBaseDeployment_Title" : "New deployment in the production environment",
+    "KnowledgeBaseDeployment_Title" : "Knwoedgebase Deployment",
     "KnowledgeBaseDeployment_NewDeploymentButtonLabel" : "New Deployment",
     
     "KnowledgeBase_TestResult_ResultFieldName" : "Result",
@@ -133,9 +135,9 @@
     "Settings_SettingsList_DeleteModalNo" : "No",
     "Settings_SettingsList_DeleteModalPrompt" : "really delete?",
     
-    "Settings_AddSettings_Title" : "New Bot Management Tool Setting",
+    "Settings_AddSettings_Title" : "Add Setting",
     
-    "Settings_EditSettings_Title" : "Edit Bot Management Tool Setting",
+    "Settings_EditSettings_Title" : "Edit Setting",
     "Settings_EditSettings_Setting" : "Setting",
     "Settings_EditSettings_Dropdown_Setting" : "Setting",
     "Settings_EditSettings_Dropdown_Action" : "Action",

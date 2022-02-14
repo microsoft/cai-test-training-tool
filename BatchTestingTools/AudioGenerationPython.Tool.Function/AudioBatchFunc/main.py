@@ -66,8 +66,16 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         try:
             if pa.provider == "Microsoft":
                 app = se.TextToSpeech(pa.subscription_key, pa.language, pa.font, pa.text, pa.region)
-                app.get_token(pa.region, pa.subscription_key)
-                fname = app.save_audio(pa.region, pa.resource_name, output_folder, pa.provider, pa.language, pa.font, uuid.uuid4().hex, pa.transcribe, transfile)
+                app.get_token(pa.subscription_key)
+                LocalName_ShortName = app.get_voiceList()
+                ShortName = list(LocalName_ShortName.values())
+                LocalName = list(LocalName_ShortName.keys())
+                if not pa.font in ShortName:
+                    if pa.font in LocalName:
+                        pa.font = LocalName_ShortName[pa.font]
+                    else:
+                        raise TypeError(f'[ERROR] - font {pa.font} is not supported.')
+                fname = app.save_audio(pa.resource_name, output_folder, pa.provider, pa.font, uuid.uuid4().hex, pa.transcribe, transfile)
             elif pa.provider == "Google":
                 fname = se.googleTTS(pa.text, output_folder, pa.provider, pa.language, pa.font, uuid.uuid4().hex, pa.transcribe, transfile)
                 os.remove(f"{pa.dir_path}/auth.json") if os.path.exists(f"{pa.dir_path}/auth.json") else f"[INFO] - No {pa.provider} auth file found, nothing to delete."
