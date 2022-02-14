@@ -1,19 +1,21 @@
 {
-    "General_LoadingData" : "Lade Daten",
+    "General_LoadingData" : "Daten werden geladen...",
     "General_NoAccess" : "Sie haben keine Rechte für diese Seite.",
     "General_Refresh" : "Aktualisieren",
     "General_Options" : "Optionen",
     "General_Cancel" : "Abbrechen" ,
     "General_Save" : "Speichern" ,
     "General_Download" : "Download",
-    "Tool_Title" : "Konversations KITest und Trainingstool",
+    "Tool_Title" : "Conversational AI Test and Training Tool",
 
-    "Home_KnowledgeBase_Description" : "Testen einer Knowledgebase anhand einer Testdatei.",
-    "Home_QnaDeployment_Description" : "Deployment einer getesteten Knowledgebase nach PROD.",
+    "Home_KnowledgeBase_Description" : "Testen einer Knowledgebase auf Basis einer Testdatei.",
+    "Home_QnaDeployment_Description" : "Deployment einer Knowledgebase in die PROD-Umgebung.",
     "Home_ToolSettings_Description" : "Verwalten von Einstellungen des Bot Management Tools",
+    "Home_BatchProcessing_Description": "Batch Test Funktion für Speech.",
+    "Home_AudioGeneration_Description": "Funktion zum Synthetisieren von Audio auf Basis von Textdateien.",
 
-    "KnowledgeBase_Test_Title" : "Testen einer Knowledgebase",
-    "KnowledgeBase_Test_NewTest_Button" : "Neuer Test",
+    "KnowledgeBase_Test_Title" : "Knowledgebase Testing",
+    "KnowledgeBase_Test_NewTest_Button" : "Neuen Test anlegen",
 
     "KnowledgeBase_TestList_TimestampFieldName" : "Datum",
     "KnowledgeBase_TestList_EnvironmentFieldName" : "Umgebung",
@@ -25,7 +27,7 @@
 
 
     "KnowledgeBase_TestDetail_DownloadTestSet" : "Download Testset",
-    "KnowledgeBase_TestDetail_Title" : "Testing Knowledge Bases",
+    "KnowledgeBase_TestDetail_Title" : "Testing Knowledgebases",
     "KnowledgeBase_TestDetail_SubTitle" : "Testergebnisse",
 
     "KnowledgeBase_TestResult_TimestampFieldName" :"Datum",
@@ -47,8 +49,8 @@
     "KnowledgeBase_TestResult_ResultFieldName_OK" : "Korrekt",
 
 
-    "KnowledgeBaseDeployment_Title" : "Neues Deployment in die Produktionsumgebung",
-    "KnowledgeBaseDeployment_NewDeploymentButtonLabel" : "Neues Deployment",
+    "KnowledgeBaseDeployment_Title" : "Knowledgebase Deployment",
+    "KnowledgeBaseDeployment_NewDeploymentButtonLabel" : "Neues Deployment anlegen",
 
     "KnowledgeBase_DeploymentList_JobIdFieldName" : "Job Id",
     "KnowledgeBase_DeploymentList_TimestampFieldName" : "Datum",
@@ -101,7 +103,7 @@
     "Settings_SettingsList_DeleteModalNo" : "Nein",
     "Settings_SettingsList_DeleteModalPrompt" : "wirklich löschen?",
 
-    "Settings_AddSettings_Title" : "Neue Bot Management Tool Einstellung hinzufügen",
+    "Settings_AddSettings_Title" : "Neue Einstellung hinzufügen",
 
     "Settings_EditSettings_Title" : "Einstellung bearbeiten",
     "Settings_EditSettings_Setting" : "Element",

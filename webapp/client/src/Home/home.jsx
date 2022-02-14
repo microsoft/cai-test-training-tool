@@ -42,12 +42,16 @@ export default function Home() {
         <Stack horizontal gap={horizontalGap}>
           <CompoundButton
             href={BatchProcessingPath.InitialScreen}
+            primary
+            secondaryText={t("Home_BatchProcessing_Description")}
             style={homeButtonStyle}
           >
             Batch Processing
           </CompoundButton>
           <CompoundButton
             href={AudioGenerationPath.InitialScreen}
+            primary
+            secondaryText={t("Home_AudioGeneration_Description")}
             style={homeButtonStyle}
           >
             Audio Generation
