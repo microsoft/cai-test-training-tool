@@ -23,7 +23,7 @@ export default function DeployJobsTable({ knowledgebases }) {
   const [deploymentJobs, setDeploymentJobs] = useState([]);
 
 
-  const [columns] = useState([
+  const columns = [
     {
       key: "Delete",
       name: "",
@@ -93,7 +93,7 @@ export default function DeployJobsTable({ knowledgebases }) {
     { fieldName: "result", name: t("KnowledgeBase_DeploymentList_ResultFieldName"), minWidth: 70, maxWidth: 70, isResizable: false },
     { fieldName: "comment", name: t("KnowledgeBase_DeploymentList_CommentFieldName"), minWidth: 90, maxWidth: 200, isMultiline: true, isResizable: false },
     { fieldName: "username", name: t("KnowledgeBase_DeploymentList_UsernameFieldName"), minWidth: 90, maxWidth: 300, isResizable: false },
-  ]);
+  ];
 
 
 
