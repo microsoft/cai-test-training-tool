@@ -154,14 +154,9 @@
     "Settings_EditSettings_Default_Title" : "Default Value",
     "Settings_EditSettings_ReloadLabel" : "Someone else changed the options. The screen was reloaded to show the latest options.",
     
-    "BatchProcessing_NewLabel" : "Add new batch",
 
     "BatchProcessing_JobNameFieldName" : "Job Name",
-    "BatchProcessing_LPRAccuracyFieldName" : "LPR Accuracy",
-    "BatchProcessing_StatusFieldName" : "Status",
-    "BatchProcessing_PercentageFieldName" : "Completion %",
 
-    "BatchProcessingResult_Title" : "Batch Processing Results",
     "BatchProcessing_Title" : "Batch Testing",
     "BatchProcessing_NewLabel" : "Add new test",
     "BatchProcessing_LastUpdateFieldName" : "Last Update",
