@@ -105,7 +105,19 @@ To add a new language to the tool the following steps need to be performed:
 
 ### Backend Functions
 
-TBD!
+### Batch Testing Function
+The batch testing function depends on Azure storage account. This function uses tables, blobs and queues from the storage account.
+
+**Creating Storage Account:**
+The following steps needs to be performed:
+1. Create a storage account in your subscription.
+2. Add constainer with the name `voices` in the storage account's blob.
+3. Create two tables in the storage account's tables with the names `BatchJobs` and `BatchJobDetails`.
+4. Create three queues in the storage account's queues with the names `Customprocessingtasks`, `Speechtasks` and `voicesfilestasks`.
+
+**Creating Azure Function**
+1. Create Azure Function, App Service Plan and Windows based.
+2. Switch On `Always On` feature. 
 
 #### Code Deployment
 
@@ -113,7 +125,20 @@ TBD!
 
 #### Setting Application Settings
 
-TBD!
+The required settings for the running the app are the following:
+| Setting Name | Description |
+|--------------| ------------|
+| AzureWebJobsStorage | Storage account connection string |
+| TableStorageConnectionString | Queues storage account connection string, If you are following the steps in this document you will have one storage account |
+| BatchJobTableName | This is the batch job table name. If you are using the table names listed in this document, then set this to `BatchJobs` |
+| BatchJobDetailsTableName | This is the batch job table name. If you are using the table names listed in this document, then set this to `BatchJobDetails` |
+| SpeechSubscriptionKey | This is the key for the speech subscription created earlier |
+| region | This is the speech subscribtion region, for example westeurope |
+| LPRCPLFunctionURL | This is the URL for the LPR function, the URL should be in the format "https://\<The LPR function URL\>/api/LicensePlateRecognizer" |
+| LPRCPLFunctionKey | The LPR Function code |
+| WERFunctionURL | This is the URL for the WER function, the URL should be in the format "https://\<The WER function URL\>/api/BatchTesting"|
+| WERFunctionKey | The WER Function code |
+
 
 ## Usage of Tool
 
