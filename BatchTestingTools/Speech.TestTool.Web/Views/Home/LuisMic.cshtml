@@ -1,0 +1,233 @@
+﻿@model LuisMicViewModel
+@{
+    ViewData["Title"] = "LuisMic";
+}
+
+<body>
+
+    <form>
+        <div class="form-group">
+            <label for="speechKeyText">Speech Service Key</label>
+            <input type="text" class="form-control" id="speechKeyText" aria-describedby="subscriptionHelp" placeholder="Speech Service Key" value="@Model.SpeechServiceKey">
+            <small id="subscriptionHelp" class="form-text text-muted">Type your speech service key</small>
+        </div>
+        <div class="form-group">
+            <label for="regionText">Speech Region</label>
+            <input type="text" class="form-control" id="regionText" placeholder="Speech Service Region (i.e. northeurop, westeurope)" value="@Model.SpeechRegion">
+        </div>
+        <div class="form-group">
+            <label for="endpointIdText">Endpoint Id</label>
+            <input type="text" class="form-control" id="endpointIdText" placeholder="Custom Endpoint Id" value="@Model.EndpointId">
+        </div>
+        <div class="form-group">
+            <label for="speechLanguageSelect">Speech Language</label>
+            <select class="form-control" id="speechLanguageSelect">
+                <option>de-DE</option>
+                <option>en-US</option>
+                <option>fr-FR</option>
+                <option>es-ES</option>
+            </select>
+        </div>
+        <hr />
+        <div class="form-group">
+            <label for="LUISAppIdText">LUIS App Id</label>
+            <input type="text" class="form-control" id="LUISAppIdText" aria-describedby="luisAppIdHelp" placeholder="LUIS App Id" value="@Model.LUISAppId">
+            <small id="luisAppIdHelp" class="form-text text-muted">Type your LUIS App Id (eu.luis.ai) Leave empty to disable LUIS integration</small>
+        </div>
+        <div class="form-group">
+            <label for="LUISKeyText">LUIS Key</label>
+            <input type="text" class="form-control" id="LUISKeyText" aria-describedby="luisHelp" placeholder="LUIS Key" value="@Model.LUISAppKey">
+            <small id="luisHelp" class="form-text text-muted">Type your LUIS Key (eu.luis.ai) Leave empty to disable LUIS integration</small>
+        </div>
+        <hr />
+        <button type="button" id="recognizeBtn" class="btn btn-primary">Start recognition</button>
+        <hr />
+
+        <div class="form-group">
+            <label for="resultsText">Results</label>
+            <textarea class="form-control" id="resultsText" rows="8"></textarea>
+        </div>
+    </form>
+    @section scripts{
+        <script>
+            $(document).ready(function () {
+
+                var recognizeBtn = $("#recognizeBtn");
+                var speechKeyText = $("#speechKeyText");
+                var regionText = $("#regionText");
+                var endpointIdText = $("#endpointIdText");
+                var speechLanguageSelect = $("#speechLanguageSelect");
+                var LUISAppIdText = $("#LUISAppIdText");
+                var LUISKeyText = $("#LUISKeyText");
+                var recognizeBtn = $("#recognizeBtn");
+                var resultsText = $("#resultsText");
+                var authorizationToken;
+
+                function bindControlsEvents() {
+
+                    recognizeBtn.click(function () {
+
+                        appInsights.startTrackEvent("Button1")
+
+                        let t1 = performance.now;
+
+                        resultsText.val("");
+
+                        var validInputsResult = validInputs();
+
+                        if (!validInputsResult) {
+                            return;
+                        }
+
+                        recognizeBtn.attr("disabled", true);
+
+                        if (authorizationToken) {
+                            recognizeSpeech(authorizationToken);
+
+                        }
+                        else {
+    
+                            authorizationToken = getAuthorizationToken(speechKeyText.val(), regionText.val());
+
+                            if (authorizationToken !== "") {
+                                recognizeSpeech(authorizationToken);
+                            }
+                        }
+
+                        //let t2 = performance.now;
+
+                        appInsights.stopTrackEvent("Button1")
+
+                    });
+                }
+
+                function validInputs() {
+
+                    if (speechKeyText.val() === "" || regionText.val() === "" || speechLanguageSelect.find(":selected").val() === "") {
+                        alert("Please enter your Microsoft Cognitive Services Speech subscription key, region and preferred language");
+                        return false;
+                    }
+
+                    return true;
+                }
+
+                function getAuthorizationToken(speechKey, region) {
+
+                    var accessToken = "";
+
+                    console.log("getAuthorizationToken invoked");
+
+                    if (speechKey === "" || region === "") {
+                        return;
+                    }
+
+                    $.ajax({
+                        type: "GET",
+                        url: "/api/speech/AccessToken?subscriptionKey=" + speechKey + "&region=" + region + "",
+                        async: false,
+                        success: function (res) {
+
+                            if (res.isSuccess) {
+                                accessToken = res.token;
+                                console.log("access token received");
+                            }
+                            else {
+                                //display alert
+                                alert("Getting Access Token Error: " + res.errorMessage);
+                                recognizeBtn.attr("disabled", false);
+                            }
+                        },
+                        error: function (xhr, ajaxOptions, thrownError) {
+                            console.error(xhr.status + thrownError);
+                        }
+                    });
+
+                    return accessToken;
+                };
+
+                function refreshToken() {
+
+                    authorizationToken = getAuthorizationToken(speechKeyText.val(), regionText.val());
+                }
+
+                function recognizeLuisIntent(utterance, luisAppId, luisAppKey, region) {
+
+                    var luisJsonResponse = "";
+
+                    console.log("recognizeLuisIntent invoked");
+
+                    $.ajax({
+                        type: "GET",
+                        url: "/api/speech/RecognizeIntent?utterance=" + utterance + "&luisAppId=" + luisAppId + "&luisAppKey=" + luisAppKey + "&region=" + region + "",
+                        async: false,
+                        success: function (res) {
+
+                            if (res.isSuccess) {
+                                luisJsonResponse = JSON.stringify(res, undefined, 4);
+                                console.log("luis Json response received");
+                            }
+                            else {
+                                //display alert
+                                alert("LUIS Error:" + res.errorMessage);
+                            }
+                        },
+                        error: function (xhr, ajaxOptions, thrownError) {
+                            console.error(xhr.status + thrownError);
+                        }
+                    });
+
+                    return luisJsonResponse;
+                };
+
+                function recognizeSpeech(accessToken) {
+                    var speechConfig;
+                    var audioConfig = SpeechSDK.AudioConfig.fromDefaultMicrophoneInput();
+                    var speechLanguageValue = speechLanguageSelect.find(":selected").val();
+                    var endpointId = endpointIdText.val();
+
+                    speechConfig = SpeechSDK.SpeechConfig.fromAuthorizationToken(accessToken, regionText.val());
+                    //speechConfig = SpeechSDK.SpeechConfig.fromSubscription(speechKeyText.val(), regionText.val());
+                    speechConfig.speechRecognitionLanguage = speechLanguageValue;
+
+                    if (endpointId !== "") {
+                        speechConfig.endpointId = endpointId;
+                    }
+
+                    var audioConfig = SpeechSDK.AudioConfig.fromDefaultMicrophoneInput();
+                    var recognizer = new SpeechSDK.SpeechRecognizer(speechConfig, audioConfig);
+
+                    recognizer.recognizeOnceAsync(
+                        function (result) {
+
+                            recognizeBtn.attr("disabled", false);
+                            resultsText.val(resultsText.val() + "RecognizeSpeech: " + result.text);
+                            console.log(result);
+
+                            recognizer.close();
+                            recognizer = undefined;
+
+                            if (LUISAppIdText.val() !== "" || LUISKeyText.val() !== "") {
+                                var luisJsonResponse = recognizeLuisIntent(result.text, LUISAppIdText.val(), LUISKeyText.val(), regionText.val())
+                                if (luisJsonResponse !== "") {
+                                    resultsText.val(luisJsonResponse);
+                                }
+                            }
+                        },
+                        function (err) {
+                            recognizeBtn.attr("disabled", false);
+                            resultsText.val(resultsText.val() + err);
+                            console.log(err);
+
+                            recognizer.close();
+                            recognizer = undefined;
+                        });
+                }
+
+                bindControlsEvents();
+
+                setInterval(refreshToken, 9 * 60 * 1000); //refresh every 9 minmutes (expiry in 10 mins)
+
+            });
+        </script>}
+</body>
+

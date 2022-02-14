@@ -1,0 +1,12 @@
+{
+  "azureFunctions.projectRuntime": "~3",
+  "azureFunctions.projectLanguage": "Python",
+  "azureFunctions.deploySubpath": "CPL.zip",
+  "azureFunctions.preDeployTask": "func: pack",
+  "files.exclude": {
+    "obj": true,
+    "bin": true
+  },
+  "azureFunctions.pythonVenv": ".venv",
+  "debug.internalConsoleOptions": "neverOpen"
+}
