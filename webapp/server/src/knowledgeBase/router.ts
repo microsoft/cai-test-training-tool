@@ -6,10 +6,12 @@ const router: Router = express.Router({});
 // services
 
 async function getKnowledgeBases(environment) {
-  var subscription =
-    environment === "TEST"
-      ? process.env.QNA_ACCESS_KEY_UAT
-      : process.env.QNA_ACCESS_KEY_PRD;
+
+  var keys = process.env.QNA_KEY.split('"');
+  var filtered_keys = keys.filter(function(el, index) {
+    return index % 2 === 1;
+  });
+  var subscription = filtered_keys[environment]
   var headers = {
     "Ocp-Apim-Subscription-Key": subscription,
   };

@@ -27,7 +27,7 @@ export default function NewDeploy() {
   const [, setProgressing] = useState(false);
 
   useEffect(() => {
-    getKnowledgeBases("TEST")
+    getKnowledgeBases(0)
       .then((result) => {
         setKnowledgeBases(
           result.message.knowledgebases.map(

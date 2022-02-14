@@ -19,7 +19,8 @@ export default function NewTest() {
   const history = useHistory();
   const { t } = useTranslation();
 
-  const [environment, setEnvironment] = useState("UAT");
+  const [environment, setEnvironment] = useState(0);
+  const [environmentName, setEnvironmentName] = useState("");
   const [knowledgebase, setKnowledgebase] = useState("");
   const [knowdledgeBases, setKnowledgeBases] = useState([]);
   const [testsetName, setTestsetName] = useState("");
@@ -47,9 +48,9 @@ export default function NewTest() {
 
   const handleEnvironmentChange = (env, data) => {
     setKnowledgeBases([]);
-    console.log(data);
-    console.log(data.text.toUpperCase());
-    getKnowledgeBases(data.text.toUpperCase())
+    setEnvironment(data.key);
+    setEnvironmentName(data.text);
+    getKnowledgeBases(data.key)
       .then((result) => {
         console.log(result);
         setKnowledgeBases(
@@ -99,7 +100,7 @@ export default function NewTest() {
       RowKey: "test" + "",
       testset: testsetName,
       username: "username",
-      environment: environment + "",
+      environment: environmentName + "",
       status: "INPROGRESS",
       kbId: knowledgebase + "",
       comment: comment,

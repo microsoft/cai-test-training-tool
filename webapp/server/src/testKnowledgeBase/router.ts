@@ -8,18 +8,17 @@ const router: Router = express.Router({});
 
 // services
 
-var HOST = "https://westus.api.cognitive.microsoft.com";
-var SERVICE = "/qnamaker/v4.0";
-var TEST_URL_UAT = "https://qna-cai-batch-testing.azurewebsites.net";
-var TEST_URL_PRD = "https://qna-cai-batch-testing.azurewebsites.net";
-
 async function triggerTestExecution(
   environment,
   testset,
   knowledgeBaseId,
   runId
 ) {
-  var testHost = environment == "PROD" ? TEST_URL_PRD : TEST_URL_UAT;
+  var test_url = process.env.QNA_URL.split('"');
+  var filtered_test_url = test_url.filter(function(el, index) {
+    return index % 2 === 1;
+  });
+  var testHost = environment == "PROD" ? process.env.QNA_PROD_URL : filtered_test_url[environment];
   var headers = {
     Authorization: await getEndpointKey(environment),
     "Content-Type": "application/json",
@@ -257,11 +256,15 @@ async function triggerDeploymentExecution(
 }
 
 async function getEndpointKey(environment) {
+  var test_key = process.env.QNA_KEY.split('"');
+  var filtered_test_url = test_key.filter(function(el, index) {
+    return index % 2 === 1;
+  });
   var headers = {
     "Ocp-Apim-Subscription-Key":
       environment == "PROD"
-        ? process.env.QNA_ACCESS_KEY_PRD
-        : process.env.QNA_ACCESS_KEY_UAT,
+        ? process.env.QNA_PROD_KEY
+        : filtered_test_url[environment],
   };
   var requestOptions = {
     method: "GET",
@@ -269,13 +272,13 @@ async function getEndpointKey(environment) {
   };
 
   return axios
-    .get(HOST + SERVICE + "/endpointkeys", requestOptions)
+    .get(process.env.HOST_URL + "/endpointkeys", requestOptions)
     .then((result) => {
       return result.data["primaryEndpointKey"];
     })
     .catch((err) => {
       console.log(
-        `error getting endopint key from: ${HOST + SERVICE + "/endpointkeys"
+        `error getting endopint key from: ${process.env.HOST_URL + "/endpointkeys"
         }: `,
         err
       );

@@ -17,17 +17,9 @@ router.use(function (req, res, next) {
 
 
 router.post("/start", async function (req, res) {
-  const ENVIRONMENT = 'test';
-  const HOST = 'westus.api.cognitive.microsoft.com'
-  const SERVICE = '/qnamaker/v4.0'
-  const KB_URL = '/knowledgebases/'
   const KB_UAT = req.query.kbId
-  const METHOD = KB_URL + KB_UAT + '/' + ENVIRONMENT + '/qna/'
-  const TEST_URL_UAT = 'cog-goblabla-qna-uat.azurewebsites.net'
-  const TEST_URL_PRD = 'cog-goblabla-qna-prd.azurewebsites.net' 
   const PARTITION_KEY =  req.query.partitionKey
   const TESTSET = req.query.testsetName
-  const SA_CONNECTION_STRING = process.env.SA_CONNECTION_STRING
 
   var kbs_uat = await get_kb_in_env("TEST")
   var kbs_prod = await get_kb_in_env("PROD")
@@ -144,10 +136,14 @@ router.post("/start", async function (req, res) {
 
 async function get_kb_in_env(environment){
   console.log("Getting KBs")
+  var test_key = process.env.QNA_KEY.split('"');
+  var filtered_test_key = test_key.filter(function(el, index) {
+    return index % 2 === 1;
+  });
   var subscription =
-  environment === "TEST"
-    ? process.env.QNA_ACCESS_KEY_UAT
-    : process.env.QNA_PROD_KEY;
+  environment === "PROD"
+    ? process.env.QNA_PROD_KEY
+    : filtered_test_key[0];
   var headers = {
     "Ocp-Apim-Subscription-Key": subscription,
   };
@@ -263,7 +259,11 @@ async function triggerTestExecution(
   knowledgeBaseId,
   runId
 ) {
-  var testHost = environment == "PROD" ? "https://qna-cai-batch-testing-prod.azurewebsites.net" : "https://qna-cai-batch-testing.azurewebsites.net";
+  var test_key = process.env.QNA_URL.split('"');
+  var filtered_qna_url = test_key.filter(function(el, index) {
+    return index % 2 === 1;
+  });
+  var testHost = environment == "PROD" ? process.env.QNA_PROD_URL : filtered_qna_url[0];
   var headers = {
     Authorization: await getEndpointKey(environment),
     "Content-Type": "application/json",
@@ -290,7 +290,6 @@ async function triggerTestExecution(
   var tableService = azure.createTableService(process.env.SA_CONNECTION_STRING);
 
   var lines = downloadedFile.split("\n");
-    // only use first 11 for prod testing
   var test_length = environment == "TEST" ? lines.length : Math.round(lines.length * parseInt(process.env.QNA_PRD_DEPLOYMENT_TEST_COVERAGE_IN_PERCENT) / 100)
   for (let idx = 0; idx < test_length; idx++) {
     try {
@@ -527,17 +526,20 @@ async function triggerTestExecution(
 
 
   async function getEndpointKey(environment) {
+    var test_key = process.env.QNA_KEY.split('"');
+    var filtered_test_url = test_key.filter(function(el, index) {
+      return index % 2 === 1;
+    });
     var headers = {
       "Ocp-Apim-Subscription-Key":
         environment == "PROD"
           ? process.env.QNA_PROD_KEY
-          : process.env.QNA_ACCESS_KEY_UAT,
+          : filtered_test_url[0],
     };
     var requestOptions = {
       method: "GET",
       headers: headers,
     };
-  
     return axios
       .get("https://westus.api.cognitive.microsoft.com/qnamaker/v4.0" + "/endpointkeys", requestOptions)
       .then((result) => {

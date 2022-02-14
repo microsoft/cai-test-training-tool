@@ -17,7 +17,7 @@ export default function StartDeploy() {
   const { t } = useTranslation();
 
   useEffect(() => {
-    getKnowledgeBases("TEST")
+    getKnowledgeBases(0)
       .then((result) => {
         setKnowledgeBases(result.message.knowledgebases)
         setLoadingData(false);
