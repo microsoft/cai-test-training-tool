@@ -93,14 +93,14 @@ let links = [
     exact: false,
     disabled: false,
   },
-  {
-    area: "/settings",
-    to: SettingManagementPath.InitialScreen,
-    iconName: 'Settings',
-    labelName: formatMessage('Tool Settings'),
-    exact: false,
-    disabled: false,
-  },
+  // {
+  //   area: "/settings",
+  //   to: SettingManagementPath.InitialScreen,
+  //   iconName: 'Settings',
+  //   labelName: formatMessage('Tool Settings'),
+  //   exact: false,
+  //   disabled: false,
+  // },
 ];
 
 export const SideBar = () => {

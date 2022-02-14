@@ -21,10 +21,6 @@
   "engines": {
     "node": "14.x"
   },
-  "workspaces": [
-    "client",
-    "server"
-  ],
   "scripts": {
     "buildProd": "yarn build:client:prod && yarn build:server:prod",
     "build": "yarn build:client && yarn build:server",

@@ -42,7 +42,6 @@ export default function Home() {
         <Stack horizontal gap={horizontalGap}>
           <CompoundButton
             href={BatchProcessingPath.InitialScreen}
-            primary
             secondaryText={t("Home_BatchProcessing_Description")}
             style={homeButtonStyle}
           >
@@ -50,14 +49,13 @@ export default function Home() {
           </CompoundButton>
           <CompoundButton
             href={AudioGenerationPath.InitialScreen}
-            primary
             secondaryText={t("Home_AudioGeneration_Description")}
             style={homeButtonStyle}
           >
             Audio Generation
           </CompoundButton>
         </Stack>
-        <Stack horizontal gap={horizontalGap}>
+        {/* <Stack horizontal gap={horizontalGap}>
           <CompoundButton
             href={SettingManagementPath.InitialScreen}
             primary
@@ -66,7 +64,7 @@ export default function Home() {
           >
             Bot Management Tool Settings
           </CompoundButton>
-        </Stack>
+        </Stack> */}
       </Stack>
 
     </div>
