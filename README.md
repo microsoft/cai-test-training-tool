@@ -72,7 +72,9 @@ The required settings for the running the app are the following:
 |SPEECH_SERVICE_REGION | Region of the Speech Service|
 |QNA_ENV | Names of Environments you are using for the QnA Maker Testing as array: e.g. ["TEST", "DEV"] |
 |QNA_KEY | Connection keys for the enironments defined for QNA_ENV as array: e.g. ["<key_for_TEST>", "<key_for_DEB>"] |
+|QNA_URL | Connection URLs for the enironments defined for QNA_ENV as array: e.g. ["https://<TEST>.azurewebsites.net", "https://<DEV>.azurewebsites.net"] |
 |QNA_PROD_KEY | Connection key for the production environment used in the QnA Maker Deploymwent: "<key_for_PROD>" |
+|QNA_PROD_URL | Connection url for the production environment used in the QnA Maker Deploymwent: "https://<PROD>.azurewebsites.net" |
 |QNA_PRD_DEPLOYMENT_TEST_COVERAGE_IN_PERCENT | Percentage of test cases that will be tested in the production environment: e.g. "50" |
 
 
