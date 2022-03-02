@@ -75,7 +75,7 @@ export default function NewTest() {
     setProgressing(true);
     let files = []
     files.push(file)
-    const uploadedBlobs = await uploadFilesToBlob(files).then(() => {
+    const uploadedBlobs = await uploadFilesToBlob(files,"qnatestcasefiles").then(() => {
       setTestsetName(file.name);
     });
     setUploadedBlobs(uploadedBlobs);

@@ -13,7 +13,9 @@ import { BatchProcessingPath, getPath } from "../services/pathService.js";
 import { handleColumnClick, onRenderRow, progressClass, TableDateFormat, TableFieldSizes } from "../Common/TableCommon.jsx";
 import { BatchProcessingStatus } from "../Common/StatusEnum.jsx";
 import {deleteIcon, refreshIcon} from "../styles"
-import { deleteFilesInBlob, deleteFilesInBlobFolder } from "../services/fileUploadService.js";
+import { deleteFilesInBlobFolder } from "../services/fileUploadService.js";
+import { ConfirmationModal } from "../Common/ConfirmationModal.jsx";
+import { useBoolean } from '@uifabric/react-hooks';
 
 const moment = require("moment");
 
@@ -21,6 +23,8 @@ export default function BatchProcessingTable() {
   const { t } = useTranslation();
   const [rows, setRows] = useState([]);
   const [batchJobs, setBatchJobs] = useState([]);
+  const [isModalOpen, { setTrue: showModal, setFalse: hideModal }] = useBoolean(false);
+  const [itemToDelete, setItemToDelete] = useState(undefined);
 
   const [columns] = useState([
     {
@@ -33,12 +37,10 @@ export default function BatchProcessingTable() {
         return (
             <ActionButton iconProps={deleteIcon}
              allowDisabledFocus
-              onClick={()=>{
-                deleteEntity("BatchJobs",item.PartitionKey,item.RowKey)
-                deletePartition("BatchJobDetails",item.RowKey)
-                deleteFilesInBlobFolder("voices",item.RowKey)
-                initializeScreen()
-              }}
+              onClick={() => {
+                setItemToDelete(item)
+                showModal()
+              } }
              >
             </ActionButton>
         )
@@ -134,6 +136,22 @@ export default function BatchProcessingTable() {
             onClick={() => initializeScreen()}
           />
       {rows !== undefined && rows.length > 0 && (
+        <>
+        <ConfirmationModal
+          isModalOpen={isModalOpen}
+          modalTitle={t("BatchProcessing_ModalTitle")}
+          modalText={`${t("BatchProcessing_ModalText")} \"${itemToDelete == undefined ? "" : itemToDelete.JobName}\"?`}
+          noHandle={() => hideModal()}
+          yesHandle={(item)=>{
+            deleteEntity("BatchJobs",item.PartitionKey,item.RowKey)
+            deletePartition("BatchJobDetails",item.RowKey)
+            deleteFilesInBlobFolder("voices",item.RowKey)
+            hideModal()
+            initializeScreen()
+          }}
+          selectedItem={itemToDelete}
+          >
+        </ConfirmationModal>
         <DetailsList
           columns={columns}
           items={rows}
@@ -141,6 +159,7 @@ export default function BatchProcessingTable() {
           onColumnHeaderClick={handleColumnClick}
           onRenderRow={onRenderRow}
         ></DetailsList>
+        </>
       )}
     </>
   );

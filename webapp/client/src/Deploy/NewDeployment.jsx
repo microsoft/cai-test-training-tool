@@ -109,7 +109,7 @@ export default function NewDeploy() {
                 file={file}
                 onChangeFile={handleChangeFile}
                 isFileValid={isFileValid}
-                accept=".csv .txt"
+                accept=".csv, .txt"
               />
             </Stack>
           </Stack>

@@ -3,6 +3,8 @@
     "General_NoAccess" : "You don't have permission to access this page",
     "General_Refresh" : "Refresh",
     "General_Options" : "Options",
+    "General_Yes" : "Yes",
+    "General_No" : "No",
     "General_Cancel" : "Cancel" ,
     "General_Save" : "Confirm" ,
     "General_Download" : "Download",
@@ -21,6 +23,9 @@
     "KnowledgeBase_Test_Title" : "Knowledgebase Testing",
     "KnowledgeBase_Test_NewTest_Button" : "New Test",
     
+    "KnowledgeBase_TestList_ModalText" : "Are you sure you want to delete run",
+    "KnowledgeBase_TestList_ModalTitle" : "Delete knowledge base testing run",
+
     "KnowledgeBase_TestList_JobIdFieldName" : "Job Id",
     "KnowledgeBase_TestList_TimestampFieldName" : "Timestamp",
     "KnowledgeBase_TestList_EnvironmentFieldName" : "Environment",
@@ -163,6 +168,8 @@
     "BatchProcessing_LPRAccuracyFieldName" : "LPR Accuracy",
     "BatchProcessing_StatusFieldName" : "Status",
     "BatchProcessing_PercentageFieldName" : "Completion %",
+    "BatchProcessing_ModalTitle" : "Delete Batch Job",
+    "BatchProcessing_ModalText" : "Are you sure that you want to delete the job",
     "BatchProcessingResult_Title" : "Batch Testing Results",
     "BatchProcessingResult_WerLabel" : "Word Error Rate",
     "BatchProcessingResult_WrrLabel" : "Word Recognition Rate",
@@ -197,6 +204,8 @@
     "AudioGeneration_SpeechServiceType" : "Speech Service Type",
     "AudioGeneration_Language" : "Language",
     "AudioGenerationResult_Title" : "Status",
+    "AudioGeneration_ModalTitle" : "Delete Audio Generation Job",
+    "AudioGeneration_ModalText" : "Are you sure that you want to delete the job",
 
     "NewAudioGeneration_SpeechService_Label": "Speech Service",
     "NewAudioGeneration_Languages_Label": "Language",

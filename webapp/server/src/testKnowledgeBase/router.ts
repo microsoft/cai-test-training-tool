@@ -27,9 +27,10 @@ async function triggerTestExecution(
   var blobServiceClient = BlobServiceClient.fromConnectionString(
     process.env.SA_CONNECTION_STRING
   );
-  var containerClient = blobServiceClient.getContainerClient(
-    process.env.CONTAINER_NAME
-  );
+  var containerClient = blobServiceClient.getContainerClient("qnatestcasefiles");
+
+  await containerClient.createIfNotExists();
+
   var blobClient = containerClient.getBlobClient(testset);
   var downloadBlockBlobResponse = await blobClient.download();
   var downloadedFile = (
@@ -256,7 +257,7 @@ async function triggerDeploymentExecution(
 }
 
 async function getEndpointKey(environment) {
-  var test_key = process.env.QNA_KEY.split('"');
+  var test_key =  JSON.parse(process.env.QNA_KEY);
   var filtered_test_url = test_key.filter(function(el, index) {
     return index % 2 === 1;
   });

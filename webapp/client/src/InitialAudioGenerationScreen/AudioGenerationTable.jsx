@@ -7,12 +7,14 @@ import {
   Link
 } from "@fluentui/react";
 import { deleteEntity, deletePartition, getTableStorage } from "../services/tableStorageService.js";
-import { deleteFilesInBlob, deleteFilesInBlobFolder } from "../services/fileUploadService.js";
+import { deleteFilesInBlobFolder } from "../services/fileUploadService.js";
 
 import { useTranslation } from 'react-i18next';
 import { AudioGenerationPath, getPath } from "../services/pathService.js";
 import { handleColumnClick, onRenderRow, progressClass, TableDateFormat, TableFieldSizes } from "../Common/TableCommon.jsx";
 import { deleteIcon, refreshIcon } from "../styles.jsx";
+import { ConfirmationModal } from "../Common/ConfirmationModal.jsx";
+import { useBoolean } from '@uifabric/react-hooks';
 
 const moment = require("moment");
 
@@ -20,8 +22,10 @@ export default function AudioGenerationTable() {
   const { t } = useTranslation();
   const [rows, setRows] = useState([]);
   const [audioGenerationJobs, setAudioGenerationJobs] = useState([]);
+  const [isModalOpen, { setTrue: showModal, setFalse: hideModal }] = useBoolean(false);
+  const [itemToDelete, setItemToDelete] = useState(undefined);
 
-  
+
 
   const [columns] = useState([
     {
@@ -33,15 +37,13 @@ export default function AudioGenerationTable() {
       onRender: (item) => {
         return (
           <ActionButton iconProps={deleteIcon}
-             allowDisabledFocus
-              onClick={()=>{
-                deleteEntity("AudioGenerationJobs",item.PartitionKey,item.RowKey)
-                deletePartition("AudioGenerationJobDetails",item.RowKey)
-                deleteFilesInBlobFolder("audiogeneration",item.RowKey)
-                initializeScreen()
-              }}
-             >
-            </ActionButton>
+            allowDisabledFocus
+            onClick={() => {
+              setItemToDelete(item)
+              showModal()
+            }}
+          >
+          </ActionButton>
         )
       },
     },
@@ -73,7 +75,7 @@ export default function AudioGenerationTable() {
       },
       isResizable: false
     },
-    { fieldName: "Status", name: t("BatchProcessing_StatusFieldName"),minWidth: 70, maxWidth: 300, isResizable : false, isMultiline:false },
+    { fieldName: "Status", name: t("BatchProcessing_StatusFieldName"), minWidth: 70, maxWidth: 300, isResizable: false, isMultiline: false },
     {
       name: "Generated", minWidth: 70, maxWidth: 70, isResizable: false,
       onRender: (item) => {
@@ -135,13 +137,30 @@ export default function AudioGenerationTable() {
         onClick={() => initializeScreen()}
       />
       {rows !== undefined && rows.length > 0 && (
-        <DetailsList
-          columns={columns}
-          items={rows}
-          selectionMode={SelectionMode.none}
-          onColumnHeaderClick={handleColumnClick}
-          onRenderRow={onRenderRow}
-        ></DetailsList>
+        <>
+          <ConfirmationModal
+            isModalOpen={isModalOpen}
+            modalTitle={t("AudioGeneration_ModalTitle")}
+            modalText={`${t("AudioGeneration_ModalText")} \"${itemToDelete == undefined ? "" : itemToDelete.JobName}\"?`}
+            noHandle={() => hideModal()}
+            yesHandle={(item) => {
+              deleteEntity("AudioGenerationJobs", item.PartitionKey, item.RowKey)
+              deletePartition("AudioGenerationJobDetails", item.RowKey)
+              deleteFilesInBlobFolder("audiogeneration", item.RowKey)
+              hideModal()
+              initializeScreen()
+            }}
+            selectedItem={itemToDelete}
+          >
+          </ConfirmationModal>
+          <DetailsList
+            columns={columns}
+            items={rows}
+            selectionMode={SelectionMode.none}
+            onColumnHeaderClick={handleColumnClick}
+            onRenderRow={onRenderRow}
+          ></DetailsList>
+        </>
       )}
     </>
   );

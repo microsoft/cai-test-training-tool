@@ -4,6 +4,8 @@
     "General_Refresh" : "Aktualisieren",
     "General_Options" : "Optionen",
     "General_Cancel" : "Abbrechen" ,
+    "General_Yes" : "Ja",
+    "General_No" : "Nein",
     "General_Save" : "Speichern" ,
     "General_Download" : "Download",
     "General_DefaultNoneSelection" : "Keine",
