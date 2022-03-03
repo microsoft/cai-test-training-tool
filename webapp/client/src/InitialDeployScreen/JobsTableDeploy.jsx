@@ -13,6 +13,8 @@ import { useTranslation } from 'react-i18next';
 import { handleColumnClick, onRenderRow, TableDateFormat, TableFieldSizes } from "../Common/TableCommon";
 import { DeploymentStatus } from "../Common/StatusEnum";
 import { deleteIcon, iconClassNames, refreshIcon } from "../styles";
+import { ConfirmationModal } from "../Common/ConfirmationModal";
+import { useBoolean } from '@uifabric/react-hooks';
 
 const moment = require("moment");
 
@@ -21,6 +23,8 @@ export default function DeployJobsTable({ knowledgebases }) {
   const { t } = useTranslation();
   const [rows, setRows] = useState([]);
   const [deploymentJobs, setDeploymentJobs] = useState([]);
+  const [isModalOpen, { setTrue: showModal, setFalse: hideModal }] = useBoolean(false);
+  const [itemToDelete, setItemToDelete] = useState(undefined);
 
 
   const columns = [
@@ -35,8 +39,8 @@ export default function DeployJobsTable({ knowledgebases }) {
           <ActionButton iconProps={deleteIcon}
             allowDisabledFocus
             onClick={() => {
-              deleteEntity("QnADeploymentJobs", item.PartitionKey, item.RowKey);
-              initializeScreen();
+              setItemToDelete(item)
+              showModal()
             }}>
           </ActionButton >
         )
@@ -156,13 +160,28 @@ export default function DeployJobsTable({ knowledgebases }) {
         onClick={() => initializeScreen()}
       />
       {rows !== undefined && rows.length > 0 && (
-        <DetailsList
-          columns={columns}
-          items={rows}
-          selectionMode={SelectionMode.none}
-          onColumnHeaderClick={handleColumnClick}
-          onRenderRow={onRenderRow}
-        ></DetailsList>
+        <>
+          <ConfirmationModal
+            isModalOpen={isModalOpen}
+            modalTitle={t("KnowledgeBase_DeploymentList_ModalTitle")}
+            modalText={`${t("KnowledgeBase_DeploymentList_ModalText")} \"${itemToDelete == undefined ? "" : itemToDelete.PartitionKey ?? ""}\"?`}
+            noHandle={() => hideModal()}
+            yesHandle={(item) => {
+              deleteEntity("QnADeploymentJobs", item.PartitionKey, item.RowKey);
+              hideModal()
+              initializeScreen()
+            }}
+            selectedItem={itemToDelete}
+          >
+          </ConfirmationModal>
+          <DetailsList
+            columns={columns}
+            items={rows}
+            selectionMode={SelectionMode.none}
+            onColumnHeaderClick={handleColumnClick}
+            onRenderRow={onRenderRow}
+          ></DetailsList>
+        </>
       )}
     </>
   );

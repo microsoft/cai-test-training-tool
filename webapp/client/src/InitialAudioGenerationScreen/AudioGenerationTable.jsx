@@ -141,7 +141,7 @@ export default function AudioGenerationTable() {
           <ConfirmationModal
             isModalOpen={isModalOpen}
             modalTitle={t("AudioGeneration_ModalTitle")}
-            modalText={`${t("AudioGeneration_ModalText")} \"${itemToDelete == undefined ? "" : itemToDelete.JobName}\"?`}
+            modalText={`${t("AudioGeneration_ModalText")} \"${itemToDelete == undefined ? "" : itemToDelete.JobName ?? ""}\"?`}
             noHandle={() => hideModal()}
             yesHandle={(item) => {
               deleteEntity("AudioGenerationJobs", item.PartitionKey, item.RowKey)

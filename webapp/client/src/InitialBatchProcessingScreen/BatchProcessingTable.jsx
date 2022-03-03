@@ -140,7 +140,7 @@ export default function BatchProcessingTable() {
         <ConfirmationModal
           isModalOpen={isModalOpen}
           modalTitle={t("BatchProcessing_ModalTitle")}
-          modalText={`${t("BatchProcessing_ModalText")} \"${itemToDelete == undefined ? "" : itemToDelete.JobName}\"?`}
+          modalText={`${t("BatchProcessing_ModalText")} \"${itemToDelete == undefined ? "" : itemToDelete.JobName ?? ""}\"?`}
           noHandle={() => hideModal()}
           yesHandle={(item)=>{
             deleteEntity("BatchJobs",item.PartitionKey,item.RowKey)

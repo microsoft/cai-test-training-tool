@@ -161,7 +161,7 @@ export default function TestTable({ knowledgeBases }) {
           isModalOpen={isModalOpen}
           modalTitle="ReplaceMe"
           modalTitle={t("KnowledgeBase_TestList_ModalTitle")}
-          modalText={`${t("KnowledgeBase_TestList_ModalText")} \"${itemToDelete == undefined ? "" : itemToDelete.PartitionKey}\"?`}
+          modalText={`${t("KnowledgeBase_TestList_ModalText")} \"${itemToDelete == undefined ? "" : itemToDelete.PartitionKey ?? ""}\"?`}
           noHandle={() => hideModal()}
           yesHandle={(item) => {
             deleteEntity("QnABatchTestJobs", item.PartitionKey, item.RowKey);

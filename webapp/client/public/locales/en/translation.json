@@ -110,7 +110,10 @@
     "KnowledgeBase_DeploymentList_StatusFieldName_IN_PROGRESS" : "In Progress",
     "KnowledgeBase_DeploymentList_StatusFieldName_FAILED" : "Failed",
     "KnowledgeBase_DeploymentList_StatusFieldName_OK" : "OK",
-    
+    "KnowledgeBase_DeploymentList_ModalTitle" : "Delete knowledge base deployment details",
+    "KnowledgeBase_DeploymentList_ModalText" :  "Are you sure you want to delete deployment number",
+
+
     "KnowledgeBase_DeploymentResult_Title" : "Deployment Results",
     "KnowledgeBase_DeploymentResult_CommentHeader" : "Comments",
     "KnowledgeBase_DeploymentResult_JobIdFieldName" :"Job Id",
