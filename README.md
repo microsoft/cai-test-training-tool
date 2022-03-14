@@ -88,6 +88,7 @@ The required settings for the running the app are the following:
 |CLIENT_SECRET | Client Secret of the App Registration used for user authentication|
 |SPEECH_SERVICE_KEY | Subscription Key for Speech Service|
 |SPEECH_SERVICE_REGION | Region of the Speech Service|
+|COGNITIVE_SERVICE_HOST | Host URL of the Azure Cognitive Service e.g. "https://westus.api.cognitive.microsoft.com/qnamaker/v4.0"
 |QNA_ENV | Names of Environments you are using for the QnA Maker Testing as array: e.g. ["TEST", "DEV"] |
 |QNA_KEY | Connection keys for the enironments defined for QNA_ENV as array: e.g. ["<key_for_TEST>", "<key_for_DEB>"] |
 |QNA_URL | Connection URLs for the enironments defined for QNA_ENV as array: e.g. ["https://<TEST>.azurewebsites.net", "https://<DEV>.azurewebsites.net"] |
