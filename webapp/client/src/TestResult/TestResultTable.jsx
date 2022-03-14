@@ -16,7 +16,7 @@ export default function ResultTable(props) {
   const [filteredResults, setFilteredResults] = useState([]);
   const [rows, setRows] = useState();
 
-  const [columns, setColumns] = useState([
+  const columns = [
     { fieldName: "PartitionKey", name: "Job Id", minWidth: TableFieldSizes.JobIdFieldSize, maxWidth: TableFieldSizes.JobIdFieldSize },
     {
       fieldName: "Timestamp",
@@ -264,7 +264,7 @@ export default function ResultTable(props) {
         );
       },
     },
-  ]);
+  ];
 
   useEffect(() => {
     setFilteredResults(props.results);

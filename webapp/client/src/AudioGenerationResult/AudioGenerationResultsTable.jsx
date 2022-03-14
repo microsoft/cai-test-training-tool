@@ -8,7 +8,7 @@ import { handleColumnClick } from "../Common/TableCommon";
 export default function AudioGenerationResultsTable(props) {
   const [filteredResults, setFilteredResults] = useState([]);
   const [rows, setRows] = useState();
-  const [columns] = props.columns;
+  const columns = props.columns;
 
   
   useEffect(() => {

@@ -4,7 +4,6 @@ import {
   SelectionMode,
   Icon,
 } from "@fluentui/react";
-import { t } from "i18next";
 import { handleColumnClick, TableDateFormat } from "../Common/TableCommon";
 import { iconClassNames } from "../styles";
 import { useTranslation } from 'react-i18next';
@@ -16,7 +15,7 @@ export default function ResultTable(props) {
   const [filteredResults, setFilteredResults] = useState([]);
   const [rows, setRows] = useState();
 
-  const [columns] = useState([
+  const columns = [
     { fieldName: "PartitionKey", name: t("KnowledgeBase_DeploymentResult_JobIdFieldName"), minWidth: 70, maxWidth: 90 },
     {
       fieldName: "Timestamp",
@@ -397,7 +396,7 @@ export default function ResultTable(props) {
         );
       },
     },
-  ]);
+  ];
 
   useEffect(() => {
     setFilteredResults(props.results);

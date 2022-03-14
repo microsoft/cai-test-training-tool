@@ -68,7 +68,7 @@ export default function DeployJobsTable({ knowledgebases }) {
       name: t("KnowledgeBase_DeploymentList_StatusFieldName"),
       minWidth: 150,
       maxWidth: 150,
-      isMultiline: true,
+      isMultiline: false,
       isResizable: false,
       onRender: (item) => {
         var iconName = "WarningSolid";
