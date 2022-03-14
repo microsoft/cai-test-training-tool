@@ -19,6 +19,10 @@
 
     "KnowledgeBase_Test_Title" : "Knowledgebase Testing",
     "KnowledgeBase_Test_NewTest_Button" : "Neuen Test anlegen",
+    
+    "KnowledgeBase_TestList_ModalText" : "Möchten Sie den folgenden job wirklich löschen:",
+    "KnowledgeBase_TestList_ModalTitle" : "Der knowledge base job wird gelöscht.",
+    
     "KnowledgeBase_TestList_JobIdFieldName" : "Job Id",
     "KnowledgeBase_TestList_TimestampFieldName" : "Zeitstempel",
     "KnowledgeBase_TestList_EnvironmentFieldName" : "Umgebung",
@@ -36,6 +40,9 @@
     "KnowledgeBase_TestList_StatusInprogress" : "Angefordert",
     "KnowledgeBase_TestList_StatusFailed" : "Fehlgeschlagen",
     "KnowledgeBase_TestList_StatusSuccessful" : "Erfolgreich",
+    "KnowledgeBase_TestList_StatusFieldName_INPROGRESS" : "Angefordert",
+    "KnowledgeBase_TestList_StatusFieldName_FAILED" : "Fehlgeschlagen",
+    "KnowledgeBase_TestList_StatusFieldName_OK" : "Erfolgreich",
 
     "KnowledgeBase_NewTest_NewTest" : "Neuer Test",
     "KnowledgeBase_NewTest_Environment" : "Umgebung",
@@ -97,8 +104,7 @@
     "KnowledgeBase_DeploymentList_ResultFieldName" : "Ergebnis",
     "KnowledgeBase_DeploymentList_UsernameFieldName" : "Benutzer",
     "KnowledgeBase_DeploymentList_StatusFieldName_PENDING_APPROVAL" : "Warte auf Genehmigung",
-    "KnowledgeBase_DeploymentResult_ResultFieldName_CORRECT" : "OK",
-
+    
     "KnowledgeBase_DeploymentResult_Title" : "Deployment Ergebnisse",
     "KnowledgeBase_DeploymentResult_CommentHeader" : "Kommentar",
     "KnowledgeBase_DeploymentResult_JobIdFieldName" :"Job Id",
@@ -126,7 +132,12 @@
     "KnowledgeBase_DeploymentResult_ActualScorePRDFieldName" : "Score PRD",
     "KnowledgeBase_DeploymentResult_ResultFieldName_INPROGRESS" : "In Arbeit",
     "KnowledgeBase_DeploymentResult_ResultFieldName_FAILED" : "Fehlerhaft",
-    "KnowledgeBase_DeploymentResult_ResultFieldName_OK" : "Korrekt",
+    "KnowledgeBase_DeploymentResult_ResultFieldName_CORRECT" : "Korrekt",
+    "KnowledgeBase_DeploymentList_StatusFieldName_FAILED" : "Fehlgeschlagen",
+    "KnowledgeBase_DeploymentList_StatusFieldName_IN_PROGRESS" : "Angefordert",
+    "KnowledgeBase_DeploymentList_StatusFieldName_OK" : "Erfolgreich",
+    "KnowledgeBase_DeploymentList_ModalTitle" : "Deployment details werden gelöscht",
+    "KnowledgeBase_DeploymentList_ModalText" :  "Sind Sie sicher, dass Sie den folgenden job löschen möchten: ",
 
     "Settings_SettingsList_SettingFieldName" : "Einstellung",
     "Settings_SettingsList_ActionFieldName" : "Aktion",
@@ -167,6 +178,8 @@
     "BatchProcessingResult_ScoreFieldName" : "Score",
     "BatchProcessingResult_StatusFieldName" : "Status",
     "BatchProcessingResult_LUISEntitiesFieldName" : "LUIS Entities",
+    "BatchProcessing_ModalTitle" : "Batch Job wird gelöscht",
+    "BatchProcessing_ModalText" : "Sind Sie sicher, dass Sie den folgenden Job löschen möchten: ",
     
     "NewBatchProcessing_AudioFiles_Label" : "Audio Files",
     "NewBatchProcessing_Title" : "Neuer Job",
@@ -185,6 +198,8 @@
     "AudioGeneration_SpeechServiceType" : "Speech Service Typ",
     "AudioGeneration_Language" : "Sprache",
     "AudioGenerationResult_Title" : "Status",
+    "AudioGeneration_ModalTitle" : "Audio Generation Job wird gelöscht",
+    "AudioGeneration_ModalText" : "Sind Sie sicher, dass Sie den folgenden Job löschen möchten: ",
 
     "NewAudioGeneration_SpeechService_Label": "Speech Service",
     "NewAudioGeneration_Languages_Label": "Sprache",
