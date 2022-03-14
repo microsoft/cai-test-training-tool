@@ -59,7 +59,7 @@
     "uuid": "^8.3.0",
     "vscode-languageserver": "^5.3.0-next",
     "vscode-ws-jsonrpc": "^0.1.1",
-    "yeoman-environment": "^2.10.3",
+    "yeoman-environment": "^3",
     "azure-storage": "^2.10.3",
     "@azure/storage-blob": "12.5.0",
     "@azure/storage-queue": "12.5.0",
