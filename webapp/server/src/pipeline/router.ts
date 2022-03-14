@@ -541,13 +541,13 @@ async function triggerTestExecution(
       headers: headers,
     };
     return axios
-      .get("https://westus.api.cognitive.microsoft.com/qnamaker/v4.0" + "/endpointkeys", requestOptions)
+      .get(process.env.COGNITIVE_SERVICE_HOST + "/endpointkeys", requestOptions)
       .then((result) => {
         return result.data["primaryEndpointKey"];
       })
       .catch((err) => {
         console.log(
-          `error getting endopint key from: ${"https://westus.api.cognitive.microsoft.com/qnamaker/v4.0" + "/endpointkeys"
+          `error getting endopint key from: ${process.env.COGNITIVE_SERVICE_HOST + "/endpointkeys"
           }: `,
           err
         );

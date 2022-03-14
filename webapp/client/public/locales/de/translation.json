@@ -19,14 +19,17 @@
 
     "KnowledgeBase_Test_Title" : "Knowledgebase Testing",
     "KnowledgeBase_Test_NewTest_Button" : "Neuen Test anlegen",
-
+    "KnowledgeBase_TestList_JobIdFieldName" : "Job Id",
     "KnowledgeBase_TestList_TimestampFieldName" : "Zeitstempel",
     "KnowledgeBase_TestList_EnvironmentFieldName" : "Umgebung",
+    "KnowledgeBase_TestList_KnowledgeBaseFieldName" : "Knowledge Base",
+    "KnowledgeBase_TestList_StatusFieldName" : "Status",
+    "KnowledgeBase_TestList_TestsetFieldName" : "Testset",
     "KnowledgeBase_TestList_ResultFieldName" : "Ergebnis",
     "KnowledgeBase_TestList_UsernameFieldName" : "Benutzer",
-    "KnowledgeBase_TestList_StatusFieldName_INPROGRESS" : "In Arbeit",
-    "KnowledgeBase_TestList_StatusFieldName_FAILED" : "Fehlgeschlagen",
-    "KnowledgeBase_TestList_StatusFieldName_OK" : "OK",
+    "KnowledgeBase_TestResult_ResultFieldName_INPROGRESS" : "In Arbeit",
+    "KnowledgeBase_TestList_ResultFieldName_FAILED" : "Fehlgeschlagen",
+    "KnowledgeBase_TestList_ResultFieldName_CORRECT" : "OK",
 
     "KnowledgeBase_TestList_DetailsButtonLabel" : "Detailansicht",
     "KnowledgeBase_TestList_DeleteButtonLabel" : "Löschen",
@@ -69,10 +72,8 @@
     "KnowledgeBase_TestResult_ExpectedScoreFieldName" : "Min. Score",
     "KnowledgeBase_TestResult_ActualScoreFieldName" : "Score",
     "KnowledgeBase_TestResult_CommentHeader" : "Kommentar",
-    "KnowledgeBase_TestResult_ResultFieldName_INPROGRESS" : "In Arbeit",
     "KnowledgeBase_TestResult_ResultFieldName_FAILED" : "Fehlerhaft",
     "KnowledgeBase_TestResult_ResultFieldName_OK" : "Korrekt",
-
 
     "KnowledgeBase_TestResult_ResultFieldName" : "Ergebnis",
     "KnowledgeBase_TestResult_AnswerFieldName" : "Erhaltene Antwort",
@@ -96,9 +97,7 @@
     "KnowledgeBase_DeploymentList_ResultFieldName" : "Ergebnis",
     "KnowledgeBase_DeploymentList_UsernameFieldName" : "Benutzer",
     "KnowledgeBase_DeploymentList_StatusFieldName_PENDING_APPROVAL" : "Warte auf Genehmigung",
-    "KnowledgeBase_DeploymentList_StatusFieldName_INPROGRESS" : "In Arbeit",
-    "KnowledgeBase_DeploymentList_StatusFieldName_FAILED" : "Fehlgeschlagen",
-    "KnowledgeBase_DeploymentList_StatusFieldName_OK" : "OK",
+    "KnowledgeBase_DeploymentResult_ResultFieldName_CORRECT" : "OK",
 
     "KnowledgeBase_DeploymentResult_Title" : "Deployment Ergebnisse",
     "KnowledgeBase_DeploymentResult_CommentHeader" : "Kommentar",

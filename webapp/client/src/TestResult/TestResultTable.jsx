@@ -73,12 +73,12 @@ export default function ResultTable(props) {
       onRender: (item) => {
         var iconName = "WarningSolid";
         var className = iconClassNames.failure;
-        var message = t("KnowledgeBase_TestResult_ResultIncorrect");
+        var message = t("KnowledgeBase_TestResult_ResultFieldName_FAILED");
         if (item.resultUAT != undefined) {
           if (item.resultUAT === "CORRECT") {
             iconName = "SkypeCircleCheck";
             className = iconClassNames.success;
-            message = t("KnowledgeBase_TestResult_ResultCorrect");
+            message = t("KnowledgeBase_TestResult_ResultFieldName_CORRECT");
           }
           else if(item.resultUAT === "INPROGRESS")
           {

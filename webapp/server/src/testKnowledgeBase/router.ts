@@ -273,13 +273,13 @@ async function getEndpointKey(environment) {
   };
 
   return axios
-    .get(process.env.HOST_URL + "/endpointkeys", requestOptions)
+    .get(process.env.COGNITIVE_SERVICE_HOST + "/endpointkeys", requestOptions)
     .then((result) => {
       return result.data["primaryEndpointKey"];
     })
     .catch((err) => {
       console.log(
-        `error getting endopint key from: ${process.env.HOST_URL + "/endpointkeys"
+        `error getting endopint key from: ${process.env.COGNITIVE_SERVICE_HOST + "/endpointkeys"
         }: `,
         err
       );

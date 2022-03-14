@@ -39,7 +39,7 @@
     "KnowledgeBase_TestList_StatusFieldName_OK" : "OK",
     "KnowledgeBase_TestList_DetailsButtonLabel" : "Details",
     "KnowledgeBase_TestList_DeleteButtonLabel" : "Delete",
-    
+
     "KnowledgeBase_TestList_StatusInprogress" : "In progress",
     "KnowledgeBase_TestList_StatusFailed" : "Failed",
     "KnowledgeBase_TestList_StatusSuccessful" : "Successful",
@@ -82,7 +82,7 @@
     "KnowledgeBase_TestResult_CommentHeader" : "Comments",
     "KnowledgeBase_TestResult_ResultFieldName_INPROGRESS" : "In Progress",
     "KnowledgeBase_TestList_ResultFieldName_FAILED" : "Incorrect",
-    "KnowledgeBase_TestList_ResultFieldName_OK" : "Correct",
+    "KnowledgeBase_TestList_ResultFieldName_CORRECT" : "Correct",
         
     "KnowledgeBaseDeployment_Title" : "Knowledgebase Deployment",
     "KnowledgeBaseDeployment_NewDeploymentButtonLabel" : "New Deployment",
@@ -141,7 +141,7 @@
     "KnowledgeBase_DeploymentResult_ActualScorePRDFieldName" : "Score PRD",
     "KnowledgeBase_DeploymentResult_ResultFieldName_INPROGRESS" : "In Progress",
     "KnowledgeBase_DeploymentResult_ResultFieldName_FAILED" : "Incorrect",
-    "KnowledgeBase_DeploymentResult_ResultFieldName_OK" : "Correct",
+    "KnowledgeBase_DeploymentResult_ResultFieldName_CORRECT" : "Correct",
     
     "Settings_SettingsList_SettingFieldName" : "Setting",
     "Settings_SettingsList_ActionFieldName" : "Action",

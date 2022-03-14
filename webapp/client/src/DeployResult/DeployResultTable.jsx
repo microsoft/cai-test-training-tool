@@ -54,12 +54,12 @@ export default function ResultTable(props) {
       onRender: (item) => {
         var iconName = "WarningSolid";
         var className = iconClassNames.failure;
-        var message = t("KnowledgeBase_TestResult_ResultIncorrect");
+        var message = t("KnowledgeBase_DeploymentResult_ResultFieldName_FAILED");
         if (item.resultPRD != undefined) {
           if (item.resultPRD === "CORRECT") {
             iconName = "SkypeCircleCheck";
             className = iconClassNames.success;
-            message = t("KnowledgeBase_TestResult_ResultCorrect");
+            message = t("KnowledgeBase_DeploymentResult_ResultFieldName_CORRECT");
           }
           return (
             <span>
@@ -77,12 +77,12 @@ export default function ResultTable(props) {
       onRender: (item) => {
         var iconName = "WarningSolid";
         var className = iconClassNames.failure;
-        var message = t("KnowledgeBase_TestResult_ResultIncorrect");
+        var message = t("KnowledgeBase_DeploymentResult_ResultFieldName_FAILED");
         if (item.resultUAT != undefined) {
           if (item.resultUAT === "CORRECT") {
             iconName = "SkypeCircleCheck";
             className = iconClassNames.success;
-            message = t("KnowledgeBase_TestResult_ResultCorrect");
+            message = t("KnowledgeBase_DeploymentResult_ResultFieldName_OK");
           }
           return (
             <span>
@@ -94,7 +94,7 @@ export default function ResultTable(props) {
     },
     {
       fieldName: "answerPRD",
-      name: t("KnowledgeBase_TestResult_AnswerFieldName") + " PRD",
+      name: t("KnowledgeBase_TestResult_AnswerFieldName") + " TEST",
       minWidth: 120,
       maxWidth: 120,
       onRender: (item) => {
@@ -113,7 +113,7 @@ export default function ResultTable(props) {
     },
     {
       fieldName: "answerUAT",
-      name: t("KnowledgeBase_TestResult_AnswerFieldName") + " TEST",
+      name: t("KnowledgeBase_TestResult_AnswerFieldName") + " PRD",
       minWidth: 120,
       maxWidth: 120,
       onRender: (item) => {
