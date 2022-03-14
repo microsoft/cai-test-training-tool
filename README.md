@@ -4,25 +4,43 @@
 
 # Conversational AI Test & Training Tool
 
-This Solution Accelerator provides Web Application which supports testing and training processes for Cognitive Services Models based on a graphical user interface.
- 
-Part of the application also provides support to run test cases across multiple services supporting end-2-end testing.
+This Solution Accelerator provides a Web Application which supports testing and training processes for Cognitive Services Models based on a graphical user interface.
 
-In addition the tool provides a deployment functionality for Microsoft QnA Maker knowledge bases to support the deployment across multiple QnA Maker services to support separate environments for training and testing of knowlegde bases vs. productive deployment.
-  
+The following features are currently implemented:
+- QnA Maker
+  - Batch Testing of QnA Maker Knowledge Bases
+  - Deployment of QnA Maker Knowledge Bases to a production environment incl. Testing
+- Speech Service
+  - Batch Testing of Baseline and Custom Speech Models
+  - End-2-End Batch Testing of Speech Models in Combination with License Plate Recognition post processing (see project [Conversational AI Advanced Processing Service](https://github.com/microsoft/cai-advanced-processing-service))
+  - Batch Text-to-Speech Audio Content Creation
+
+Currently open:
+- Extensions to support further Speech Service End-2-End Batch Testing sceanrios in combination with furter [Conversational AI Advanced Processing Service](https://github.com/microsoft/
+cai-advanced-processing-service)
+- Support for new Language Service Custom QnA (new QnA Maker service)
+
 ## High Level Architecture
+The following image provides an overview of the Architecture of the tool.
 
-TBD!
+![image](./assets/img/Architecture-Overview.jpg)
+
+The tool consists of the following Key components:
+1. Web Application hosting the graphical user interface front- and back-end incl. orchestrating processes for QnA Maker
+2. Backend Function Apps orchestrating processes for Speech and Post Processing Service
+
+Currently open:
+- Consolidation of TTS Generation Functions Apps
 
 ## Deployoment of the solution
 
-TBD!
+
 
 ### Setting up the required Azure services
 
 TBD!
 
-### Main Application
+### Main Application (Web Application)
 
 #### Run the application
 
@@ -104,10 +122,11 @@ To add a new language to the tool the following steps need to be performed:
 
 #### Deployment to Azure
 
+TBD! Joao?
 
 ### Backend Functions
 
-### Batch Testing Function
+#### Speech Batch Testing Function
 The batch testing function depends on Azure storage account. This function uses tables, blobs and queues from the storage account.
 
 **Creating Storage Account:**
@@ -121,11 +140,22 @@ The following steps needs to be performed:
 1. Create Azure Function, App Service Plan and Windows based.
 2. Switch On `Always On` feature. 
 
-#### Code Deployment
+##### Code Deployment
 
-TBD!
+1. Open your PowerShell
+1. Activate your environment, if you haven't before: <br>
+`source .venv/bin/activate` (Linux) or `.venv/Scripts/activate` (Windows)
+1. Login to your Azure Account: `az login` (a browser window will open, where you may have to log on Azure)
+1. Execute the command below:<br> 
+`func azure functionapp publish [insert your function name] --remote build`
+1. Wait until the deployment is finished
+1. (optional, only has to be done for initial deployment OR when settings are updated) Execute following command:<br>
+`az webapp config appsettings set -g [insert name of resource group] -n [insert your function name] --settings @appsettings.json`
+1. Use [Postman](https://www.postman.com/downloads/) for testing the endpoints with the [collections](assets/postman-collection/XXXX)
 
-#### Setting Application Settings
+TBD! Ihab to check?
+
+##### Setting Application Settings
 
 The required settings for the running the app are the following:
 | Setting Name | Description |
@@ -141,6 +171,75 @@ The required settings for the running the app are the following:
 | WERFunctionURL | This is the URL for the WER function, the URL should be in the format "https://\<The WER function URL\>/api/BatchTesting"|
 | WERFunctionKey | The WER Function code |
 
+#### TTS Generation Function
+
+**Creating Storage Account:**
+The following steps needs to be performed:
+
+TBD!
+
+**Creating Azure Function**
+1. Create Azure Function, App Service Plan and Windows based.
+2. Switch On `Always On` feature. 
+
+TBD!
+
+##### Code Deployment
+
+1. Open your PowerShell
+1. Activate your environment, if you haven't before: <br>
+`source .venv/bin/activate` (Linux) or `.venv/Scripts/activate` (Windows)
+1. Login to your Azure Account: `az login` (a browser window will open, where you may have to log on Azure)
+1. Execute the command below:<br> 
+`func azure functionapp publish [insert your function name] --remote build`
+1. Wait until the deployment is finished
+1. (optional, only has to be done for initial deployment OR when settings are updated) Execute following command:<br>
+`az webapp config appsettings set -g [insert name of resource group] -n [insert your function name] --settings @appsettings.json`
+1. Use [Postman](https://www.postman.com/downloads/) for testing the endpoints with the [collections](assets/postman-collection/XXXX)
+
+TBD! Ihab to check?
+
+##### Setting Application Settings
+| Setting Name | Description |
+|--------------| ------------|
+|  |  |
+
+TBD!
+
+#### TTS Generation Batch Function
+
+**Creating Storage Account:**
+The following steps needs to be performed:
+
+TBD!
+
+**Creating Azure Function**
+1. Create Azure Function, App Service Plan and Linux based.
+2. Switch On `Always On` feature.
+
+TBD!
+
+##### Code Deployment
+
+1. Open your PowerShell
+1. Activate your environment, if you haven't before: <br>
+`source .venv/bin/activate` (Linux) or `.venv/Scripts/activate` (Windows)
+1. Login to your Azure Account: `az login` (a browser window will open, where you may have to log on Azure)
+1. Execute the command below:<br> 
+`func azure functionapp publish [insert your function name] --remote build`
+1. Wait until the deployment is finished
+1. (optional, only has to be done for initial deployment OR when settings are updated) Execute following command:<br>
+`az webapp config appsettings set -g [insert name of resource group] -n [insert your function name] --settings @appsettings.json`
+1. Use [Postman](https://www.postman.com/downloads/) for testing the endpoints with the [collections](assets/postman-collection/XXXX)
+
+TBD! Ihab to check?
+
+##### Setting Application Settings
+| Setting Name | Description |
+|--------------| ------------|
+|  |  |
+
+TBD!
 
 ## Usage of Tool
 
