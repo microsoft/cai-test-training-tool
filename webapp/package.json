@@ -10,7 +10,7 @@
     "kind-of": "^6.0.3",
     "lodash": "^4.17.12",
     "mkdirp": "^0.5.2",
-    "selfsigned": "1.10.8",
+    "selfsigned": "^2.0.0",
     "serialize-javascript": "^3.1.0",
     "set-value": "^4.0.1",
     "terser-webpack-plugin": "^2.3.7",
