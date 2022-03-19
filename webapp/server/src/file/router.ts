@@ -44,7 +44,7 @@ const checkFileNames = (blobname, filename) => {
   return true;
 };
 
-var getFileFromBlob = async (file: string, container) => {
+var getFileFromBlob = async (file, container) => {
   // get blobServiceClient from connection string
   var blobServiceClient = BlobServiceClient.fromConnectionString(
     process.env.SA_CONNECTION_STRING
@@ -107,7 +107,7 @@ router.use(function (req, res, next) {
   next();
 });
 
-router.post("/", async function (req, res) {
+router.post("/", async function (req : any, res) {
   if (!req.files || Object.keys(req.files).length === 0) {
     return res.status(400).send("No file was uploaded");
   } else if (!req.query.container) {

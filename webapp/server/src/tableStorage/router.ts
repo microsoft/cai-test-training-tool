@@ -86,7 +86,7 @@ router.get("/:tableName/:partitionKey/:rowKey", async function (req, res) {
     res.status(200).json(result);
 });
 
-router.post("/job", async function (req, res) {
+router.post("/job", async function (req : any, res) {
   var userName = req.user.profile.displayName;
   await createJob(req.query.tableName, req.body, userName)
   res.status(200).json({ message: "job created successfully" });

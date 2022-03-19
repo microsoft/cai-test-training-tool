@@ -173,7 +173,7 @@ app.get('/login', (req, res) => {
 });
 
 app.get('/auth/aad', passport.authenticate('azuread-openidconnect'));
-app.get('/logout', (req, res) => {
+app.get('/logout', (req :any , res) => {
   req.logout();
   res.redirect('/')
 });
