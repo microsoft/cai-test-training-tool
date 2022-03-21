@@ -40,6 +40,9 @@
 	"General_Options": "Optionen",
 	"General_Refresh": "Aktualisieren",
 	"General_Save": "Speichern",
+    "General_SpinnerLabel_LoadingModels": "Modelle werden geladen",
+    "General_SpinnerLabel_LoadingVoices": "Stimmen werden geladen",
+    "General_SpinnerLabel_ProcessingRequest": "Request wird bearbeitet",
 	"General_Yes": "Ja",
 	"Home_AudioGeneration_Description": "Funktion zum Synthetisieren von Audio auf Basis von Textdateien.",
 	"Home_BatchProcessing_Description": "Batch Test Funktion für Speech.",
@@ -105,6 +108,7 @@
 	"KnowledgeBase_NewTest_Environment": "Umgebung",
 	"KnowledgeBase_NewTest_NewTest": "Neuer Test",
 	"KnowledgeBase_NewTest_NoFile": "Keine Datei ausgewählt",
+    "KnowledgeBase_NewTest_Select": "Bitte auswählen...",
 	"KnowledgeBase_NewTest_SelectFile": "Bitte auswählen...",
 	"KnowledgeBase_NewTest_StartTest": "Test starten",
 	"KnowledgeBase_NewTest_Testcases": "Testfälle",
@@ -159,7 +163,7 @@
 	"NewAudioGeneration_Languages_Label": "Sprache",
 	"NewAudioGeneration_SpeechService_Label": "Speech Service",
 	"NewAudioGeneration_Voices_Label": "Stimme",
-	"NewAudioGeneration_Title": "Neues Audio Generation Job",					
+	"NewAudioGeneration_Title": "Neuer Audio Generation Job",					
 	"NewBatchProcessing_AudioFiles_Label": "Audio Files",
 	"NewBatchProcessing_JobName_Label": "Job Name",
 	"NewBatchProcessing_LicensePlatesFiles_Label": "Referneznummernschilder",
@@ -189,5 +193,5 @@
 	"Tool_Title": "Conversational AI Test and Training Tool",
 	"UploadFile_ButtonLabel": "Datei hochladen",
 	"UploadFile_IncorrectFormatLabel": "Format fehlerhaft!",
-	"UploadFile_NoFileLabel": "Keine Datei hochgeladen."
+	"UploadFile_NoFileLabel": "Keine Datei hochgeladen.",
 }
