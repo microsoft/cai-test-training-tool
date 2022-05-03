@@ -317,36 +317,6 @@ namespace BatchTesting.Tool.Function
                                     completedTranscriptions.Add(transcription.Self);
                                 }
                                 break;
-
-                            case "Running":
-                                // we check to see if it was one of the transcriptions we created from this client.
-                                if (!createdTranscriptions.Contains(transcription.Self) || completedTranscriptions.Contains(transcription.Self))
-                                {
-                                    // not creted form here, continue
-                                    continue;
-                                }
-                                running++;
-                                if (await CheckIfTransactionIdDelayed(transcription, completed, completedTranscriptions, myQueueItem, storageConnectionString))
-                                {
-                                    completed++;
-                                    continue;
-                                }
-                                break;
-
-                            case "NotStarted":
-                                // we check to see if it was one of the transcriptions we created from this client.
-                                if (!createdTranscriptions.Contains(transcription.Self) || completedTranscriptions.Contains(transcription.Self))
-                                {
-                                    // not creted form here, continue
-                                    continue;
-                                }
-                                notStarted++;
-                                if (await CheckIfTransactionIdDelayed(transcription, completed, completedTranscriptions, myQueueItem, storageConnectionString))
-                                {
-                                    completed++;
-                                    continue;
-                                }
-                                break;
                         }
                     }
 
