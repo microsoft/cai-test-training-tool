@@ -61,9 +61,8 @@ namespace BatchTesting.Tool.Function
             try
             {
                 await BatchJobStorageHelper.UpdateBatchJobStatus(myQueueItem.JobId, storageConnectionString,batchJobTableName, "Queuing Job to Speech Service", null, "6%");
-                string StrorageConnectionString = storageConnectionString;
 
-                CloudStorageAccount storageAccount = CloudStorageAccount.Parse(StrorageConnectionString);
+                CloudStorageAccount storageAccount = CloudStorageAccount.Parse(storageConnectionString);
 
                 Dictionary<string, int> FileRetries = new Dictionary<string, int>();
 
@@ -79,23 +78,6 @@ namespace BatchTesting.Tool.Function
                 List<TranscriptPair> transcriptValues = await GetTranscriptValues(container, myQueueItem.JobId, myQueueItem.TranscriptFileName);
 
                 var client = BatchClient.BatchClient.CreateApiV3Client(SubscriptionKey, HostName);
-
-                var toBeDeletedTranscriptions = new List<Transcription>();
-
-                IEnumerable<Transcription> transcriptions = new List<Transcription>();
-
-                transcriptions = await GetAllTransactions(client);
-
-                //toBeDeletedTranscriptions = transcriptions.Where(i => i.CreatedDateTime < DateTime.UtcNow.AddDays(-1)).ToList();
-                toBeDeletedTranscriptions = transcriptions.ToList();
-
-                // delete all pre-existing completed transcriptions. If transcriptions are still running or not started, they will not be deleted
-                foreach (var item in toBeDeletedTranscriptions)
-                {
-                    // delete a transcription
-                    await client.DeleteTranscriptionAsync(item.Self).ConfigureAwait(false);
-                }
-
 
                 if (!string.IsNullOrWhiteSpace(myQueueItem.SpeechLanguageModelId))
                 {
@@ -175,9 +157,9 @@ namespace BatchTesting.Tool.Function
                     }
                 }
 
-               
 
-                transcriptions = await GetAllTransactions(client);
+
+                IEnumerable<Transcription> transcriptions = await GetAllTransactions(client);
 
                 await BatchJobStorageHelper.UpdateBatchJobStatus(myQueueItem.JobId,storageConnectionString,batchJobTableName, "Receiving recognition results from speech service", null, "10%");
 
@@ -220,7 +202,7 @@ namespace BatchTesting.Tool.Function
                                         completed++;
                                         var voiceFile = new VoiceFile(myQueueItem.JobId, transcription.DisplayName);
                                         voiceFile.Status = "SpeechFailed";
-                                        await BatchJobStorageHelper.SaveVoiceFileAsync(voiceFile, StrorageConnectionString, "BatchJobDetails");
+                                        await BatchJobStorageHelper.SaveVoiceFileAsync(voiceFile, storageConnectionString, "BatchJobDetails");
                                         completedTranscriptions.Add(transcription.Self);
                                         continue;
                                     }
@@ -319,7 +301,7 @@ namespace BatchTesting.Tool.Function
                                         }
 
                                         log.LogInformation("Success - JobId= " + myQueueItem.JobId + " Save File" + transcription.Self + " FileName = " + transcription.DisplayName);
-                                        await BatchJobStorageHelper.SaveVoiceFileAsync(voiceFile, StrorageConnectionString, "BatchJobDetails");
+                                        await BatchJobStorageHelper.SaveVoiceFileAsync(voiceFile, storageConnectionString, "BatchJobDetails");
 
                                     }
                                     catch (Exception ex)
@@ -327,7 +309,7 @@ namespace BatchTesting.Tool.Function
                                         log.LogError(ex.Message, ex, "Speech Conversaion Function");
                                         var voiceFile = new VoiceFile(myQueueItem.JobId, transcription.DisplayName);
                                         voiceFile.Status = "NotRecognized";
-                                        await BatchJobStorageHelper.SaveVoiceFileAsync(voiceFile, StrorageConnectionString, "BatchJobDetails");
+                                        await BatchJobStorageHelper.SaveVoiceFileAsync(voiceFile, storageConnectionString, "BatchJobDetails");
 
                                     }
 
@@ -344,7 +326,7 @@ namespace BatchTesting.Tool.Function
                                     continue;
                                 }
                                 running++;
-                                if (await CheckIfTransactionIdDelayed(transcription, completed, completedTranscriptions, myQueueItem, StrorageConnectionString))
+                                if (await CheckIfTransactionIdDelayed(transcription, completed, completedTranscriptions, myQueueItem, storageConnectionString))
                                 {
                                     completed++;
                                     continue;
@@ -359,7 +341,7 @@ namespace BatchTesting.Tool.Function
                                     continue;
                                 }
                                 notStarted++;
-                                if (await CheckIfTransactionIdDelayed(transcription, completed, completedTranscriptions, myQueueItem, StrorageConnectionString))
+                                if (await CheckIfTransactionIdDelayed(transcription, completed, completedTranscriptions, myQueueItem, storageConnectionString))
                                 {
                                     completed++;
                                     continue;
