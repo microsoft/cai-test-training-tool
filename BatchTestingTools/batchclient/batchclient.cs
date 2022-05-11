@@ -38,6 +38,10 @@ namespace BatchClient
 
         public static BatchClient CreateApiV3Client(string key, string hostName)
         {
+            if(string.IsNullOrEmpty(key) || string.IsNullOrWhiteSpace(key))
+            {
+                throw new ArgumentException("Null, whitespaces or empty strings are not allowed", nameof(key));
+            }
             var client = new HttpClient();
             client.Timeout = TimeSpan.FromMinutes(25);
             client.BaseAddress = new UriBuilder(Uri.UriSchemeHttps, hostName).Uri;
