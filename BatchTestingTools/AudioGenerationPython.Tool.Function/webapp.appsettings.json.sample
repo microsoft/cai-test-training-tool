@@ -1,0 +1,26 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "APPINSIGHTS_INSTRUMENTATIONKEY": "",
+    "APPLICATIONINSIGHTS_CONNECTION_STRING": "",
+    "AWS_ACCESS": "",
+    "AWS_ACCESS_SECRET": "",
+    "AWS_REGION": "",
+    "AZURE_BLOB_CONTAINER": "batchsynth",
+    "AzureWebJobs.BatchTesting.Disabled": "1",
+    "AzureWebJobs.LicensePlate.Disabled": "1",
+    "AzureWebJobsStorage": "",
+    "COGNITIVE_NAME": "KioskSpeechAPI",
+    "COGNITIVE_REGION": "westeurope",
+    "FUNCTIONS_EXTENSION_VERSION": "~3",
+    "FUNCTIONS_WORKER_RUNTIME": "python",
+    "GOOGLE_APPLICATION_CREDENTIALS_STORE": "",
+    "WEBSITE_HEALTHCHECK_MAXPINGFAILURES": "10",
+    "ENABLE_ORYX_BUILD": "true",
+    "SCM_DO_BUILD_DURING_DEPLOYMENT": "1",
+    "BUILD_FLAGS": "UseExpressBuild",
+    "XDG_CACHE_HOME": "/tmp/.cache",
+    "AZURE_BLOB": "@Microsoft.KeyVault(SecretUri=https://<add KeyVault>/secrets/BTAndAudioFunction-StorageKey/)",
+    "COGNITIVE_KEY": "@Microsoft.KeyVault(SecretUri=https://<add KeyVault>/secrets/BTAndAudioFunction-SpeechKey/7f55215dabea4223bd90e66d7888772c)"
+  }
+}

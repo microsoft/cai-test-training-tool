@@ -1,0 +1,21 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AppInsightKey": "",
+    "APPINSIGHTS_INSTRUMENTATIONKEY": "",
+    "APPLICATIONINSIGHTS_CONNECTION_STRING": "",
+    "AudioFunctionApiConfiguration:Api": "api/audiobatchfunc",
+    "AudioFunctionApiConfiguration:BaseUrl": "https://func-cai-batchtestingbackend.azurewebsites.net",
+    "ContainerName": "batchsynth",
+    "FUNCTIONS_EXTENSION_VERSION": "~3",
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet",
+    "GOOGLE_APPLICATION_CREDENTIALS_STORE": "",
+    "RecordingsTableName": "recordings",
+    "RetentionDays": "120",
+    "WEBSITE_RUN_FROM_PACKAGE": "1",
+    "AudioFunctionApiConfiguration:Key": "@Microsoft.KeyVault(SecretUri=https://<add KeyVault>/secrets/func-cai-batchtestingbackend-AudioBatchFunc-defaultkey/)",
+    "AzureWebJobsStorage": "@Microsoft.KeyVault(SecretUri=https://<add KeyVault>/secrets/BTAndAudioFunction-StorageKey/)",
+    "ConnectionStrings:SaveStorageConnectionString": "@Microsoft.KeyVault(SecretUri=https://<add KeyVault>/secrets/BTAndAudioFunction-StorageKey/)",
+    "ConnectionStrings:TableStorageConnectionString": "@Microsoft.KeyVault(SecretUri=https://<add KeyVault>/secrets/BTAndAudioFunction-StorageKey/)"
+  }
+}

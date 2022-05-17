@@ -127,7 +127,7 @@ TBD! Joao?
 
 ### Backend Functions
 
-#### Speech Batch Testing Function
+#### Speech Batch Testing Function (BatchTestingTools/BatchTesting.Tool.Function)
 The batch testing function depends on Azure storage account. This function uses tables, blobs and queues from the storage account.
 
 **Creating Storage Account:**
@@ -141,6 +141,8 @@ The following steps needs to be performed:
 1. Create Azure Function, App Service Plan and Windows based.
 2. Switch On `Always On` feature. 
 
+***Double Check with Ihab!***
+
 ##### Code Deployment
 
 1. Open your PowerShell
@@ -152,9 +154,6 @@ The following steps needs to be performed:
 1. Wait until the deployment is finished
 1. (optional, only has to be done for initial deployment OR when settings are updated) Execute following command:<br>
 `az webapp config appsettings set -g [insert name of resource group] -n [insert your function name] --settings @appsettings.json`
-1. Use [Postman](https://www.postman.com/downloads/) for testing the endpoints with the [collections](assets/postman-collection/XXXX)
-
-TBD! Ihab to check?
 
 ##### Setting Application Settings
 
@@ -172,19 +171,20 @@ The required settings for the running the app are the following:
 | WERFunctionURL | This is the URL for the WER function, the URL should be in the format "https://\<The WER function URL\>/api/BatchTesting"|
 | WERFunctionKey | The WER Function code |
 
-#### TTS Generation Function
+See [webapp.appsettings.json.sample](BatchTestingTools\BatchTesting.Tool.Function\webapp.appsettings.json.sample) for details.
+
+#### TTS Generation Function (BatchTestingTools/AudioGeneration.Tool.Function)
 
 **Creating Storage Account:**
 The following steps needs to be performed:
-
-TBD!
+1. Create a storage account in your subscription. (Can be shared with the other functions.)
+2. Add constainer with the name `audiogeneration` in the storage account's blob.
+3. Create two tables in the storage account's tables with the names `AudioGenerationJobs` and `AudioGenerationJobDetails`.
 
 **Creating Azure Function**
 1. Create Azure Function, App Service Plan and Windows based.
 2. Switch On `Always On` feature. 
 
-TBD!
-
 ##### Code Deployment
 
 1. Open your PowerShell
@@ -196,30 +196,23 @@ TBD!
 1. Wait until the deployment is finished
 1. (optional, only has to be done for initial deployment OR when settings are updated) Execute following command:<br>
 `az webapp config appsettings set -g [insert name of resource group] -n [insert your function name] --settings @appsettings.json`
-1. Use [Postman](https://www.postman.com/downloads/) for testing the endpoints with the [collections](assets/postman-collection/XXXX)
-
-TBD! Ihab to check?
 
 ##### Setting Application Settings
-| Setting Name | Description |
-|--------------| ------------|
-|  |  |
+See [webapp.appsettings.json.sample](BatchTestingTools\AudioGeneration.Tool.Function\webapp.appsettings.json.sample) for details.
 
-TBD!
-
-#### TTS Generation Batch Function
+#### TTS Generation Batch Function (BatchTestingTools/AudioGenerationPython.Tool.Function)
+*Info: This is currently still a separate pyhton Function which should be refactored into the **AudioGeneration.Tool.Function** going forward.*
 
 **Creating Storage Account:**
 The following steps needs to be performed:
-
-TBD!
+1. Create a storage account in your subscription. (Can be shared with **AudioGeneration.Tool.Function**.)
+2. Add constainer with the name `batchsynth` in the storage account's blob.
+3. Create two tables in the storage account's tables with the names `funccaiaudiogenerationHistory` and `funccaiaudiogenerationInstances`.
 
 **Creating Azure Function**
 1. Create Azure Function, App Service Plan and Linux based.
 2. Switch On `Always On` feature.
 
-TBD!
-
 ##### Code Deployment
 
 1. Open your PowerShell
@@ -231,16 +224,9 @@ TBD!
 1. Wait until the deployment is finished
 1. (optional, only has to be done for initial deployment OR when settings are updated) Execute following command:<br>
 `az webapp config appsettings set -g [insert name of resource group] -n [insert your function name] --settings @appsettings.json`
-1. Use [Postman](https://www.postman.com/downloads/) for testing the endpoints with the [collections](assets/postman-collection/XXXX)
-
-TBD! Ihab to check?
 
 ##### Setting Application Settings
-| Setting Name | Description |
-|--------------| ------------|
-|  |  |
-
-TBD!
+See [webapp.appsettings.json.sample](BatchTestingTools\AudioGenerationPython.Tool.Function\webapp.appsettings.json.sample) for details.
 
 ## Usage of Tool
 

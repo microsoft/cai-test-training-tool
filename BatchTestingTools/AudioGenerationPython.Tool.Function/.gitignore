@@ -1,3 +1,10 @@
+# Azure Functions localsettings file
+local.settings.json
+*.appsettings.json
+appsettings.json
+
+# other
+
 bin
 obj
 csx

@@ -1,0 +1,23 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AppInsightKey": "",
+    "APPINSIGHTS_INSTRUMENTATIONKEY": "",
+    "APPLICATIONINSIGHTS_CONNECTION_STRING": "",
+    "BatchJobDetailsTableName": "BatchJobDetails",
+    "BatchJobTableName": "BatchJobs",
+    "FUNCTIONS_EXTENSION_VERSION": "~3",
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet",
+    "LPRCPLFunctionURL": "https://<cai-advanced-processing-url function name>.azurewebsites.net/api/LicensePlateRecognizer",
+    "region": "westeurope",
+    "SpeechTransactionDelayThreshold": "240",
+    "WEBSITE_HEALTHCHECK_MAXPINGFAILURES": "10",
+    "WEBSITE_RUN_FROM_PACKAGE": "1",
+    "WERFunctionURL": "https://<cai-advanced-processing-url function name>.azurewebsites.net/api/BatchTesting",
+    "AzureWebJobsStorage": "@Microsoft.KeyVault(SecretUri=<add KeyVault>/secrets/BTAndAudioFunction-StorageKey/)",
+    "LPRCPLFunctionKey": "@Microsoft.KeyVault(SecretUri=<add KeyVault>/secrets/caibatchtesting-masterKey/)",
+    "SpeechSubscriptionKey": "@Microsoft.KeyVault(SecretUri=<add KeyVault>/secrets/BTAndAudioFunction-SpeechKey/)",
+    "TableStorageConnectionString": "@Microsoft.KeyVault(SecretUri=<add KeyVault>/secrets/BTAndAudioFunction-StorageKey/)",
+    "WERFunctionKey": "@Microsoft.KeyVault(SecretUri=<add KeyVault>/secrets/JaGoTestingFunctions-caibatchtesting-masterKey/)"
+  }
+}
