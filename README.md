@@ -141,8 +141,6 @@ The following steps needs to be performed:
 1. Create Azure Function, App Service Plan and Windows based.
 2. Switch On `Always On` feature. 
 
-***Double Check with Ihab!***
-
 ##### Code Deployment
 
 1. Open your PowerShell
