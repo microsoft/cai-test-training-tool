@@ -1,5 +1,3 @@
-***DRAFT!!!***
-
 ![Data Science Toolkit](assets/img/data-science-toolkit-banner.JPG)
 
 # Conversational AI Test & Training Tool
@@ -41,18 +39,18 @@ Currently open:
 The following services are required to run the solution:
 | Service Name | Description | Settings |
 |--------------|------------|------------|
-| ** Supporting Services ** |||
+| **Supporting Services** |||
 | Key vault | Key Vault to store all secret credentials ||
 | QnA Maker | For testing of QnA Maker Deployment create two QnA Maker Services ||
 | Speech Service | Azure Speech Service incl. your project and custom models | SKU S1 |
-| Storage account | Storage Account to use with Function Apps and for storage of application data and queues | Depending on your preference create separate services per webapp app/function app or one consolidated one |
-| ** Main Application / Front-End & .net Function Apps ** |||
+| Storage account | Storage Account to use with Function Apps and for storage of application data and queues | Depending on your preference create separate services per webapp app/function app or one consolidated one; General Purpose v1 or v1 Standard |
+| **Main Application / Front-End & .net Function Apps** |||
 | Main Web App | WebApp Service| Windows Based webapp|
 | App Service plan | App Service Plan for Main Application and .net-based backend Function Apps | Windows-based default SKU S1 |
 | Application Insights | Logging for Main Application and Function Apps | Depending on your preference create separate services per webapp app/function app or one consolidated one |
 | Audio Generation Function App | Function App | Windows based, durable Function |
 | Speech Batchtesting Function App | Function App | Windows based, durable Function |
-| ** Linux Function Apps ** |||
+| **Linux Function Apps** |||
 | App Service plan | App Service Plan for Python based Function App; this Function still needs to be migrated to .net and then can be integrated into *Audio Generation Function App* | Linux-based default SKU S1 |
 | Audio Geeration Funciton App | Function App | Linux based |
 
