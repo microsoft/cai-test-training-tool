@@ -66,7 +66,7 @@ __Note:__ When running locally you can also use `yarn start:dev`. This target wi
 
 The application is running once the following output is seen in the console:
 
-//TODO -- add here stuff.
+//TODO -- add here stuff. Joao.
 
 #### Setting Application Settings
 
@@ -123,7 +123,7 @@ To add a new language to the tool the following steps need to be performed:
 
 #### Deployment to Azure
 
-TBD! Joao?
+//TODO -- add here stuff. Joao.
 
 ### Backend Functions
 
