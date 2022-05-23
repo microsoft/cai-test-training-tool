@@ -169,7 +169,7 @@ The required settings for the running the app are the following:
 | WERFunctionURL | This is the URL for the WER function, the URL should be in the format "https://\<The WER function URL\>/api/BatchTesting"|
 | WERFunctionKey | The WER Function code |
 
-See [webapp.appsettings.json.sample](BatchTestingTools\BatchTesting.Tool.Function\webapp.appsettings.json.sample) for details.
+See [webapp.appsettings.json.sample](./BatchTestingTools/BatchTesting.Tool.Function/webapp.appsettings.json.sample) for details.
 
 #### TTS Generation Function (BatchTestingTools/AudioGeneration.Tool.Function)
 
@@ -196,7 +196,13 @@ The following steps needs to be performed:
 `az webapp config appsettings set -g [insert name of resource group] -n [insert your function name] --settings @appsettings.json`
 
 ##### Setting Application Settings
-See [webapp.appsettings.json.sample](BatchTestingTools\AudioGeneration.Tool.Function\webapp.appsettings.json.sample) for details.
+| Setting Name | Description |
+|--------------| ------------|
+| AzureWebJobsStorage | Storage account connection string |
+| TableStorageConnectionString | Queues storage account connection string, If you are following the steps in this document you will have one storage account |
+| | |
+
+See [webapp.appsettings.json.sample](./BatchTestingTools/AudioGeneration.Tool.Function/webapp.appsettings.json.sample) for details.
 
 #### TTS Generation Batch Function (BatchTestingTools/AudioGenerationPython.Tool.Function)
 *Info: This is currently still a separate pyhton Function which should be refactored into the **AudioGeneration.Tool.Function** going forward.*
@@ -224,7 +230,13 @@ The following steps needs to be performed:
 `az webapp config appsettings set -g [insert name of resource group] -n [insert your function name] --settings @appsettings.json`
 
 ##### Setting Application Settings
-See [webapp.appsettings.json.sample](BatchTestingTools\AudioGenerationPython.Tool.Function\webapp.appsettings.json.sample) for details.
+| Setting Name | Description |
+|--------------| ------------|
+| AzureWebJobsStorage | Storage account connection string |
+| TableStorageConnectionString | Queues storage account connection string, If you are following the steps in this document you will have one storage account |
+| | |
+
+See [webapp.appsettings.json.sample](./BatchTestingTools/AudioGenerationPython.Tool.Function/webapp.appsettings.json.sample) for details.
 
 ## Usage of Tool
 
