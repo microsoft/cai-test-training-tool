@@ -38,7 +38,25 @@ Currently open:
 
 ### Setting up the required Azure services
 
-TBD!
+The following services are required to run the solution:
+| Service Name | Description | Settings |
+|--------------|------------|------------|
+| ** Supporting Services ** |||
+| Key vault | Key Vault to store all secret credentials ||
+| QnA Maker | For testing of QnA Maker Deployment create two QnA Maker Services ||
+| Speech Service | Azure Speech Service incl. your project and custom models | SKU S1 |
+| Storage account | Storage Account to use with Function Apps and for storage of application data and queues | Depending on your preference create separate services per webapp app/function app or one consolidated one |
+| ** Main Application / Front-End & .net Function Apps ** |||
+| Main Web App | WebApp Service| Windows Based webapp|
+| App Service plan | App Service Plan for Main Application and .net-based backend Function Apps | Windows-based default SKU S1 |
+| Application Insights | Logging for Main Application and Function Apps | Depending on your preference create separate services per webapp app/function app or one consolidated one |
+| Audio Generation Function App | Function App | Windows based, durable Function |
+| Speech Batchtesting Function App | Function App | Windows based, durable Function |
+| ** Linux Function Apps ** |||
+| App Service plan | App Service Plan for Python based Function App; this Function still needs to be migrated to .net and then can be integrated into *Audio Generation Function App* | Linux-based default SKU S1 |
+| Audio Geeration Funciton App | Function App | Linux based |
+
+- Configure System Managed Identities and grant read access to KeyVault for each of the services
 
 ### Main Application (Web Application)
 
@@ -196,6 +214,8 @@ The following steps needs to be performed:
 `az webapp config appsettings set -g [insert name of resource group] -n [insert your function name] --settings @appsettings.json`
 
 ##### Setting Application Settings
+
+The required settings for the running the app are the following:
 | Setting Name | Description |
 |--------------| ------------|
 | AzureWebJobsStorage | Storage account connection string |
@@ -230,11 +250,24 @@ The following steps needs to be performed:
 `az webapp config appsettings set -g [insert name of resource group] -n [insert your function name] --settings @appsettings.json`
 
 ##### Setting Application Settings
+
+The required settings for the running the app are the following:
 | Setting Name | Description |
 |--------------| ------------|
 | AzureWebJobsStorage | Storage account connection string |
-| TableStorageConnectionString | Queues storage account connection string, If you are following the steps in this document you will have one storage account |
-| | |
+| APPINSIGHTS_INSTRUMENTATIONKEY | Application Insights Instrumentation Key|
+| APPLICATIONINSIGHTS_CONNECTION_STRING | Application Insights Connection String |
+| AZURE_BLOB | Storage Connection String for the Blob Storage Used |
+| AZURE_BLOB_CONTAINER | Azure Blob Container name to use for Audiogeneration. E.g. "batchsynth" |
+| COGNITIVE_NAME | Microsoft Speech Service Name |
+| COGNITIVE_REGION | Microsoft Speech Service Region |
+| COGNITIVE_KEY | Microsoft Speech Service Subscription Key |
+| AWS_ACCESS | AWS Speech Service Access setting|
+| AWS_ACCESS_SECRET | AWS Speech Service Secret|
+| AWS_REGION | AWS Speech Service Region |
+| GOOGLE_APPLICATION_CREDENTIALS_STORE COGNITIVE_KEY | Google Speech Service Credentials Store Key |
+| AzureWebJobs.BatchTesting.Disabled | Setting to control wether Batchtesting is disabled; set to "1" |
+| AzureWebJobs.LicensePlate.Disabled | Setting to control wether Batchtesting is disabled; set to "1" |
 
 See [webapp.appsettings.json.sample](./BatchTestingTools/AudioGenerationPython.Tool.Function/webapp.appsettings.json.sample) for details.
 
