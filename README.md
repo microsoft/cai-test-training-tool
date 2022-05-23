@@ -198,9 +198,13 @@ The following steps needs to be performed:
 ##### Setting Application Settings
 | Setting Name | Description |
 |--------------| ------------|
-| AzureWebJobsStorage | Storage account connection string |
-| TableStorageConnectionString | Queues storage account connection string, If you are following the steps in this document you will have one storage account |
-| | |
+| AudioFunctionApiConfiguration:BaseUrl | The base URL of the Audio Generation Function |
+| AudioFunctionApiConfiguration:Api | The API path for the Audio Generation Function. By Default the value is `api/audiobatchfunc` |
+| AudioFunctionApiConfiguration:Key| The Security API Key for the Audio Generation Function. It is recommended to store the key in a key vault and refer to it here|
+| ConnectionStrings:SaveStorageConnectionString| Storage account connection string. This is the connection string for the storage accout that is used by the TTS Generation Batch Function were the TTS functions output will be stored |
+| ContainerName| The name of the container that the TTS Generation Bathc Function push the output to. By Defauls the value is `batchsynth` |
+| AzureWebJobsStorage| Storage account connection string |
+| ConnectionStrings:TableStorageConnectionString| Storage account connection string. This is the connection string for the storage account that has the Audio Generation Tables and blob storage|
 
 See [webapp.appsettings.json.sample](./BatchTestingTools/AudioGeneration.Tool.Function/webapp.appsettings.json.sample) for details.
 
