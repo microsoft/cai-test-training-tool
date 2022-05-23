@@ -76,13 +76,20 @@ yarn start
 
 `yarn build` will compile both server and client source codes.
 
-`yarn start` starts the application in Production mode.
+`yarn start` starts the application in Production mode. `yarn start:dev` starts the application in the Development mode (no need for managed identities)
 
 __Note:__ When running locally you can also use `yarn start:dev`. This target will start the application in Development mode (i.e. the NODE_ENV variable is set to development). The code is prepared to read the environment variables from an .env file when running in Development mode.
 
 The application is running once the following output is seen in the console:
 
-//TODO -- add here stuff. Joao.
+```
+Conversational AI Test and Training Tool now running at:
+
+http://localhost:3000
+```
+
+
+
 
 #### Setting Application Settings
 
