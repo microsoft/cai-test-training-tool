@@ -21,7 +21,7 @@ cai-advanced-processing-service)
 ## High Level Architecture
 The following image provides an overview of the Architecture of the tool.
 
-![image](./assets/img/Architecture-Overview.jpg)
+![image](./assets/img/Architecture-Overview.png)
 
 The tool consists of the following Key components:
 1. Web Application hosting the graphical user interface front- and back-end incl. orchestrating processes for QnA Maker
