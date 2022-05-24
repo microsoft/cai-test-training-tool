@@ -8,6 +8,14 @@
         1. [Deploying a new KB](#DeployingKB)
             1. [Result Details](#DeploymentResults)
 1. [Speech Testing](#SpeechTesting)
+    1. [Batch Testing](#SpeechBatchTesting)
+        1. [Generate a testset](#SpeechBatchTestingGenerate)
+        1. [Running a Batchtest](#SpeechBatchTestingRunTest)
+        1. [Result Details](#SpeechBatchTestingResults)
+    1. [Audio Generation](#SpeechAudioGeneration)
+        1. [Generate transcript](#SpeechAudioGenerationGenerate)
+        1. [### Create Job](#SpeechAudioGenerationAddJob)
+        1. [Download files & Check Status](#SpeechAudioGenerationDownload)
 
 # QnA Maker Testing & Deployment <a name="QnATest+Deploy"></a>
 
@@ -84,4 +92,74 @@ To view the results of your deployment tests you can open a detailed view after 
 ![image](https://user-images.githubusercontent.com/45654580/150743923-71076390-8b84-4f0b-bd54-828ac79daccb.png)
 # Speech Testing <a name="SpeechTesting"></a>
 
-TBD!
+## Batch Testing <a name="SpeechBatchTesting"></a>
+### Generate a testset <a name="SpeechBatchTestingGenerate"></a>
+To use the Batch Testing you need three datasets:
+- Audio Files: Zip file containing your audio files (without any folder structure inside)
+- Transcript Files: UTF-8-BOM text file with a line per audio file with the following structure:
+
+    | Name of Audiofile | Transcript of Audiofile |
+    |--|--|
+    | file1.wav	| Mein Name ist Müller |
+    | file2.wav | Ich würde gerne in die Filiale nach Bremen |
+
+- License plate Reference: Optional for License Plate Accouracy Testing: UTF-8 text file with a line per audio file with the following structure:
+
+    | Name of Audiofile | Expected License Plate |
+    |--|--|
+    | file1.wav	| HB-RT801 |
+    | file2.wav | B-SP779 |
+
+### Running a Batchtest <a name="SpeechBatchTestingRunTest"></a>
+
+To run a batch test go to the Batch Processing page of the tool:
+
+![image](./assets/img/image-BatchProcessing.png)
+
+1. Press "Add new test" to open the test creation wizard.
+1. Select the three files from you testset.
+1. Define a *Job Name*.
+1. Select the model you want to use (base line or custom model) via the dropdown fields.
+1. Press "Start Job".
+1. A new entry is created on the test overview page
+
+![image](./assets/img/image-BatchProcessingWizard.png)
+
+### Result Details <a name="SpeechBatchTestingResults"></a>
+To view the results of your tests you can open the details page after the test run is complete by clicking on the job id of the test run.
+
+## Audio Generation <a name="SpeechAudioGeneration"></a>
+The Audio Generation feature enables batch synthesization of Text-to-Speech Audio to create datasets or audio assets.
+
+### Generate transcript <a name="#SpeechAudioGenerationGenerate"></a>
+To use the Audio Gernation you need to create a transcript File containing the utterances.
+You need to create UTF-8 text file with a line per audio file containing the text incl. SSML you want to synthesize.
+
+### Create Job <a name="SpeechAudioGenerationAddJob"></a>
+To create a new Audio Generation Job go to the Audio Generation page of the tool:
+
+![image](./assets/img/image-AudioGeneration.png)
+
+1. Press "Add new job" to open the job creation wizard.
+1. Select thethe transcript of the utterances you want to synthesize.
+1. Define a *Job Name*.
+1. Select the speech service you want to use (depends on which services you configured in your appsettings!) via the dropdown field.
+1. Select the language and voice you want to use for your job.
+1. Press "Start Job".
+1. A new entry is created on the job overview page
+
+![image](./assets/img/image-AudioGenerationWizard.png)
+
+### Download files & Check Status<a name="SpeechAudioGenerationDownload"></a>
+The tool creates three different qualities of the synthesized files:
+1. High Quality
+1. Low Quality
+1. Noise mixed into the audio
+
+You can download the different datasets (audio incl. transcript) via the download links provided for each job.
+
+![image](./assets/img/image-AudioGenerationOverview.png)
+
+To check the details of a job you can click on the job id to open the details page.
+
+![image](./assets/img/image-AudioGenerationStatus.png)

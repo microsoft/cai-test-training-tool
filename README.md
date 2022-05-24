@@ -32,8 +32,6 @@ Currently open:
 
 ## Deployoment of the solution
 
-
-
 ### Setting up the required Azure services
 
 The following services are required to run the solution:
@@ -55,6 +53,8 @@ The following services are required to run the solution:
 | Audio Geeration Funciton App | Function App | Linux based |
 
 - Configure System Managed Identities and grant read access to KeyVault for each of the services
+
+**INFO:** To use the License Plate Recognition Batch Testing you need to have a deployed setup of the Advance Processing Service. See [CAI Advanced Processing Service (github)](https://github.com/microsoft/cai-advanced-processing-service) for more information on this services.
 
 ### Main Application (Web Application)
 
