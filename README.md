@@ -76,13 +76,20 @@ yarn start
 
 `yarn build` will compile both server and client source codes.
 
-`yarn start` starts the application in Production mode.
+`yarn start` starts the application in Production mode. `yarn start:dev` starts the application in the Development mode (no need for managed identities)
 
 __Note:__ When running locally you can also use `yarn start:dev`. This target will start the application in Development mode (i.e. the NODE_ENV variable is set to development). The code is prepared to read the environment variables from an .env file when running in Development mode.
 
-The application is running once the following output is seen in the console:
+The application is running once the following output is seen in the console (or similar):
 
-//TODO -- add here stuff. Joao.
+```
+Conversational AI Test and Training Tool now running at:
+
+http://localhost:3000
+```
+
+
+
 
 #### Setting Application Settings
 
@@ -97,7 +104,6 @@ The required settings for the running the app are the following:
 |SA_CONNECTION_STRING | Storage account connection string |
 |**QNA_ACCESS_KEY_UAT** | QNA Maker Subscription Key |
 |API_KNOWLEDGE_BASE | URL to the QnaMaker| 
-|**CONTAINER_NAME** | "ADD HERE"|
 |TENANTID | ID of the Active Directory Tennat|
 |CLIENTID | Client ID of the App Registration used for authentication|
 |REDIRECT_URL | Redirect URL used on the authentication flow. Should be in the format "https://\<hostname\>/auth/aad/callback"|
@@ -139,7 +145,14 @@ To add a new language to the tool the following steps need to be performed:
 
 #### Deployment to Azure
 
-//TODO -- add here stuff. Joao.
+The application is built on the React framework, therefore it can be deployed in a multitude of platforms.
+The development team of this tool used the following platform:
+  - App Service on Azure
+  - .NET Stack
+  - .NET Version = V4.8
+  - WEBSITE_NODE_DEFAULT_VERSION (config settings) - ~14
+  
+ Although we never tried, this app should be able to be deployed as a container in Docker.  
 
 ### Backend Functions
 
