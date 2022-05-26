@@ -113,6 +113,7 @@
 	"KnowledgeBase_NewTest_StartTest": "Start test",
 	"KnowledgeBase_NewTest_Testcases": "Testcases",
 	"KnowledgeBase_NewTest_Upload": "Upload file",
+	"KnowledgeBase_TestDetail_CommentHeader": "Comments",
 	"KnowledgeBase_TestDetail_DownloadTestSet": "Download Testset",
 	"KnowledgeBase_TestDetail_SubTitle": "Test Results",
 	"KnowledgeBase_TestDetail_Title": "Testing Knowledgebases",
