@@ -31,7 +31,7 @@ export default function Result() {
           <h1>{t("KnowledgeBase_TestDetail_Title")}</h1>
           <h2 margin="50px">{t("KnowledgeBase_TestDetail_SubTitle")}</h2>
           <div hidden={comment == undefined || comment == ''} >
-            <h4>Bemerkung</h4>
+          <h4>{t("KnowledgeBase_TestDetail_CommentHeader")}</h4>
             <Text>{comment}</Text>
           </div>
           <div style={{ height: "450px" }}>
