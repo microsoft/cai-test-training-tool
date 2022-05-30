@@ -1,5 +1,3 @@
-***DRAFT!!!***
-
 # Table of contents
 1. [QnA Maker Testing & Deployment](#QnATest+Deploy)
     1. [QnA Maker Testset](#Testset)
