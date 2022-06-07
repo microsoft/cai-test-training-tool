@@ -181,7 +181,7 @@ async function triggerTestExecution(
       entity = {
         PartitionKey: { "_": runId },
         RowKey: { "_": idx.toString() },
-        question: { "_": elements },
+        question: { "_": elements[0].trim() },
         expectation: { "_": "Please check input for this testcase." },
         expectedMetadata: { "_": "_Error" },
         expectedContext: { "_": "_Error" },
@@ -257,15 +257,12 @@ async function triggerDeploymentExecution(
 }
 
 async function getEndpointKey(environment) {
-  var test_key =  JSON.parse(process.env.QNA_KEY);
+  var test_key =  process.env.QNA_KEY.split('"');;
   var filtered_test_url = test_key.filter(function(el, index) {
     return index % 2 === 1;
   });
   var headers = {
-    "Ocp-Apim-Subscription-Key":
-      environment == "PROD"
-        ? process.env.QNA_PROD_KEY
-        : filtered_test_url[environment],
+    "Ocp-Apim-Subscription-Key": filtered_test_url[environment],
   };
   var requestOptions = {
     method: "GET",

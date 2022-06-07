@@ -106,7 +106,7 @@ export default function DeployJobsTable({ knowledgebases }) {
       deploymentJobs &&
       knowledgebases &&
       deploymentJobs.length > 0 &&
-      knowledgebases.length > 0
+      knowledgebases.message.length > 0
     ) {
       const rawRows = deploymentJobs.map((obj, index) => ({
         ...obj,
@@ -119,8 +119,8 @@ export default function DeployJobsTable({ knowledgebases }) {
             PartitionKey: row.PartitionKey,
             RowKey: row.RowKey,
             Timestamp: row.Timestamp,
-            kbId: knowledgebases.find((kb) => kb.id === row.kbId)
-              ? knowledgebases.find((kb) => kb.id === row.kbId).name
+            kbId: knowledgebases.message.find((kb) => kb.id === row.kbId)
+              ? knowledgebases.message.find((kb) => kb.id === row.kbId).name
               : "",
             testset: row.testset,
             status: row.status,
