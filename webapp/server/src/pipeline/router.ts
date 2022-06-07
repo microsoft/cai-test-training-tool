@@ -155,9 +155,13 @@ async function get_kb_in_env(environment){
 }
 
 async function get_qna(kb_id, environment){
+  var test_key = process.env.QNA_KEY.split('"');
+  var filtered_test_key = test_key.filter(function(el, index) {
+    return index % 2 === 1;
+  });
   var subscription =
   environment === "TEST"
-    ? process.env.QNA_ACCESS_KEY_UAT
+    ? filtered_test_key[0]
     : process.env.QNA_PROD_KEY;
   var headers = {
     "Ocp-Apim-Subscription-Key": subscription,
@@ -447,7 +451,7 @@ async function triggerTestExecution(
       entity = {
         PartitionKey: { "_": runId },
         RowKey: { "_": idx.toString() },
-        question: { "_": elements },
+        question: { "_": elements[0].trim() },
         expectation: { "_": "Please check input for this testcase." },
         expectedMetadata: { "_": "_Error" },
         expectedContext: { "_": "_Error" },

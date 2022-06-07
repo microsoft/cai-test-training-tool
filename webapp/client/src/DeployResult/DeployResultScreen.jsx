@@ -15,7 +15,7 @@ export default function DeployResult() {
   useEffect(() => {
     getEntityPartition("QnADeploymentJobs", partitionKey)
       .then((result) => {
-        setComment(result[0].comment)
+         setComment(result.message[0].comment)
       })
       .catch((error) => console.log(error));
     InitializeScreen();

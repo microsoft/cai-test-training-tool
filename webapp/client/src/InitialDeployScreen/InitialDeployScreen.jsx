@@ -19,7 +19,7 @@ export default function StartDeploy() {
   useEffect(() => {
     getKnowledgeBases(0)
       .then((result) => {
-        setKnowledgeBases(result.message.knowledgebases)
+        setKnowledgeBases(result)
         setLoadingData(false);
       })
       .catch((error) => {

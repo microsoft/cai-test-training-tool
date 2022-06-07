@@ -54,7 +54,7 @@ export default function NewTest() {
       .then((result) => {
         console.log(result);
         setKnowledgeBases(
-          result.message.knowledgebases.map(
+          result.message.map(
             (kb) => new Object({ key: kb.id, text: kb.name })
           )
         );

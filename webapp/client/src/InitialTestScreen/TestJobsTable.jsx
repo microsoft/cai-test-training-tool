@@ -113,13 +113,11 @@ export default function TestTable({ knowledgeBases }) {
   }
 
   useEffect(() => {
-    console.log(jobs)
-    console.log(knowledgeBases)
     if (
       jobs &&
       knowledgeBases &&
       jobs.length > 0 &&
-      knowledgeBases.length > 0
+      knowledgeBases.message.length > 0
     ) {
       const rawRows = jobs.map((obj, index) => ({ ...obj, id: index }));
       const processedRows = rawRows
@@ -129,8 +127,8 @@ export default function TestTable({ knowledgeBases }) {
             PartitionKey: row.PartitionKey,
             RowKey: row.RowKey,
             Timestamp: row.Timestamp.split(".")[0].replace("T", " "),
-            kbId: knowledgeBases.find((kb) => kb.id === row.kbId)
-              ? knowledgeBases.find((kb) => kb.id === row.kbId).name
+            kbId: knowledgeBases.message.find((kb) => kb.id === row.kbId)
+              ? knowledgeBases.message.find((kb) => kb.id === row.kbId).name
               : "",
             testset: row.testset,
             status: row.status,

@@ -5,6 +5,7 @@ import { useHistory } from "react-router-dom";
 import { DeployPath } from "../services/pathService.js";
 import { generateRunId } from "../services/utils";
 import { createJob } from "../services/tableStorageService.js";
+import { uploadFilesToBlob, uploadFileToBlob } from "../services/fileUploadService.js";
 import { deployQnAtoProd } from "../services/deployFunctionService";
 import { Dropdown, PrimaryButton, TextField } from "@fluentui/react";
 import { mergeStyles, Stack } from "office-ui-fabric-react";
@@ -30,7 +31,7 @@ export default function NewDeploy() {
     getKnowledgeBases(0)
       .then((result) => {
         setKnowledgeBases(
-          result.message.knowledgebases.map(
+          result.message.map(
             (kb) => new Object({ key: kb.id, text: kb.name })
           )
         );

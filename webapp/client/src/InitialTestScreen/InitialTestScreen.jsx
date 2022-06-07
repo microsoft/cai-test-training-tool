@@ -13,13 +13,12 @@ export default function InitialTestScreen() {
   const { t } = useTranslation();
 
   useEffect(() => {
-    getKnowledgeBases(0)
+    getKnowledgeBases(-1) // -1 -> all
       .then((result) => {
-        setKnowledgeBasesUAT(result.message.knowledgebases);
+        setKnowledgeBasesUAT(result);
         setLoadingData(false);
       })
       .catch((error) => {
-        console.log(error);
         if (error.response.status == 403) {
           setLoadingData(false);
       }
