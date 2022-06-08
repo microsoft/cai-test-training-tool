@@ -43,20 +43,21 @@ router.post("/start", async function (req, res) {
   var test_success = false;
   triggerTestExecution("TEST", TESTSET, KB_UAT, PARTITION_KEY)
   .then((result) => {
-    test_success = result
+    test_success = result;
   })
   .catch((err) => {
     console.log("error in test knowledge base route:", err);
     res.status(400).json({ message: err });
   });
   
-  if (test_success = true) {
-      console.log("Test of knowledgebase in UAT successful!")
+  if (test_success == false) {
+    update_status(PARTITION_KEY, "FAILED");
+    console.log("Test for UAT failed! Stopping deployment process.");
+    return;
   }
   else{
-      update_status(PARTITION_KEY, "FAILED");
-      console.log("Test for UAT failed! Stopping deployment process.");
-      return;
+    console.log("Test of knowledgebase in UAT successful!")
+     
   }
   
   // download knowledgebase from UAT and save it as .json
