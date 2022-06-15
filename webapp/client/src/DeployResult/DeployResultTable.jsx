@@ -62,7 +62,7 @@ export default function ResultTable(props) {
           }
           return (
             <span>
-              <Icon iconName={iconName} className={className} /> {t(`KnowledgeBase_DeploymentResult_ResultFieldName_${item.resultUAT}`)}
+              <Icon iconName={iconName} className={className} /> {message}
             </span>
           );
         }
@@ -81,11 +81,11 @@ export default function ResultTable(props) {
           if (item.resultUAT === "CORRECT") {
             iconName = "SkypeCircleCheck";
             className = iconClassNames.success;
-            message = t("KnowledgeBase_DeploymentResult_ResultFieldName_OK");
+            message = t("KnowledgeBase_DeploymentResult_ResultFieldName_CORRECT");
           }
           return (
             <span>
-              <Icon iconName={iconName} className={className} /> {t(`KnowledgeBase_DeploymentResult_ResultFieldName_${item.resultUAT}`)}
+              <Icon iconName={iconName} className={className} /> {message}
             </span>
           );
         }

@@ -594,6 +594,13 @@ aws4@^1.8.0:
   resolved "https://botbuilder.myget.org/F/botframework-cli/npm/aws4/-/aws4-1.11.0.tgz#d61f46d83b2519250e2784daf5b09479a8b41c59"
   integrity sha1-1h9G2DslGSUOJ4Ta9bCUeai0HFk=
 
+axios@^0.21.1:
+  version "0.21.4"
+  resolved "https://botbuilder.myget.org/F/botframework-cli/npm/axios/-/axios-0.21.4.tgz#c67b90dc0568e5c1cf2b0b858c43ba28e2eda575"
+  integrity sha1-xnuQ3AVo5cHPKwuFjEO6KOLtpXU=
+  dependencies:
+    follow-redirects "^1.14.0"
+
 azure-storage@^2.10.3:
   version "2.10.7"
   resolved "https://botbuilder.myget.org/F/botframework-cli/npm/azure-storage/-/azure-storage-2.10.7.tgz#50290ac638d1b709b89d961f333cc1c1a6722a05"
@@ -1769,6 +1776,11 @@ flatted@^3.1.0:
   version "3.2.5"
   resolved "https://botbuilder.myget.org/F/botframework-cli/npm/flatted/-/flatted-3.2.5.tgz#76c8584f4fc843db64702a6bd04ab7a8bd666da3"
   integrity sha1-dshYT0/IQ9tkcCpr0Eq3qL1mbaM=
+
+follow-redirects@^1.14.0:
+  version "1.15.1"
+  resolved "https://botbuilder.myget.org/F/botframework-cli/npm/follow-redirects/-/follow-redirects-1.15.1.tgz#0ca6a452306c9b276e4d3127483e29575e207ad5"
+  integrity sha1-DKakUjBsmyduTTEnSD4pV14getU=
 
 forever-agent@~0.6.1:
   version "0.6.1"

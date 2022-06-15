@@ -78,7 +78,7 @@ export default function ResultTable(props) {
           if (item.resultUAT === "CORRECT") {
             iconName = "SkypeCircleCheck";
             className = iconClassNames.success;
-            message = t("KnowledgeBase_TestResult_ResultFieldName_CORRECT");
+            message = t("KnowledgeBase_TestResult_ResultFieldName_OK");
           }
           else if(item.resultUAT === "INPROGRESS")
           {
@@ -86,7 +86,7 @@ export default function ResultTable(props) {
           }
           return (
             <span>
-              <Icon iconName={iconName} className={className} /> {t(`KnowledgeBase_TestList_ResultFieldName_${item.resultUAT}`)}
+              <Icon iconName={iconName} className={className} /> {message}
             </span>
           );
         }
